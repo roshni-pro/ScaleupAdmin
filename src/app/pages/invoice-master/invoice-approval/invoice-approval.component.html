@@ -1,0 +1,182 @@
+<div class="container-fluid">
+
+  <div class="row p-2 my-2">
+    <div class="col">
+      <code style="color: #2B3674;">Pages/Invoice</code>
+      <h3>Invoice Approval</h3>
+    </div>
+  </div>
+
+  <div class="row mt-3 p-3">
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-yellow Dlabel-font">Processing Fee</label>
+        <label class="data-label-yellow Dlabel-font">{{CompanyInvoiceCharges.processingFee | number: '1.2-2'}}</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-cyan Dlabel-font">Interest Charges</label>
+        <label class="data-label-cyan Dlabel-font">{{CompanyInvoiceCharges.interestCharges| number: '1.2-2'}}</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-red Dlabel-font">Bounce Charges</label>
+        <label class="data-label-red Dlabel-font"> {{CompanyInvoiceCharges.bounceCharges| number: '1.2-2'}}</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-purple Dlabel-font">Penal Charges</label>
+        <label class="data-label-purple Dlabel-font">{{CompanyInvoiceCharges.penalCharges| number: '1.2-2'}}</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-2 p-3">
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-orange Dlabel-font">Overdue Interest</label>
+        <label class="data-label-orange Dlabel-font">{{CompanyInvoiceCharges.overDueInterest| number: '1.2-2'}}</label>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-purple Dlabel-font">Total Taxable Amount</label>
+        <label
+          class="data-label-purple Dlabel-font">{{CompanyInvoiceCharges.totalTaxableAmount| number: '1.2-2'}}</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-blue Dlabel-font">Total GST Amount</label>
+        <label class="data-label-blue Dlabel-font">{{CompanyInvoiceCharges.totalGstAmount| number: '1.2-2'}}</label>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card n-Border-radius shadow text-center p-2">
+        <label class="data-label-green Dlabel-font">Total Invoice Amount</label>
+        <label
+          class="data-label-green Dlabel-font">{{CompanyInvoiceCharges.totalInvoiceAmount| number: '1.2-2'}}</label>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="dotted-line">
+
+
+  <!-- <div class="row mt-2"> -->
+    <!-- <div class="card shadow p-2"> -->
+    <div class="row mt-3" style="text-align: end;">
+
+
+      <div class="col">
+
+
+
+        <button class="btn btn-blue" [disabled]="totalrecord==0||totalrecord==null" (click)="updateInvoiceStatus(true)">
+          Approve</button>
+        &nbsp;&nbsp;
+        <button class="btn btn-blue" [disabled]="totalrecord==0||totalrecord==null"
+          (click)="updateInvoiceStatus(false)"> Reject</button>
+
+        &nbsp;&nbsp;
+        <button class="btn btn-darkBlue" [disabled]="totalrecord==0||totalrecord==null" (click)="export()">
+          Export</button>
+        &nbsp;&nbsp;
+        <button class="btn btn-darkBlue" (click)="navigate()"> Back</button>
+        &nbsp;&nbsp;
+      </div>
+    </div>
+
+
+    <!-- </div> -->
+  <!-- </div> -->
+  <div class="row mt-2 shadow text-center">
+    <div class="card shadow p-2">
+
+      <p-table  [value]="invoiceDetailList"  [totalRecords]="totalrecord" [rows]="10" [paginator]="true">
+
+
+
+
+        <ng-template pTemplate="header">
+          <tr>
+
+            <th *ngIf="showcheckbox"></th>
+            <th>S.no</th>
+            <th>Invoice ID</th>
+            <th>Invoice No</th>
+            <th>Invoice Date</th>
+            <th>NBFC Name</th>
+            <th>Anchor Name</th>
+            <th>ScaleupShare</th>
+            <th>PF</th>
+            <th>Interest </th>
+            <th>Bounce </th>
+            <th>Penalty </th>
+            <th>OverDueInterest </th>
+
+            <th>Gst</th>
+            <th>Invoice Amount</th>
+
+
+          </tr>
+        </ng-template>
+        <!-- [disabled]="(invoice.statusName=='CheckerApproved'&&invoice.isActive)  [disabled]="invoice.isDisable" 
+              || (invoice.statusName=='MakerApproved'&&invoice.isActive) "  -->
+        <ng-template pTemplate="body" let-invoice let-columns="columns" let-i="rowIndex" let-expanded="expanded" >
+          <tr class="pointer">
+            <td class="Tfont-color" *ngIf="showcheckbox">
+
+              <p-checkbox [(ngModel)]="invoice.isActive"  (click)="onCheckboxSelection($event,invoice.accountTransactionId,invoice.isActive)"
+                [disabled]="invoice.statusName=='CheckerApproved' || invoice.statusName=='MakerApproved'"
+                [binary]="true"> </p-checkbox>
+
+            </td>
+            <td>{{i+1}}</td>
+            <td>{{invoice.companyInvoiceId}}</td>
+            <td> {{invoice.invoiceNo}}</td>
+            <td>{{invoice.invoiceDate | date}}</td>
+            <td>{{invoice.nbfcName}}</td>
+            <td>{{invoice.anchorName}}</td>
+            <td>{{invoice.scaleupShare}}</td>
+            <td>{{invoice.processingFeeTotal}}</td>
+            <td>{{invoice.interestTotal}}</td>
+            <td>{{invoice.bounceTotal}}</td>
+            <td>{{invoice.penalTotal}}</td>
+            <td>{{invoice.overDueInterestTotal}}</td>
+            <td>{{invoice.gst}}</td>
+            <td>{{invoice.invoiceAmount}}</td>
+
+
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage" class="text-center">
+          <tr>
+            <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+
+    </div>
+  </div>
+</div>
+<p-toast></p-toast>
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+  <p-footer>
+    <button type="button" class="btn btn-danger" style="margin-right: 10px;" (click)="cd.reject()">No</button>
+    <button type="button" class="btn  btn-sucesss" (click)="cd.accept()">Yes </button>
+  </p-footer>
+</p-confirmDialog>
+
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif" alt="Loading..." /> </div>
+</div>

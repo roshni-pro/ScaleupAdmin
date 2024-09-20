@@ -1,0 +1,18 @@
+.header{
+    font-weight: 600;
+    text-decoration: underline;
+    text-align: center;
+    text-transform: uppercase;
+}
+// .btn{float: right;margin-right: 1em;}
+.mr{
+    margin-left: 1em;
+    margin-top: 1em;
+}
+.tp{
+    margin-top: 3em;
+    padding-bottom: 3em;
+}
+:host ::ng-deep  .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    padding-right: 16.5rem;
+}

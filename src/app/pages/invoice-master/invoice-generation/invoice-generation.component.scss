@@ -1,0 +1,65 @@
+.w-100{
+    width: 100% !important;
+}
+
+.h-25{
+    height: 25px !important;
+}
+
+.n-Border-radius{
+    border-radius: 4px !important;
+}
+
+hr.dotted-line{
+    border-top: 2px dashed black;
+}
+
+.data-label-yellow{
+    color: #FFBC54;
+    
+}
+.Dlabel-font{
+    font-size:18px ; 
+}
+
+.data-label-cyan{
+    color:#50CFBC;
+}
+.data-label-red{
+    color:#FF7781;
+}
+.data-label-purple{
+    color:#707EEF;
+}
+
+.Tfont-color{
+    color:#00749F;
+    padding: 5px !important;
+}
+
+.p-multiSelect
+{display: inline-flex;
+cursor: pointer;
+position: relative;
+-webkit-user-select: none;
+user-select: none;
+border-color: #fff !important;
+border-radius: 1em !important;
+box-shadow: 0px 1px 21px 0px rgba(112, 144, 176, 0.22) !important;}
+// .shadow{
+//     box-shadow:  var(0 0.5rem 1rem rgba(0, 0, 0, -0.10)) !important;
+// }
+
+input[disabled] {
+    // color:yellow !important; / Set the desired color for the disabled text /
+    background-color: #eee; // Set the desired background color for the disabled input /
+    // Add any additional styling you want for the disabled input /
+    background: rgb(197, 197, 197) !important;
+  }
+  .p-calendar[disabled] {
+      // color:yellow !important; / Set the desired color for the disabled text /
+      background-color: #eee; // Set the desired background color for the disabled input /
+      // Add any additional styling you want for the disabled input /
+      background: rgb(197, 197, 197) !important;
+    }
+    

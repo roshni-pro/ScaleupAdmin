@@ -1,0 +1,173 @@
+<div class="container-fluid">
+    <div class="row heading">
+        <div class="col">
+            <code style="color: grey;">Pages/profile</code>
+            <h3 class="label-ddark">MIS Generation</h3>
+        </div>
+    </div>
+
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-12">
+            <div class="card shadow" >
+                <div class="card-content p-4">
+                    <div class="row">
+                        <div class="col-md-2" style="text-align: center;">
+                            <h5 class="label-ddark">Anchor MIS</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p-dropdown [(ngModel)]="selectedAnchor" [options]="AnchorList" optionLabel="businessName"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="Select Anchor"
+                            [filter]="true" 
+                            filterBy="anchorName" 
+                            [showClear]="true">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-2">
+                            <!-- <p-calendar 
+                            [(ngModel)]="rangeDatesAnchor" 
+                            selectionMode="range"  [showIcon]="true"   [style]="{'width':'80%'}"
+                            [readonlyInput]="true" /> -->
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesAnchorFrom" placeholder="From"  [showIcon]="true" 
+                            inputId="icondisplay" /> 
+                            
+                        </div>
+                        <div class="col-md-2">
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesAnchorTo"  placeholder="To"
+                            [showIcon]="true" 
+                            inputId="icondisplay" />
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <button class="btn btn-blue" >Generate MIS</button> &nbsp; -->
+                            <button class="btn btn-liteBlue" style="margin-left: 5px;" (click)="GetAnchorMISList()"><i class="pi pi-download"></i></button>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-12">
+            <div class="card shadow" >
+                <div class="card-content p-4">
+                    <div class="row">
+                        <div class="col-md-2" style="text-align: center;">
+                            <h5 class="label-ddark">NBFC MIS</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p-dropdown [(ngModel)]="selectedNbfc" [options]="nbfcList" optionLabel="businessName"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="Select Nbfc"
+                            [filter]="true" 
+                            filterBy="businessName" 
+                            [showClear]="true">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-2" >
+                            <!-- <p-calendar 
+                            [(ngModel)]="rangeDatesNbfc" 
+                            selectionMode="range"  [showIcon]="true" 
+                            [readonlyInput]="true"   [style]="{'width':'80%'}"/> -->
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesNbfcFrom" placeholder="From"   [showIcon]="true" 
+                            inputId="icondisplay"  /> 
+                        </div>
+                        <div class="col-md-2">
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesNbfcTo"  placeholder="To"
+                            [showIcon]="true" 
+                            inputId="icondisplay"  />
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <button class="btn btn-blue" >Generate MIS</button> &nbsp; -->
+                            <button class="btn btn-liteBlue" style="margin-left: 5px;" (click)="GetNbfcMISList()"><i class="pi pi-download"></i></button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-12">
+            <div class="card shadow" >
+                <div class="card-content p-4">
+                    <div class="row">
+                        <div class="col-md-2" style="text-align: center;">
+                            <h5 class="label-ddark">DSA MIS</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <p-dropdown [(ngModel)]="selectedDsa" [options]="nbfcList" optionLabel="name"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="Select Product"
+                            [filter]="true" 
+                            filterBy="businessName" 
+                            [showClear]="true">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-2" >
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesDsaFrom" placeholder="From"   [showIcon]="true" 
+                            inputId="icondisplay"  /> 
+                        </div>
+                        <div class="col-md-2">
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesDsaTo"  placeholder="To"
+                            [showIcon]="true" 
+                            inputId="icondisplay"  />
+                        </div>
+                       
+                        <div class="col-md-3">
+                         
+                            <button class="btn btn-liteBlue" style="margin-left: 5px;" (click)="GetDsaMISList()" ><i class="pi pi-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-12">
+            <div class="card shadow" >
+                <div class="card-content p-4">
+                    <div class="row">
+                        <div class="col-md-2" style="text-align: center;">
+                            <h5 class="label-ddark">Invoice Register Data</h5>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <p-dropdown [(ngModel)]="selectedNbfc" [options]="nbfcList" optionLabel="businessName"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="Select Nbfc"
+                            [filter]="true" 
+                            filterBy="businessName" 
+                            [showClear]="true">
+                          </p-dropdown>
+                        </div> -->
+                        <div class="col-md-2" >
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesInvoiceFrom" placeholder="From"   [showIcon]="true" 
+                            inputId="icondisplay"  /> 
+                        </div>
+                        <div class="col-md-2">
+                            <p-calendar 
+                            [(ngModel)]="rangeDatesInvoiceTo"  placeholder="To"
+                            [showIcon]="true" 
+                            inputId="icondisplay"  />
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-liteBlue" style="margin-left: 5px;" (click)="GetInvoiceRegisterData()"><i class="pi pi-download"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+
+
+</div>
+<p-toast position="top-right" appendTo="body"></p-toast>
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

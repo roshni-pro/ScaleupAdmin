@@ -1,0 +1,1209 @@
+<div class="container-fluid">
+  <!-- <div class="row">
+    <div class="col-10">
+      <h5>Add Company product</h5>
+    </div>
+    <div class="col-2">
+
+    </div>
+  </div> -->
+  <div class="row mt-2 inner-shadow-card">
+    <!-- <button class="btn btn-primary blck" (click)="Back()">Back</button> -->
+    <!-- <label class="label-dark">
+            Select Product Type
+        </label>  -->
+
+    <div class="col-md-4 p-3" *ngIf="(!productId || !Id) && !dropID">
+      <label class="label-dark"> <b>Product Type</b></label>
+
+      <p-dropdown [options]="productList" appendTo="body" [(ngModel)]="selectedProduct" optionLabel="name"
+        [style]="{'width':'100%'}"  placeholder="Select a product" (onChange)="getProduct()">
+      </p-dropdown>
+    </div>
+
+
+    <div class="col-md-4 p-3" *ngIf="(selectedProduct && selectedProduct.type=='BusinessLoan' || selectedEditProduct.type=='BusinessLoan') && 
+    (!productId || !Id) && !dropID">
+    <label class="label-dark"> <b>Arrangement Type</b></label>
+
+      <p-dropdown [options]="arrangementType" [(ngModel)]="selectedarrangeType" (onChange)="onAddSlab(null)"
+        appendTo="body" optionLabel="label" optionValue="value" [style]="{'width':'100%'}" placeholder="Select a Type">
+      </p-dropdown>
+    </div>
+
+    <div class="col-md-3  p-2" *ngIf="dropID && Id">
+      <!-- <label class="label-dark mt-3"> -->
+        <label class="label-dark"> <b>Product Type</b></label>
+      <!-- </label> -->
+      <input type="text" [(ngModel)]="selectedEditProduct.type" class="form-control" disabled />
+
+    </div>
+    <div class="col-md-3 p-2" *ngIf="dropID && Id &&  selectedEditProduct.type=='BusinessLoan'">
+      <!-- <label class="label-dark mt-3"> -->
+        <label class="label-dark"> <b>Arrangement Type</b></label>
+      <!-- </label> -->
+
+      <input type="text" [(ngModel)]="selectedarrangeType" class="form-control" disabled />
+    </div>
+  </div>
+
+
+
+
+  <div class="row mt-3" *ngIf="((selectedProduct &&selectedProduct.type=='CreditLine') || (selectedEditProduct && selectedEditProduct.type=='CreditLine') || 
+(selectedProduct &&selectedProduct.type=='BusinessLoan' && selectedarrangeType) || 
+ (selectedEditProduct && selectedEditProduct.type=='BusinessLoan' && selectedarrangeType))">
+    <form [formGroup]="anchorForm">
+      <!-- PF -->
+      <div class="row p-3"  *ngIf="(selectedProduct && (selectedProduct.type=='BusinessLoan' || selectedEditProduct.type=='BusinessLoan'))">
+        <div class="col-md-12 p-3 inner-shadow-card" [formGroup]="NBFCSlabForm"
+         >
+          <div class="row form-group  ">
+            <div class="col">
+              <label>
+                <h5> <b>Processing Fee</b><span style="color:red;font-size: 12px;">*</span></h5>
+              </label>
+            </div>
+
+          </div>
+          <div class="row p-2" style="background-color: white;padding-top:0% !important;">
+            <div class="col-md-2" style="margin-left: 0.25rem !important;">
+              <label class="label-dark"><b>Value Type</b></label>
+              <br>
+              <p-dropdown formControlName="pfValueType" [options]="ValueTypeList" optionLabel="label" appendTo="body"
+                optionValue="value" [style]="{'width':'100%'}" placeholder="Select a Type" />
+            </div>
+          </div>
+          <div formArrayName="pfRows">
+            <!-- <div class="row"> -->
+            <div class="row" *ngFor="let row of pfRows.controls; let i = index" [formGroupName]="i">
+            
+              <div class="row mt-2 p-2" style="margin-left: 0.25rem !important;">
+                <div class="col-md-1">
+                  <label class="label-dark"><b>Slab</b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Min Sanctioned Amount</b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Max Sanctioned Amount</b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>NBFC PF
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['pfValueType'].value=='Amount'"><b>Value</b></label>
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['pfValueType'].value=='Percentage'"><b>%</b></label>
+                  </b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Customer PF 
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['pfValueType'].value=='Amount'"><b>Value</b></label>
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['pfValueType'].value=='Percentage'"><b>%</b></label>
+                  </b></label>
+                </div>
+               
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Over & Above Share %</b></label>
+                </div>
+              </div>
+              <div class="row mt-1 p-2" style="background-color: #effaff;margin-left: 0.25rem !important;">
+                <div class="col-md-1 text-align center">
+                  <label class="label-dark mt-2"> <b>Slab {{i+1}}</b></label>
+                </div>
+                <div class="col-md-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MinLoanAmount" class="form-control">
+                </div>
+                <div class="col-md-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxLoanAmount" class="form-control">
+                </div>
+                <div class="col-md-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0" 
+                    (keypress)="keyPressAmount($event)" formControlName="MinValue" class="form-control">
+                </div>
+                <div class="col-md-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxValue" class="form-control">
+                </div>
+                
+                <div class="col-md-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="SharePercentage" class="form-control">
+                </div>
+                <div class="col-md-1">
+                  <i class="pi pi-minus-circle mt-3" (click)="onRemoveSlabRow(i,'PF')"></i>
+                  <!-- <i class="pi pi-plus-circle mt-3" style="padding-left: 4px;"
+                    (click)="checkForOverlappingRanges('PF')"></i> -->
+                </div>
+
+              </div>
+               <hr>
+             
+            </div>
+            <div class="row"  *ngIf="Type=='PF' && minMaxError && minMaxError.length > 0">
+              <ul style=" list-style-type: none;">
+                <li  style="color:red;font-size: 12px;" *ngFor="let error of minMaxError">{{ error }}</li>
+              </ul>
+            </div>
+            <span style="color:red;font-size: 12px;" *ngIf="this.Type=='PF'">
+              {{this.error}}.
+              {{this.errorAmount}}
+            </span>
+            
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-5"></div>
+            <div class="col-md-2">
+              <button class="btn btn-blue" style="width: 100%;" (click)="onAddSlab('PF')"
+                *ngIf="NBFCSlabForm.get('pfRows')" type="button">Add
+                Row</button>
+            </div>
+            <div class="col-md-5"></div>
+          </div>
+        </div>
+      </div>
+      <!-- ROI -->
+      <div class="row p-3" *ngIf="(selectedProduct && (selectedProduct.type=='BusinessLoan' || selectedEditProduct.type=='BusinessLoan'))">
+        <div class="col-md-12 mt-3 p-3 inner-shadow-card" [formGroup]="NBFCSlabForm"
+          >
+          <div class="row form-group">
+            <div class="col">
+              <label>
+                <h5><b>Rate Of Interest</b><span style="color:red;" *ngIf="selectedarrangeType=='FLDGVariable'">*</span>
+                </h5>
+              </label>
+            </div>
+          </div>
+          <div class="row p-2" style="background-color: white;padding-top:0% !important;">
+            <div class="col-md-2" style="margin-left: 0.25rem !important;">
+              <label class="label-dark"><b>Value Type</b></label>
+              <br>
+              <p-dropdown formControlName="roiValueType" [options]="ValueTypeList" optionLabel="label" appendTo="body"
+                optionValue="value" [style]="{'width':'100%'}" placeholder="Select a Type" />
+            </div>
+          </div>
+          <div formArrayName="roiRows">
+            <div class="row" *ngFor="let row of roiRows.controls; let i = index" [formGroupName]="i">
+            
+              <div class="row mt-2 p-2" style="margin-left: 0.25rem !important;">
+                <div class="col-md-1">
+                  <label class="label-dark"><b>Slab</b></label>
+                </div>
+          
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Min Sanctioned Amount</b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Max Sanctioned Amount</b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>NBFC ROI
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['roiValueType'].value=='Amount'"><b>Value</b></label>
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['roiValueType'].value=='Percentage'"><b>%</b></label>
+                  </b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Customer ROI
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['roiValueType'].value=='Amount'"><b>Value</b></label>
+                    <label class="label-dark" *ngIf="NBFCSlabForm.controls['roiValueType'].value=='Percentage'"><b>%</b></label>
+                  </b></label>
+                </div>
+                <div class="col-md-2">
+                  <label class="label-dark"><b>Over & Above Share %</b></label>
+                </div>
+              </div>
+              <div class="row mt-1 p-2" style="background-color: #effaff;margin-left: 0.25rem !important;">
+                <div class="col-md-1 text-align center">
+                  <label class="label-dark mt-2"> <b>Slab {{i+1}}</b></label>
+                </div>
+                
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MinLoanAmount" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxLoanAmount" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MinValue" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxValue" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="SharePercentage" class="form-control">
+                </div>
+                <div class="col-md-1" *ngIf="this.selectedarrangeType == 'FLDGVariable'|| this.selectedarrangeType == 'DSA'">
+                  <i class="pi pi-minus-circle mt-3" (click)="onRemoveSlabRow(i,'ROI')" ></i>
+                  <!-- <i class="pi pi-plus-circle mt-3" style="padding-left: 4px;"
+                    (click)="checkForOverlappingRanges('ROI')"></i> -->
+                </div>
+              </div>
+              <hr>
+            </div>
+            <div class="row"  *ngIf="Type=='ROI' && minMaxError && minMaxError.length > 0">
+              <ul style=" list-style-type: none;">
+                <li  style="color:red;font-size: 12px;" *ngFor="let error of minMaxError">{{ error }}</li>
+              </ul>
+            </div>
+            <span style="color:red;font-size: 12px;" *ngIf="this.Type=='ROI'">{{this.error}}.
+            </span>
+            <span style="color:red;font-size: 12px;" *ngIf="this.Type=='ROI'">{{this.errorAmount}}</span>
+
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-5"></div>
+            <div class="col-md-2"  *ngIf="this.selectedarrangeType == 'FLDGVariable' || this.selectedarrangeType == 'DSA'">
+              <button class="btn btn-blue" (click)="onAddSlab('ROI')" style="width: 100%;"
+                *ngIf="NBFCSlabForm.get('roiRows')" type="button">Add Row</button>
+            </div>
+            <div class="col-md-5"></div>
+          </div>
+
+          <div class="row" [formGroup]="anchorForm">
+
+            <div class="col-4">
+
+              <label class="label-dark">Co-Sharing</label> <br>
+              <input type="radio" id="IsInterestRateCoSharing" [value]='true' formControlName="IsInterestRateCoSharing"
+                class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsInterestRateCoSharing" [value]='false'
+                formControlName="IsInterestRateCoSharing">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+              <div *ngIf="(submitted) && f['InterestRate'].errors">
+                <span *ngIf="f['InterestRate'].errors['required']" style="color:red;font-size: 12px;">*Interest rate
+                  is
+                  required</span>
+              </div>
+              <div
+                *ngIf="f['InterestRate'].errors && !f['InterestRate'].errors['required'] && 
+              (f['InterestRate'].errors && f['InterestRate'].errors['max'].actual>f['InterestRate'].errors['max'].max) && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct interest Rate less than 100</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- Commision -->
+      <div class="row p-3"  *ngIf="(selectedProduct && (selectedProduct.type=='BusinessLoan' || selectedEditProduct.type=='BusinessLoan'))">
+        <div class="col-md-12 mt-3 p-3 inner-shadow-card" [formGroup]="NBFCSlabForm"
+         >
+          <div class="row form-group">
+            <div class="col">
+              <label>
+                <h5><b>Commission</b><span style="color:red;font-size: 12px;"
+                    *ngIf="selectedarrangeType=='DSA'">*</span>
+                </h5>
+              </label>
+            </div>
+
+          </div>
+          <div class="row p-2" style="background-color: white;padding-top:0% !important;">
+            <div class="col-md-2" style="margin-left: 0.25rem !important;">
+              <label class="label-dark"><b>Value Type</b></label>
+              <br>
+              <p-dropdown formControlName="commissionValueType" [options]="ValueTypeList" optionLabel="label" appendTo="body"
+                optionValue="value" [style]="{'width':'100%'}" placeholder="Select a Type" />
+            </div>
+          </div>
+          <div formArrayName="commisionRows">
+                  <!-- value slab -->
+                
+                  <!-- label slab -->
+                  <div class="row mt-2 p-2" style="margin-left: 0.25rem !important;">
+                    <div class="col-md-1">
+                      <label class="label-dark"><b>Slab</b></label>
+                    </div>
+                   
+                    <div class="col-md-2">
+                      <label class="label-dark"><b>Min Sanctioned Amount</b></label>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="label-dark"><b>Max Sanctioned Amount</b></label>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="label-dark"><b>NBFC Commission
+                        <label class="label-dark" *ngIf="NBFCSlabForm.controls['commissionValueType'].value=='Amount'"><b>Value</b></label>
+                        <label class="label-dark" *ngIf="NBFCSlabForm.controls['commissionValueType'].value=='Percentage'"><b>%</b></label>
+                      </b></label>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="label-dark"><b>Customer Commission
+                        <label class="label-dark" *ngIf="NBFCSlabForm.controls['commissionValueType'].value=='Amount'"><b>Value</b></label>
+                        <label class="label-dark" *ngIf="NBFCSlabForm.controls['commissionValueType'].value=='Percentage'"><b>%</b></label>
+                      </b></label>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="label-dark"><b>Over & Above Share %</b></label>
+                    </div>
+                  </div>
+            <div class="row" *ngFor="let row of commisionRows.controls; let i = index" [formGroupName]="i">
+        
+
+              <!-- data slab -->
+              <div class="row mt-1 p-2" style="background-color: #effaff;margin-left: 0.25rem !important;">
+                <div class="col-md-1 text-align center">
+                  <label class="label-dark mt-2"> <b>Slab {{i+1}}</b></label>
+                </div>
+                
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MinLoanAmount" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxLoanAmount" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MinValue" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="MaxValue" class="form-control">
+                </div>
+                <div class="col-2">
+                  <input type="number" (keypress)="omit_special_char($event)" min="0"
+                    (keypress)="keyPressAmount($event)" formControlName="SharePercentage" class="form-control">
+                </div>
+                <div class="col-md-1" *ngIf="this.selectedarrangeType != 'FLDGFix'">
+                  <i class="pi pi-minus-circle mt-3" (click)="onRemoveSlabRow(i,'Commission')"></i>
+                  <!-- <i class="pi pi-plus-circle mt-3" style="padding-left: 4px;"
+                    (click)="checkForOverlappingRanges('Commission')"></i> -->
+                </div>
+              </div>
+              <hr>
+
+            </div>
+            <div class="row"  *ngIf="Type=='Commission' && minMaxError && minMaxError.length > 0">
+              <ul style=" list-style-type: none;">
+                <li  style="color:red;font-size: 12px;" *ngFor="let error of minMaxError">{{ error }}</li>
+              </ul>
+            </div>
+            <span style="color:red;font-size: 12px;" *ngIf="this.Type=='Commission'">{{this.error}}.
+            </span>
+            <span style="color:red;font-size: 12px;" *ngIf="this.Type=='Commission'">{{this.errorAmount}}</span>
+
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-5"></div>
+            <div class="col-md-2" *ngIf="this.selectedarrangeType != 'FLDGFix'">
+              <button class="btn btn-blue" (click)="onAddSlab('Commission')" style="width: 100%;"
+                *ngIf="NBFCSlabForm.get('commisionRows')" type="button">Add Row</button>
+            </div>
+            <div class="col-md-5"></div>
+          </div>
+
+
+        </div>
+      </div>
+
+      <!--  gst /platform fee -->
+
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Gst Rate</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <!-- <input type="text" formControlName="GSTRate" class=""
+                 /> -->
+                 <label class="form-control" style="background-color: white;color: black;border:none !important ;
+                 padding: 1.1rem 1.75rem;" >{{this.anchorForm.controls['GSTRate'].value}}</label>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Platform Fee</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="number" id="PlatformFee" class="form-control" name="PlatformFee"
+                formControlName="PlatformFee" (keypress)="space($event)" placeholder="Enter Platform Fee" required="1"
+                (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+                onkeydown="if(event.key==='.'){event.preventDefault();}" autocomplete="off" />
+              <div *ngIf="(submitted) && f['PlatformFee'] && f['PlatformFee'].errors">
+                <span *ngIf="f['PlatformFee'].errors" style="color:red;font-size: 12px;">*Platform Fee is
+                  required</span>
+              </div>
+              <div *ngIf="f['PlatformFee'] && !f['PlatformFee'] && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct Platform Fee</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6"></div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Co-Sharing</b></label> <br>
+              <input type="radio" id="IsPlatformcosharing" [value]='true' formControlName="IsPlatformFeeCoSharing"
+                class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsPlatformcosharings" [value]='false' formControlName="IsPlatformFeeCoSharing">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- for other product  --pf or inteest rate  -->
+      <div class="row p-3"
+        *ngIf="(selectedProduct && !(selectedProduct.type=='BusinessLoan' || selectedEditProduct.type=='BusinessLoan'))">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Processing Fee Type</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Processing Fee</b>
+                <label class="label-dark" *ngIf="anchorForm.controls['ProcessingFeeType'].value=='Amount'">(in
+                  Amt.)</label>
+                <label class="label-dark" *ngIf="anchorForm.controls['ProcessingFeeType'].value=='Percentage'">(in
+                  %)</label>
+              </label>
+              <span style="color: red;">*</span>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6  p-2 mt-2">
+              <select formControlName="ProcessingFeeType" class="form-control back">
+                <option [ngValue]="'Amount'">Amount</option>
+                <option [ngValue]="'Percentage'">Percentage</option>
+              </select>
+              <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeeType'].errors">
+                <span style="color:red;font-size: 12px;"
+                  *ngIf="anchorForm.controls['ProcessingFeeType'].errors && (submitted || !submitted) ">
+                  *Select a valid Processing Fee Type
+                </span>
+              </div>
+
+            </div>
+            <div class="col-md-6  p-2 mt-2">
+              <input type="number" id="ProcessingFee" class="form-control" name="ProcessingFee"
+                formControlName="ProcessingFee" (keypress)="space($event)" required="1"
+                (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+              <div *ngIf="(submitted) && f['ProcessingFee'].errors">
+                <span *ngIf="f['ProcessingFee'].errors['required']" style="color:red;font-size: 12px;">*Processing Fee
+                  is
+                  required</span>
+              </div>
+              <!-- min="0" max="100" -->
+
+              <div
+                *ngIf="f['ProcessingFee'].errors && !f['ProcessingFee'].errors['required']  && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct Processing Fee</span>
+              </div>
+              <div
+                *ngIf="anchorForm.controls['ProcessingFeeType'].value=='Percentage' && anchorForm.controls['ProcessingFee'].value >100  && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Interest Charges %</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="number" id="InterestRate" class="form-control" name="InterestRate"
+                formControlName="InterestRate" (keypress)="space($event)" placeholder="Enter Interest Rate" required="1"
+                [min]="0" [max]="100" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+                autocomplete="off" />
+              <div *ngIf="(submitted) && f['InterestRate'].errors">
+                <span *ngIf="f['InterestRate'].errors['required']" style="color:red;font-size: 12px;">*Interest rate is
+                  required</span>
+              </div>
+              <div
+                *ngIf="f['InterestRate'].errors && !f['InterestRate'].errors['required'] && 
+                                (f['InterestRate'].errors && f['InterestRate'].errors['max'].actual>f['InterestRate'].errors['max'].max) && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct interest Rate less than 100</span>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6"></div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Co-Sharing</b></label> <br>
+              <input type="radio" id="IsInterestRateCoSharing" [value]='true' formControlName="IsInterestRateCoSharing"
+                class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsInterestRateCoSharings" [value]='false'
+                formControlName="IsInterestRateCoSharing">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bounce /penal charges -->
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col">
+              <label>
+                <h5><b>Bounce</b></h5>
+              </label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>NBFC Bounce Charges</b> <span style="color: red;">*</span><span
+                  style="color: darkgray;font-size: 12px;">(in amt.)</span></label>
+            </div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Customer Bounce Charges</b> <span style="color: red;">*</span><span
+                  style="color: darkgray;font-size: 12px;">(in amt.)</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6  p-2 mt-2">
+              <input type="number" id="BounceCharges" class="form-control" name="BounceCharges"  max="{{f['MaxBounceCharges'].value}}"
+                formControlName="BounceCharges" (keypress)="space($event)" placeholder="Enter NBFC Bounce Charges"
+                required="1" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+                onkeydown="if(event.key==='.'){event.preventDefault();}" autocomplete="off" />
+              <br>
+              <div *ngIf="(submitted) && f['BounceCharges'].errors">
+                <span *ngIf="f['BounceCharges'].errors['required']" style="color:red;font-size: 12px;">*NBFC Bounce Charges
+                  is
+                  required</span>
+              </div>
+              <!-- <div *ngIf="(!submitted || submitted)  &&  f['BounceCharges'].value > f['MaxBounceCharges'].value && f['BounceCharges'].value!=null 
+                ">
+                <span style="color:red;font-size: 12px;">Min Bounce Charges is less than Max Bounce Charges
+                </span>
+                
+              </div> -->
+            </div>
+            <div class="col-md-6  p-2 mt-2">
+              <input type="number" id="MaxBounceCharges" class="form-control" name="MaxBounceCharges"
+                formControlName="MaxBounceCharges" (keypress)="space($event)" placeholder="Enter Customer Bounce Charges"
+                required="1" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"  min="{{f['BounceCharges'].value}}"
+                onkeydown="if(event.key==='.'){event.preventDefault();}" autocomplete="off" />
+
+              <div *ngIf="(submitted) && f['MaxBounceCharges'].errors">
+                <span *ngIf="f['MaxBounceCharges'].errors['required']" style="color:red;font-size: 12px;">*Customer Bounce Charges is
+                  required</span>
+              </div>
+              <!-- <div
+                *ngIf="f['MaxBounceCharges'].errors && !f['MaxBounceCharges'].errors['required']  && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct Bounce Charges</span>
+              </div> -->
+
+              <div *ngIf="(!submitted || submitted)  &&  f['BounceCharges'].value > f['MaxBounceCharges'].value && f['MaxBounceCharges'].value!=null 
+                ">
+                <span style="color:red;font-size: 12px;">Customer Bounce Charges must be greater than NBFC Bounce Charges
+                </span>
+                
+              </div>
+
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6"></div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Co-Sharing</b></label> <br>
+              <input type="radio" id="IsBouncecosharing" [value]='true' formControlName="IsBounceChargeCoSharing"
+                class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsBouncecosharings" [value]='false' formControlName="IsBounceChargeCoSharing">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col">
+              <label>
+                <h5><b>Penalty Charges</b></h5>
+              </label>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>NBFC Penalty Charges</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Customer Penalty Charges</b> <span style="color: red;">*</span> </label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6 p-3 mt-2">
+              <input type="number" id="DelayPenaltyFee" class="form-control" name="PenaltyCharges" max="{{f['MaxPenaltyCharges'].value}}"
+                formControlName="PenaltyCharges" (keypress)="space($event)" placeholder="Enter NBFC Penalty Charges"    
+                required="1" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+                autocomplete="off" [min]="0"  />
+              <div *ngIf="(submitted ) && f['PenaltyCharges'].errors">
+                <span *ngIf="f['PenaltyCharges'].errors['required']" style="color:red;font-size: 12px;">*NBFC Penalty Charges is
+                  required</span>
+                
+              </div>
+              <!-- <div
+                *ngIf="f['PenaltyCharges'].errors && !f['PenaltyCharges'].errors['required'] && 
+                                  ( f['PenaltyCharges'].errors['max'].actual>f['PenaltyCharges'].errors['max'].max) && (submitted || !submitted)">
+                <span style="color:red;font-size: 12px;">*Enter Correct Penalty Charges less than 100</span>
+              </div> -->
+              <!-- <div *ngIf="(!submitted || submitted)  &&  f['PenaltyCharges'].value > f['MaxPenaltyCharges'].value && f['PenaltyCharges'].value!=null 
+                ">
+                <span style="color:red;font-size: 12px;">Min Penalty Charges must be lesser than Max Penalty Charges
+                </span>
+                
+              </div> -->
+
+            </div>
+            <div class="col-md-6 p-3 mt-2">
+              <input type="number" id="MaxPenaltyCharges" class="form-control" name="MaxPenaltyCharges"
+                formControlName="MaxPenaltyCharges" (keypress)="space($event)" placeholder="Enter Customer Penalty Charges"  min="{{f['PenaltyCharges'].value}}"
+                required="1" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+                autocomplete="off" [min]="0"  />
+
+              <div *ngIf="(submitted ) && f['MaxPenaltyCharges'].errors">
+                <span *ngIf="f['MaxPenaltyCharges']" style="color:red;font-size: 12px;">*Customer Penalty Charges is
+                  required</span>
+              </div>
+           
+              <div *ngIf="(!submitted || submitted)  &&  f['PenaltyCharges'].value > f['MaxPenaltyCharges'].value && f['MaxPenaltyCharges'].value!=null 
+                ">
+                <span style="color:red;font-size: 12px;">Customer Penalty Charges must be greater than NBFC Penalty Charges
+                </span>
+                
+              </div>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6"></div>
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"><b>Co-Sharing</b></label> <br>
+              <input type="radio" id="IsPenaltycosharing" [value]='true' formControlName="IsPenaltyChargeCoSharing"
+                class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsPenaltycosharings" [value]='false' formControlName="IsPenaltyChargeCoSharing">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- pf share/Tenure -->
+      <div class="row p-3" *ngIf="selectedProduct && selectedProduct.type=='BusinessLoan'">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>PF Share Percentage</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="number" id="PFSharepercentage" class="form-control" name="PFSharepercentage"
+                formControlName="PFSharePercentage" (keypress)="space($event)" placeholder="Enter PF Share Percentage"
+                required="1" [min]="0" [max]="100" (keypress)="keyPressAmount($event)"
+                (keypress)="omit_special_char($event)" autocomplete="off" />
+              <div *ngIf="submitted && f['PFSharePercentage'].errors">
+                <span style="color:red;font-size: 12px;"
+                  *ngIf="f['PFSharePercentage'].errors['required']  && (submitted )">PF Share Percentage is
+                  required
+                </span>
+
+              </div>
+              <div
+              *ngIf=" f['PFSharePercentage'].value >100  && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Tenure</b><span
+                style="color: darkgray;font-size: 12px;">(in Months)</span> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="number" id="tenure" class="form-control" name="tenure" formControlName="Tenure" [min]="0"
+                [max]="180" (keypress)="space($event)" placeholder="Enter Tenure" required="1"
+                (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+              <div *ngIf="submitted && f['Tenure'].errors">
+                <span style="color:red;font-size: 12px;" *ngIf="f['Tenure'].errors['required']  && (submitted )">Tenure
+                  is
+                  required
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- esignable /disbursemnt type -->
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <!-- x -->
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Is Esignable</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <input type="radio" id="IsPlatformcosharing" [value]='true' formControlName="IseSignEnable" class="mt-3">
+              <label class="label-dark" for="Yes">
+                &nbsp; Yes
+              </label>
+              &nbsp;
+              <input type="radio" id="IsPlatformcosharings" [value]='false' formControlName="IseSignEnable">
+              <label class="label-dark" for="No">
+                &nbsp; No
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Disbursement Type</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <input type="radio" id="FullDisbursement" value="FullDisbursement" formControlName="DisbursementType"
+                checked class="mt-3">
+              <label class="label-dark" for="FullDisbursement">
+                &nbsp; Full Disbursement
+              </label>
+              &nbsp;
+              <input type="radio" id="PFLessDisbursement" value="PFLessDisbursement" formControlName="DisbursementType">
+              <label class="label-dark" for="PFLessDisbursement">
+                &nbsp; PF Less Disbursement
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--  sanction letter/agreement -->
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Sanction Letter Template</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row" style="background-color: #effaff;margin-left: 0.25rem !important;">
+
+            <div class="col-md-12 p-2 mt-2" *ngIf="f['SanctionLetterURL'].value ">
+              <img src="../../../../../assets/img/pdflogo.png" (click)="show(f['SanctionLetterURL'].value)" />
+              <div *ngIf="f['SanctionLetterURL'].value && !productId">
+                <input type="button" class="btn btn-blue" (click)="removeImage('SanctionLetterURL')" value="Remove">
+              </div>
+            </div>
+            <div class="col-md-12 p-2 mt-2" *ngIf="!f['SanctionLetterURL'].value">
+              <input type="file" #userPhoto1 (change)="upload($event, 'SanctionLetterURL',this.myInputVariable1)"
+                accept="application/pdf" id="SanctionLetterURL" class="form-control back" name="SanctionLetterURL" />
+              <div *ngIf="submitted  && f['SanctionLetterURL'].errors">
+                <span style="color:red;font-size: 12px;" *ngIf="f['SanctionLetterURL'].errors['required']">Sanction
+                  Letter
+                  is required
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Agreement Upload</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row" style="background-color: #effaff;margin-left: 0.25rem !important;">
+
+            <div class="col-md-12 p-2 mt-2" *ngIf="f['AgreementURL'].value">
+              <img src="../../../../../assets/img/pdflogo.png" (click)="show(f['AgreementURL'].value)" />
+
+              <div
+                *ngIf="(f['AgreementURL'].value && !productId) || (productId && currentdate > f['AgreementEndDate'].value )">
+                <input type="button" class="btn btn-blue" (click)="removeImage('AgreementURL')" value="Remove">
+              </div>
+            </div>
+            <div class="col-md-12 p-2 mt-2" *ngIf="!f['AgreementURL'].value">
+              <input type="file" #userPhoto3 (change)="upload($event, 'AgreementURL',this.myInputVariable3)"
+                accept="application/pdf" id="AgreementURL" class="form-control back" name="AgreementURL" />
+              <div *ngIf="submitted  && f['AgreementURL'].errors">
+                <span style="color:red;font-size: 12px;"
+                  *ngIf="f['AgreementURL'].errors['required']  && (submitted )">Agreement Upload is required
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- start end date agreement -->
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Agreement Start Date</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="date" id="AgreementStartDate" class="form-control back" name="AgreementStartDate"
+                max="{{f['AgreementEndDate'].value}}" formControlName="AgreementStartDate" (keydown)="space($event)"
+                [disabled]="productId && currentdate > f['AgreementEndDate'].value" />
+              <div *ngIf="submitted  && f['AgreementStartDate'].errors">
+                <span style="color:red;font-size: 12px;" *ngIf="(f['AgreementStartDate'].errors ) && (submitted )  ">
+                  *Enter a valid Agreement Start Date
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6" style="text-align: center !important;">
+              <label class="label-dark"> <b>Agreement End Date</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-12 p-2 mt-2">
+              <input type="date" id="AgreementEndDate" class="form-control back" name="AgreementEndDate"
+                min="{{currentdate}}" formControlName="AgreementEndDate" (keydown)="space($event)"
+                [disabled]="productId && currentdate > f['AgreementEndDate'].value" />
+              <div *ngIf="(!submitted || submitted)  &&  f['AgreementStartDate'].value > f['AgreementEndDate'].value">
+                <span style="color:red;font-size: 12px;">Agreement start Date is less than end date
+                </span>
+                <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors && (submitted )  ">
+                  *Enter a valid Agreement End Date
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- custonmer url or template -->
+      <div class="row p-3">
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" style="width: 49%;">
+          <div class="row mt-1" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Customer Agreement</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <input type="radio" id="URL" value="URL" (change)="onCustomerAgreementChange()" class="mt-3" checked
+                formControlName="CustomerAgreementType">
+              <label class="label-dark" for="URL"> &nbsp; URL</label>
+              &nbsp;
+              <input type="radio" id="Template" value="Template" (change)="onCustomerAgreementChange()"
+                formControlName="CustomerAgreementType">
+              <label class="label-dark" for="Template"> &nbsp; Template</label>
+
+              <div *ngIf="submitted && f['CustomerAgreementType'].errors">
+                <span style="color:red;font-size: 12px;"
+                  *ngIf="f['CustomerAgreementType'].errors['required']  && (submitted )">Customer Agreement Type is
+                  required
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card"
+          *ngIf="(f['CustomerAgreementURL'].value && f['CustomerAgreementType'].value=='Template')"
+          style="width: 49%;margin-left: 10px;">
+          <div class="row" style="background-color: #effaff;margin-left: 0.25rem !important;">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Customer Agreement Template</b> <span style="color: red;">*</span></label>
+            </div>
+            <div class="col-md-6 p-2 mt-2">
+
+              <img src="../../../../../assets/img/html.png" (click)="show(f['CustomerAgreementURL'].value)" />
+
+              <div *ngIf="(f['CustomerAgreementURL'].value) ">
+                <input type="button" class="btn btn-blue" (click)="removeImage('CustomerAgreementURL')" value="Remove">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card"
+          *ngIf="!f['CustomerAgreementURL'].value && f['CustomerAgreementType'].value=='Template' "
+          style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Customer Agreement Template</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row" style="background-color: #effaff;margin-left: 0.25rem !important;">
+
+            <div class="col-md-12 p-2 mt-2">
+              <input type="file" #userPhoto2 (change)="upload($event, 'CustomerAgreementURL',this.myInputVariable2)"
+                accept="text/html" id="CustomerAgreementURL" class="form-control back" name="CustomerAgreementURL" />
+              <div *ngIf="submitted  && f['CustomerAgreementURL'].errors">
+                <span style="color:red;font-size: 12px;" *ngIf="f['CustomerAgreementURL'].errors['required']">Customer
+                  Agreement is required
+                </span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 mt-3 p-3 inner-shadow-card" *ngIf="f['CustomerAgreementType'].value=='URL'"
+          style="width: 49%;margin-left: 10px;">
+          <div class="row">
+            <div class="col-md-6 p-2 mt-2" style="text-align: center !important;">
+              <label class="label-dark"> <b>Customer Agreement Template</b> <span style="color: red;">*</span></label>
+            </div>
+          </div>
+          <div class="row" style="background-color: #effaff;margin-left: 0.25rem !important;">
+
+            <div class="col-md-12 p-2 mt-2">
+
+              <input type="text" id="CustomerAgreement" class="form-control" name="CustomerAgreement"
+                formControlName="CustomerAgreementURL" (keypress)="space($event)"
+                placeholder="Enter Customer Agreement URL" required="1" autocomplete="off"
+                style="height: 30px !important;" />
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+
+    </form>
+
+
+
+    <p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '80vw'}">
+      <div>
+        <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+      </div>
+
+      <br>
+      <div style="justify-content:space-between;">
+        <button class="btn btn-blue" (click)="download(showUrl)">Download</button>
+      </div>
+    </p-dialog>
+
+
+
+
+    <div class="col-md-12 p-3" *ngIf="CompanyType!='Anchor'">
+      <h5>Add Company Activities</h5> <br>
+      <p-table #dt [value]="activityData" dataKey="sequence" [reorderableColumns]="true"
+        [(selection)]="selectedactivity" responsiveLayout="scroll" [columns]="cols" [scrollable]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th></th>
+            <th>
+              Reorder
+            </th>
+            <th>Include</th>
+
+            <th>Activity</th>
+
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" id="dtt" let-rowData let-expanded="expanded" let-index1="rowIndex">
+          <tr style="width: 40px;" href="#" (click)="onNodeChange(rowData,rowData.expanded)" [pReorderableRow]="index1">
+            <td>
+              <i *ngIf="rowData.subActivity && rowData.subActivity.length>0"
+                [ngClass]="(rowData.expanded) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+            </td>
+            <td>
+              <span class="pi pi-bars" pReorderableRowHandle></span>
+            </td>
+            <td>
+
+              <input type="checkbox" [(ngModel)]="rowData.isActive">
+            </td>
+
+            <td>{{rowData.activity}}</td>
+
+
+          </tr>
+
+          <tr *ngIf="rowData.expanded">
+            <td colspan="9" *ngIf="rowData.subActivity">
+              <p-table [value]="rowData.subActivity" [reorderableColumns]="true">
+                <ng-template pTemplate="header">
+          <tr>
+            <th pReorderableColumn></th>
+            <th>Include</th>
+
+            <th>name</th>
+            <th>action</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-child let-index="rowIndex">
+          <tr [pReorderableRow]="index">
+            <td><span class="pi pi-bars" pReorderableRowHandle></span></td>
+            <td>
+
+              <input type="checkbox" [(ngModel)]="child.isActive" [checked]="true">
+            </td>
+
+            <td><b>{{child.name}}</b></td>
+
+            <td> <button *ngIf="child.apiCount>0" class="btn btn-dark"
+                (click)="openNBFCSubActivityApi(child, 'subRow')">
+                Add </button>
+
+
+            </td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+      </td>
+      </tr>
+      </ng-template>
+      </p-table>
+
+    </div>
+
+  </div>
+
+
+  <div class="row mt-3 "
+    *ngIf="((selectedProduct &&selectedProduct.type=='CreditLine') || (selectedEditProduct && selectedEditProduct.type=='CreditLine') || 
+(selectedProduct &&selectedProduct.type=='BusinessLoan' && selectedarrangeType) ||  (selectedEditProduct && selectedEditProduct.type=='BusinessLoan' && selectedarrangeType))">
+    <div class="col-md-10">
+      <button type="button" class="btn btn-blue" (click)="onClickSaveBtn()" style="width: 90%;">Save
+        configuration</button>
+    </div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-darkBlue" (click)="disableDialog.emit(false);">
+        <i class="pi pi-arrow-left"></i> &nbsp;Back</button>
+    </div>
+  </div>
+
+
+</div>
+<p-dialog header="Add NBFC Sub Activity" [(visible)]="display" appendTo="body" [modal]="true"
+  [style]="{width: '80vw',height:'80vh'}">
+
+
+  <div class="col" style="text-align: end;">
+    <label> </label>
+    <i class="pi pi-plus-circle" style="font-size: 2rem;" (click)="onAddRow();">ADD</i>
+  </div>
+  <div class="row">
+
+
+    <div class="col">
+      <p-dropdown [options]="dataList" [(ngModel)]="selectedNBFCapi" placeholder="Select Code" optionLabel="code"
+        [showClear]="true"></p-dropdown>
+    </div>
+
+    <div class="col">
+      <label> </label>
+    </div>
+  </div>
+  <div class="row mt-3">
+
+
+  </div>
+
+
+  <div class="row mt-3">
+    <p-table [value]="nbfcSubActivityApiList" [reorderableColumns]="true" [rows]="10" [scrollable]="true"
+      scrollHeight="40vh" [lazy]="true" (onRowReorder)="onRowReorder($event, 'push')">
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width:3rem"></th>
+
+          <th style="text-align: center;">Sequence</th>
+          <th style="text-align: center;">Code</th>
+
+          <th style="text-align: center;">APIUrl</th>
+          <th style="text-align: center;">Action</th>
+
+
+
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-index1="rowIndex" let-list>
+        <tr [pReorderableRow]="index1">
+
+          <td>
+            <span class="pi pi-bars" pReorderableRowHandle></span>
+          </td>
+          <td>{{list.sequence}}</td>
+          <td>{{list.code}}</td>
+          <td>{{list.apiUrl}}</td>
+          <td><i class="pi pi-minus-circle" (click)="onRemoveRow(index1)"></i></td>
+
+        </tr>
+      </ng-template>
+
+
+    </p-table>
+  </div>
+  <ng-template pTemplate="footer">
+    <div class="custom-footer" style="text-align: end;">
+      <button class="btn btn-dark" (click)="insertNBFCSubActivityApi()">Save</button>
+    </div>
+  </ng-template>
+  <!-- <div class="col" style="text-align: end; margin: 15px;">
+    </div> -->
+</p-dialog>
+
+<div class="progress-spinner" *ngIf="Loader">
+  <p-progressSpinner></p-progressSpinner>
+</div>

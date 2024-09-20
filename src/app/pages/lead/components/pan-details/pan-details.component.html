@@ -1,0 +1,147 @@
+<div class="card tp common-padding">
+    <div *ngIf="panDataDc != null && isComplete">
+        <div class="row">
+            <div class="col-6" style="display: inline-block;">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">PAN</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{panDataDc?.uniqueId}}</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Name On PAN</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{panDataDc?.nameOnCard}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Father's Name</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{panDataDc?.fatherName}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Date Of Birth</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{panDataDc?.dob| date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Status</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-6" style="display: inline-block;">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="col-md-6 col-sm-5 col-12">
+                            <div class="">PAN Front Image</div>
+                            <!-- <i class="bi bi-check-circle"></i> -->
+                            <!-- <button class="btn btn-primary" style="background-color: white;"><i class="bi bi-check-circle"></i></button> -->
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <div class="ml cl">
+                                <div>
+                                </div>
+                                <div class="p-img">
+                                    <!-- <img src="../../../../../assets/img/gallery/12.jpg" height="100px" width="200px"> -->
+                                    <!-- <img src="{{panDataDc.frontImageUrl}}" height="100px" width="100px"> -->
+                                    <img *ngIf="panDataDc?.frontImageUrl" src="{{panDataDc?.frontImageUrl}}"
+                                        height="100px" width="100px" (click)="show(panDataDc.frontImageUrl)">
+                                    <!-- <img *ngIf="panDataDc.frontImageUrl == null" src="../../../../../assets/img/photos/userImage.png" height="100px" width="100px"> -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <!-- <div class="ml cl" style="float: right;">
+                    <i *ngIf="!isRejected && !IsOfferGeneratedFlag" pTooltip="Reject"
+                        class="pi pi-times fa fa-mouse-pointer"
+                        style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+                    <i *ngIf="isComplete && !isVerified && !isRejected" pTooltip="Approve"
+                        class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;"
+                        (click)="onApproved()"></i>
+                </div> -->
+                <div class="ml cl" style="float: right;">
+                    <button *ngIf="isComplete && !isVerified && !isRejected" class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                    <button *ngIf="!isRejected && !IsOfferGeneratedFlag" class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">
+                    <!-- <i pTooltip="Rejected" class="pi pi-times" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+                <i pTooltip="Approved" class="pi pi-check" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>  -->
+                    <div class="ml cl">
+                        <span style="float: right;" *ngIf="isRejected">Completed and Rejected<i
+                                class="pi pi-times fa fa-mouse-pointer"
+                                style="color:red;margin-left: 0.5em "></i></span>
+                        <span style="float: right;" *ngIf="isVerified">Approved<i
+                                class="pi pi-check fa fa-mouse-pointer"
+                                style="color:green;margin-left: 0.5em "></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-Txt" *ngIf="panDataDc == null">* No Record Found</div>
+
+    </div>
+</div>
+
+
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+        <textarea type="text" id="_pancomment" name="_pancomment" class="form-control" [(ngModel)]="Comment"
+            placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+            (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+<p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '70vw',height:'70vh'}">
+    <div>
+        <img class="imgShow" src="{{showUrl}}" />
+    </div>
+    <br>
+    <div style="justify-content:space-between;">
+        <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+    </div>
+</p-dialog>
+
+
+<div class="progress-spinner" *ngIf="loader">
+    <p-progressSpinner></p-progressSpinner>
+</div>

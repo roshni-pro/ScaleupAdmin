@@ -1,0 +1,317 @@
+<div class="viewJsonBtn">
+    <button type="button" class="search_Button" (click)="viewJsonData()">View Json</button>
+
+</div><br>
+<p-accordion *ngIf="cibilObj != null && isComplete">
+
+    <p-accordionTab header="Current Application">
+        <div class="inner-header">
+            <h1>Applicant Details</h1>
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h2> Personal details</h2>
+                    <span><strong>Name </strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.First_Name}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.Middle_Name1}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.Last_Name}}
+                    </span>
+                    <span>
+                        <strong>Contact Number</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.MobilePhoneNumber}}
+                    </span>
+                    <span>
+                        <strong>Gender</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.Gender_Code
+                        == 2 ? 'Male' : 'Female'}}
+                    </span>
+                    <span>
+                        <strong>EMail Id</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.EMailId}}
+                    </span>
+                    <span>
+                        <strong>Date Of Birth</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Details.Date_Of_Birth_Applicant
+                        | date : 'dd MMM yyyy'}}
+                    </span>
+                </div>
+                <div class="col-md-6 col-12">
+                    <h2>Other Details</h2>
+                    <span><strong>Employment Status</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Employment_Status}}
+                    </span>
+                    <span><strong>Income</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Income ?
+                        cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Income :
+                        'N/A'}}
+                    </span>
+                    <span><strong>Marital Status</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Marital_Status}}
+                    </span>
+                    <span><strong>Number Credit Card</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Number_of_Major_Credit_Card_Held
+                        ?
+                        cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Number_of_Major_Credit_Card_Held
+                        : 'N/A'}}
+                    </span>
+                    <span><strong>Time with Employer</strong>
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Time_with_Employer
+                        ?
+                        cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Other_Details.Time_with_Employer
+                        : 'N/A'}}
+                    </span>
+                </div>
+            </div>
+            <br>
+
+            <h1>Address</h1>
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h2>Current Applicant Address Details</h2>
+                    <div class="mb-2"
+                        *ngIf="cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details != null">
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.FlatNoPlotNoHouseNo}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.BldgNoSocietyName}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.RoadNoNameAreaLocality}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.Landmark}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.City}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.PINCode}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.State}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details.Country_Code}}
+                    </div>
+                    <div
+                        *ngIf="cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Address_Details == null">
+                        N/A</div>
+
+                </div>
+
+                <div class="col-md-6 col-12">
+                    <h2>Current Applicant Additional AddressDetails</h2>
+                    <div class="mb-2"
+                        *ngIf="cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails != null">
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.FlatNoPlotNoHouseNo}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.BldgNoSocietyName}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.RoadNoNameAreaLocality}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.Landmark}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.City}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.PINCode}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.State}}
+                        {{cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails.Country_Code}}
+                    </div>
+                    <div
+                        *ngIf="cibilObj.INProfileResponse.Current_Application.Current_Application_Details.Current_Applicant_Additional_AddressDetails == null">
+                        N/A</div>
+                </div>
+            </div>
+        </div>
+    </p-accordionTab>
+
+    <p-accordionTab header="CAIS Account">
+        <div class="inner-header">
+            <h1>CAIS Summary : </h1>
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h2>Credit Account</h2>
+                    <span><strong>CADSuitFiledCurrentBalance</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Credit_Account.CADSuitFiledCurrentBalance}}
+                    </span>
+                    <span><strong>Account Active</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Credit_Account.CreditAccountActive}}
+                    </span>
+                    <span><strong>Account Closed</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Credit_Account.CreditAccountClosed}}
+                    </span>
+                    <span><strong>Account Default</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Credit_Account.CreditAccountDefault}}
+                    </span>
+                    <span><strong>Account Total</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Credit_Account.CreditAccountTotal}}
+                    </span>
+                </div>
+                <div class="col-md-6 col-12">
+                    <h2>Total Outstanding Balance</h2>
+                    <span><strong>Balance All</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Total_Outstanding_Balance.Outstanding_Balance_All}}
+                    </span>
+                    <span><strong>Balance Secured</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Total_Outstanding_Balance.Outstanding_Balance_Secured}}
+                    </span>
+                    <span><strong>Balance Secured Percentage</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Total_Outstanding_Balance.Outstanding_Balance_Secured_Percentage}}
+                    </span>
+                    <span><strong>Balance UnSecured</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Total_Outstanding_Balance.Outstanding_Balance_UnSecured}}
+                    </span>
+                    <span><strong>Balance UnSecured Percentage</strong>
+                        {{cibilObj.INProfileResponse?.CAIS_Account.CAIS_Summary.Total_Outstanding_Balance.Outstanding_Balance_UnSecured_Percentage}}
+                    </span>
+                </div>
+            </div>
+            <hr>
+            <div class="table-responsive">
+                <h1>CAIS Account DETAILS</h1>
+
+                <table class="table" *ngIf="cibilObj.INProfileResponse?.CAIS_Account?.CAIS_Account_DETAILS?.length >= 0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Holder Code</th>
+                            <th>Account Number</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Past Due</th>
+                            <th>More Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let list of cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{list?.AccountHoldertypeCode}}</td>
+                            <td>{{list?.Account_Number}}</td>
+                            <td>{{list?.Account_Status}}</td>
+                            <td>{{list?.Account_Type}}</td>
+                            <td>{{list?.Amount_Past_Due}}</td>
+                            <td><a (click)="viewCivilDetailsDoc(list)">More</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="cibilObj.INProfileResponse?.CAIS_Account?.CAIS_Account_DETAILS?.length != 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Holder Code</th>
+                                <th>Account Number</th>
+                                <th>Status</th>
+                                <th>Type</th>
+                                <th>Past Due</th>
+                                <th>More Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS?.AccountHoldertypeCode}}</td>
+                                <td>{{cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS?.Account_Number}}</td>
+                                <td>{{cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS?.Account_Status}}</td>
+                                <td>{{cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS?.Account_Type}}</td>
+                                <td>{{cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS?.Amount_Past_Due}}</td>
+                                <td><a
+                                        (click)="viewCivilDetailsDoc(cibilObj.INProfileResponse.CAIS_Account.CAIS_Account_DETAILS)">More</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </p-accordionTab>
+
+
+    <p-accordionTab header="CAPS">
+        <div class="inner-header">
+            <h1>CAPS Summary</h1>
+            <span><strong>Last 7 Days</strong> {{cibilObj.INProfileResponse.CAPS.CAPS_Summary.CAPSLast7Days}}</span>
+            <span><strong>Last 30 Days</strong> {{cibilObj.INProfileResponse.CAPS.CAPS_Summary.CAPSLast30Days}}</span>
+            <span><strong>Last 90 Days</strong> {{cibilObj.INProfileResponse.CAPS.CAPS_Summary.CAPSLast90Days}}</span>
+            <span><strong>Last 180 Days</strong> {{cibilObj.INProfileResponse.CAPS.CAPS_Summary.CAPSLast180Days}}</span>
+        </div>
+    </p-accordionTab>
+
+
+    <p-accordionTab header="Credit Profile Header">
+        <div class="inner-header">
+            <span><strong>Enquiry Username</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.Enquiry_Username}}</span>
+            <span><strong>Report Date</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.ReportDate | date : 'dd MMM
+                yyyy'}}</span>
+            <span><strong>Report Number</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.ReportNumber}}</span>
+            <span><strong>Report Time</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.ReportTime | date : 'hh:mm a'}}</span>
+            <span><strong>Subscriber</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.Subscriber}}</span>
+            <span><strong>Subscriber Name</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.Subscriber_Name}}</span>
+            <span><strong>Version</strong> {{cibilObj.INProfileResponse.CreditProfileHeader.Version}}</span>
+        </div>
+    </p-accordionTab>
+
+
+    <p-accordionTab header="SCORE">
+        <div class="inner-header">
+            <span><strong>Bureau PLcore</strong> {{cibilObj.INProfileResponse.SCORE.BureauPLcore}}</span>
+            <span><strong>Bureau Score</strong> {{cibilObj.INProfileResponse.SCORE.BureauScore}}</span>
+            <span><strong>Bureau Score Confid Level</strong> {{cibilObj.INProfileResponse.SCORE.BureauScoreConfidLevel}}</span>
+            <span><strong>LeverageScore</strong> {{cibilObj.INProfileResponse.SCORE.LeverageScore}}</span>
+            <span><strong>NoHitScore</strong> {{cibilObj.INProfileResponse.SCORE.NoHitScore}}</span>
+        </div>
+    </p-accordionTab>
+</p-accordion>
+
+<div class="container">
+    <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Status</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            // <div class="ml cl" style="float: right;">
+            //     <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer" style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+            //     <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+            // </div>
+            <div class="ml cl" style="float: right;">
+                    <button  class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                    <button  class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+                </div>
+        </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl">
+                <i pTooltip="Rejected" class="pi pi-times fa fa-mouse-pointer" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+                <i pTooltip="Approved" class="pi pi-check fa fa-mouse-pointer" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>
+            </div> -->
+            <div class="ml cl">
+              <span  style="float: right;"  *ngIf="isRejected">Completed and Rejected<i  class="pi pi-times fa fa-mouse-pointer"  style="color:red;margin-left: 0.5em "></i></span>
+              <span style="float: right;" *ngIf="isVerified" >Approved<i  class="pi pi-check fa fa-mouse-pointer"  style="color:green;margin-left: 0.5em "></i></span>
+          </div>
+        </div>
+        </div>
+</div>
+
+<!-- ========View Civil Details Popup========= -->
+<div *ngIf="dataJsonView">
+    <p-dialog header="View JSON Data" styleClass="box-shw" [(visible)]="dataJsonView" [modal]="true" appendTo="body"
+        [style]="{width: '55vw', overflow: 'auto','box-shadow': 'none'}" [draggable]="false"
+        [resizable]="false">
+        <app-view-json-data [getAllJsonData]="cibilObj"></app-view-json-data>
+    </p-dialog>
+</div>
+<!-- ========View Civil Details Popup========= -->
+
+<!-- ========View Civil Details Popup========= -->
+<div *ngIf="showtableMoreData">
+    <p-dialog header="CAIS Account Details" styleClass="box-shw" [(visible)]="showtableMoreData" [modal]="true"
+        appendTo="body"  [style]="{width: '55vw', overflow: 'auto','box-shadow': 'none'}"
+        [draggable]="false" [resizable]="false">
+        <app-view-cibil-table-more-data [viewMoreData]="moretableMoreData">
+        </app-view-cibil-table-more-data>
+    </p-dialog>
+</div>
+<!-- ========View Civil Details Popup========= -->
+
+
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <textarea type="text" id="_creditcomment" name="_creditcomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>

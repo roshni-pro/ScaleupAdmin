@@ -1,0 +1,85 @@
+<!--Login Page Starts-->
+<section id="login">
+  <div class="container-fluid">
+    <div class="row">
+     <div class="col-12">
+      <h4 class="heading">User Profile</h4>
+     </div>
+    </div>
+    <div class="row full-height-vh m-0 mt-3">
+      <div class="col-12  align-items-center justify-content-center">
+        <div class="card">
+          <div class="card-content">
+            <div class="card-body login-img">
+              <div class="row m-0">
+                <div class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle">
+                  <img src="../../../../assets/img/gallery/edit.jpg" alt="" class="img-fluid mt-3" width="400"
+                    height="230" />
+                </div>
+                <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
+
+                  <div class="mb">
+                    <label>UserName</label>
+                    <input type="text" class="form-control mb-2 in-2" [(ngModel)]="userDetail.UserName" disabled
+                      placeholder="UserName">
+                  </div>
+
+                  <div class="mb">
+                    <label>MobileNo</label>
+                    <input type="text" class="form-control mb-2 in-2" [(ngModel)]="userDetail.Mobile" disabled
+                      placeholder="MobileNo">
+                  </div>
+
+                  <div class="mb">
+                    <label>Email</label>
+                    <input type="text" class="form-control mb-2 in-2" [(ngModel)]="userDetail.Email" disabled
+                      placeholder="Email">
+                  </div>
+
+
+                  <div class="mb">
+                    <label>Roles</label>
+                    <input type="text" class="form-control mb-2 in-2" [(ngModel)]="userDetail.Roles" disabled
+                      placeholder="Role">
+                  </div>
+
+                  <br>
+                  <div class="row">
+                    <div class="col-6 fg-actions d-flex justify-content-between">
+
+                      <div class="recover-pass">
+
+
+                        <button class="btn btn-blue" (click)="changePassword()" type="submit">
+                          <a class="text-decoration-none text-white">Change Password</a>
+
+                        </button>
+
+                      </div>
+                    </div>
+                    <!-- <br> -->
+                    <div class="col-6 fg-actions d-flex justify-content-between">
+
+                      <div class="recover-pass">
+
+
+                        <!-- <button class="btn btn-blue"  (click)="changeRole()"  type="submit">
+                          <a class="text-decoration-none text-white">Add Role</a>
+
+                        </button> -->
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="progress-spinner" *ngIf="Loader">
+  <p-progressSpinner></p-progressSpinner>
+</div>

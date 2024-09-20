@@ -1,0 +1,24 @@
+h3{
+    font-weight: 600;
+    // text-decoration: underline;
+    // text-transform: uppercase;
+}
+.btn{
+    float: right;
+    display: inline-block;
+    line-height: 38px;
+    height: 45px;
+    }
+// :host ::ng-deep .p-datatable {
+//       border-radius: 20px; /* Adjust the value as needed */
+//       overflow: hidden;
+//     }
+  // /* Optional: Change the color of text in the striped rows */
+  // .p-datatable-striped .p-datatable-tbody tr:nth-child(odd) td {
+  //     color: #your-text-color;
+  // }
+  :host ::ng-deep .p-datatable {
+    border-radius: 20px !important; /* Adjust the value as needed */
+    overflow: hidden !important;
+  }
+

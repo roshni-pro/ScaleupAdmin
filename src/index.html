@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ScaleUp</title>
+  <base href="/">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia|Cinzel|Spectral|Rubik">
+  <link rel="icon" type="image/x-icon" href="assets/theme/logo/scale blue (1).svg">
+
+  <style type="text/css">
+    .pace .pace-activity {
+      top: 19px;
+      right: 19px;
+      display: none;
+    }
+
+
+
+    .page-loading {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      overflow: hidden;
+      background: rgba(51, 51, 51, 1.00);
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      z-index: -1;
+    }
+
+    .loading-icon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 38px;
+      height: 38px;
+      margin-left: -19px;
+      margin-top: -19px;
+    }
+
+    /* body{
+      font-size: small !important;
+    } */
+
+    app-root:empty~.page-loading {
+      opacity: 1;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <app-root></app-root>
+  <div class="page-loading">
+    <img src="assets/img/oval.svg" class="loading-icon" />
+  </div>
+</body>
+
+</html>

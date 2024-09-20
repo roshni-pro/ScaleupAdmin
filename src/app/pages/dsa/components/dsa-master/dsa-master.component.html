@@ -1,0 +1,126 @@
+<div class="container-fluid">
+    <div class="row heading">
+        <div class="col-md">
+            <code style="color: grey;">Pages/dsa</code>
+            <h3>DSA Master</h3>
+        </div>
+    </div>
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-md-12">
+            <div class="card shadow" >
+                <div class="card-content p-2">
+                    <p-selectButton class="my-slt-btn" [options]="StatusList" [unselectable]="true"   [(ngModel)]="StatusFilter"
+                        optionLabel="key" optionValue="value" (onChange)="StatusSearch('search')">
+                        <ng-template let-item pTemplate>
+                            <label><b>{{item.key}}</b></label>
+                        </ng-template>
+                    </p-selectButton>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2 p-4" >
+        <div class="card-content">
+            <div class="row" style="display: flex;">
+              
+                <div class="col-md-2">
+                   <!-- DSA/Connector -->
+                   <p-dropdown [options]="type" class="No-radius" optionLabel="value" placeholder="Select Type" [(ngModel)]="selectedType" [style]="{'width':'100%'}"></p-dropdown>
+                </div>
+                <div class="col-md-2">
+                    <p-dropdown [options]="cityList"  optionLabel="cityName" placeholder="Select City" [style]="{'width':'100%'
+                    }" [(ngModel)]="selectedCity"
+                    [filter]="true" 
+                    filterBy="cityName" 
+                    [showClear]="true" ></p-dropdown>
+                </div>
+                <div class="col-md-2">
+                   <!-- From/To -->
+                   <p-calendar  [style]="{'width':'100%'}" selectionMode="range" [readonlyInput]="true" inputId="range"
+                        [showIcon]="true" [(ngModel)]="rangeDates"
+                        placeholder="Date range">
+                    </p-calendar>
+                </div>
+                <div class="col-md-2">
+                    <i class="pi pi-search"  style="font-size: 1rem;position: absolute;
+                    margin: 15px;color:lightgray"></i>
+                    <input type="text" class="form-control No-radius" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Search page" 
+                    style="padding-left: 40px;color: #7090B0;" [(ngModel)]="Keyword" >
+                 </div>
+                <div class="col-md-3">
+                    <button class="btn btn-liteBlue"  (click)="search(null)">Search</button>
+                    <button class="btn btn-liteBlue" style="margin-left: 5px;"  (click)="Export()"><i class="pi pi-download"></i></button>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-10"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2 p-2" *ngIf="StatusFilter!=''">
+        <!-- -->
+        <p-table #dt [value]="DsaLeadData" [totalRecords]="totalcount" (onLazyLoad)="search($event)"  [lazy]="true" [(first)]="first"
+        [paginator]="true" [rows]="10" [scrollable]="true" scrollHeight="130vh" 
+        styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr class="text-center">
+                <th>S.No.</th>
+                <!-- <th>Lead ID</th> -->
+                <th style="text-align: left;">Name</th>
+                <th>Mobile No.</th>
+                <th>Activity/Created</th>
+                <th>City </th>
+                <th >working Location </th>
+                <th>Partner Type</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dsa let-i="rowIndex">
+            <tr>
+                <!-- <td>{{dsa.leadCode}}</td> -->
+                <td>{{i+1}}</td>
+                <!-- <td>{{dsa.leadId}}</td> -->
+                <td style="text-align: left;"><img src="../../../../../assets/img/abstract-user-flat-4.png" style="border-radius: 50%;
+                    height: 35px !important;"/>
+                    &nbsp;{{dsa.customerName}}</td>
+                <td>{{dsa.mobileNo}}</td>
+                <td>{{dsa.createdDate|date: "YYYY-MM-dd hh:mm:ss"}} <br>
+                    {{dsa.lastModified|date: "YYYY-MM-dd hh:mm:ss"}}
+                </td>
+                <td>
+                    {{dsa.cityName}}
+                </td>
+                <td >
+                    <span >{{dsa.workingLocation}}</span>
+                </td>
+                <td>
+                    {{dsa.profileType}}
+                </td>
+                <td>{{dsa.status}}
+                </td>
+                <td>
+                    <img src="../../../../../assets/theme/icons/edit.svg" (click)="navigate(dsa)"
+                    appMode="edit" class="pointer">
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="10" class="text-center"
+                    style="color: red; text-align: center; vertical-align: middle;">Data
+                    Not Found.</td>
+            </tr>
+        </ng-template>
+        </p-table>
+    </div>
+</div>
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>

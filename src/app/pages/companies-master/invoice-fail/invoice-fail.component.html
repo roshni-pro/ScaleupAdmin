@@ -1,0 +1,138 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-3">
+      <h3 class="heading">Invoices Request</h3>
+    </div>
+    <div class="card shadow">
+      <div class="card-content">
+        <div class="row mt-4">
+          <div class="col-md-3">
+            <input type="text" [(ngModel)]="keyword" placeholder="Invoice no/Order no" class="form-control" min="3"  (keyup.enter)="getInvoiceList(true)">
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-liteBlue" (click)="getInvoiceList(true)" appMode="view">Search</button>
+          </div>
+        </div>
+        <div class="mt-4 text-center ">
+
+
+
+          <p-table [value]="invoiceList" (onLazyLoad)="load($event)" [paginator]="true" [rows]="10" [first]="first"
+            [totalRecords]="totalRecords" [lazy]="true">
+
+            <ng-template pTemplate="header">
+              <tr style="text-align: start;">
+                <th style="width: 2%;">Loan No</th>
+                <th style="width: 5%;">Customer Name </th>
+                <th style="width: 5%;">Anchor Name </th>
+                <th style="width: 5%;">Invoice Date</th>
+                <th style="width: 10%;text-align: start;">Number</th>
+                <th style="width: 5%;text-align: start;">Url</th>
+
+                <th style="width: 10%;text-align: start; ">Amount</th>
+                <th style="width: 5%;">Status</th>
+                <th style="width: 5%;">Action</th>
+
+
+              </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-invoice>
+              <tr>
+
+                <td style="width: 2%;">{{invoice.loanNo}}</td>
+                <td style="width: 5%;">{{invoice.customerName}}</td>
+                <td style="width: 5%;">{{invoice.anchoreName}}</td>
+                <td style="width: 5%;">{{invoice.invoiceDate | date : 'dd MMM yyyy'}}</td>
+                <td style="width: 10%; text-align: start;">
+                  <span> <label style="color: black;">OrderNo:</label> {{invoice.orderNo}} </span><br>
+                  <span> <label style="color: black;">InvoiceNo:</label> {{invoice.invoiceNo}} </span><br>
+                </td>
+
+                <td style="width: 5%;" (click)="onDownload(invoice.invoicePdfUrl)"> <a href="javascript:void(0)"
+                    *ngIf="invoice.invoicePdfUrl">Link</a> </td>
+                <td style="width: 15%;text-align: start; ">
+                  <span> <label style="color: black;">OrderAmt:</label> {{invoice.orderAmount}}<br></span>
+                  <span> <label style="color: black;">InvoiceAmt:</label> {{invoice.invoiceAmount}}<br></span>
+                  <span> <label style="color: black;">TransAmt:</label> {{invoice.totalTransAmount}}</span>
+                </td>
+
+                <td style="width: 5%; text-align: start;">{{invoice.status}}</td>
+                <td style="width: 5%;"> <button class="btn btn-blue"
+                    (click)="requestResponse(invoice.invoiceId,invoice.loanAccountId)"
+                    [disabled]="(invoice.status != 'NBFCPostingFailed')"><i class="pi pi-eye"></i></button>
+                  
+                    <br> <br>
+
+                    <!-- [disabled]="!(invoice.status == 'NBFCPostingFailed')" -->
+                  <button class="btn btn-blue" [disabled]="(invoice.status != 'NBFCPostingFailed')" (click)="postNBFCInvoice(invoice.invoiceId,invoice.loanAccountId)"> 
+                    <i class="pi pi-replay"></i></button>
+                </td>
+
+
+
+
+
+
+              </tr>
+            </ng-template>
+          </p-table>
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <p-dialog header="Action" [(visible)]="reqresdisplay" [appendTo]="'body'" [draggable]="false" [resizable]="false"
+    [modal]="true" [style]="{ 'max-width': '100%', 'max-height': '80%' }">
+
+    <div class="container-fluid">
+      <div class="row text-center">
+        <p-table [value]="invoiceRequestResponse" [paginator]="true" [rows]="10" styleClass="p-datatable-striped"
+          [scrollable]="true" scrollHeight="auto" [resizableColumns]="true" [reorderableColumns]="true">
+
+      
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 10%;">Url</th>
+              <th style="width: 10%;">Request</th>
+              <th>Response</th>
+              <th>Created Date</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-res>
+            <tr>
+              <td>
+                 {{res.url}}</td>
+              <td >{{res.request}}</td>
+              <td>{{res.response}}</td>
+              <td>{{res.createdDate | date : 'dd MMM yyyy'}}</td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4" class="text-center" style="color: red;">Data Not Found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </p-dialog>
+
+
+
+
+
+  <p-toast></p-toast>
+
+  <div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+  </div>

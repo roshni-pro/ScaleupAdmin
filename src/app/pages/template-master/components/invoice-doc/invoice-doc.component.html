@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+          <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+
+    <title>Tax Invoice</title>
+    <style>
+        body {
+            font-family: 'poppins' , sans-serif !important;           
+             margin: 0;
+            padding: 0;
+            background-color: white;
+            font-size: 14px;
+        }
+
+      
+    /* body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        font-size: 12px;
+    } */
+
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    @page {
+        margin: 0;
+    }
+
+    .invoice-box {
+        background: white;
+    }
+
+    .header {
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+    }
+
+    .header img {
+        width: 100px;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .header h1 {
+        margin: 0;
+    }
+
+    .section {
+        padding: 20px;
+    }
+
+    .section table {
+        width: 100%;
+        border: none;
+    }
+
+    .section th,
+    .section td {
+        padding: 10px;
+        border: none; 
+    }
+
+    .section .invoice-details,
+    .section .customer-details,
+    .section .bank-details {
+        width: 48%;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .section th,
+    td,
+    table {
+        column-gap: initial;
+        text-align: center;
+    }
+
+    .section .invoice-details {
+        margin-right: 4%;
+    }
+
+    .section .bank-details table {
+        margin-top: 10px;
+    }
+
+    .total-section {
+        padding: 20px;
+        text-align: right;
+    }
+
+    .total-section table {
+        width: 50%;
+        float: right;
+    }
+
+    .total-section th,
+    .total-section td {
+        padding: 10px;
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #777;
+    }
+
+    tbody,
+    td,
+    tfoot,
+    th,
+    thead,
+    tr {
+        border: none; 
+        color: black !important;
+    }
+
+    </style>
+
+</head>
+<html>
+<body style="margin: 0px !important;padding: 0px !important;">
+
+        <table style="width: 100%;border: 0px !important;border-collapse: collapse;">
+            <tr>
+
+                <th style="background-color: #00a4e4;width: 5%;border: 0px !important;"></th>
+                <!-- <th style="width: 2%;border: 0px !important;">
+                    <img src="https://csg10037ffe956af864.blob.core.windows.net/scaleupfiles/95bbea7e-5d01-4d51-b41d-359fdd555a62.png" alt="Scaleup Logo" style="height: 50px !important;
+                    background-color: white;
+                    width: 50px !important;border: 0px !important;">
+                </th> -->
+                <th style="background-color: white;width: 22%;border: 0px !important;color: #00a4e4 !important;">
+                    <!-- <h1><b>Scaleup</b></h1> -->
+                    <img src="https://csg10037ffe956af864.blob.core.windows.net/scaleupfiles/f8bbc85c-31a5-4815-a6ec-42add519d398.png" alt="Scaleup Logo" 
+                    style="height: 50px !important;
+                    background-color: white;
+                   border: 0px !important;">
+                </th>
+                <th style="background-color: #00a4e4;width: 70%;border: 0px !important;color: white !important;">
+                    <h1 style="padding: 2%;"><b>TAX INVOICE</b></h1>
+                </th>
+            </tr>
+        </table>
+
+
+        <table style="width: 100%;border: 0px !important;">
+            <tr style="margin-bottom: 5px !important;">
+                <th class="col-md-6" style="text-align: left;border-bottom: 1px solid lightgray;border-top: 0px ;
+                border-left: 0px;border-right: 0px; width: 50%;vertical-align: top;padding-top: 1%;padding-left: 3%;padding-bottom: 1%;">
+
+                    <strong style="color: #00a4e4;font-weight: inherit !important;font-size: 17px !important;">  Scaleupfincap Private Limited </strong> <br>
+                    <label style="font-weight: 500;">
+                        <b >Address</b> <span>: 15th floor, Skye Corporate Park Sch No. 74C, AB Road, Indore - 452010 (M.P.)</span> <br>
+                        <b>Contact Number</b> <span>: 7828112112</span> <br>
+                        <b>GSTIN No.</b>  <span>: 23ABMCS3131N1Z5</span> <br>
+                        <b>CIN No.</b> <span>: U64990MP2023PTC068991</span>
+                    </label>
+                    <br>
+
+                    <!-- <hr style="width: 50%;"> -->
+                </th>
+                <!-- <th class="col-md-6" > -->
+                    <!-- <div class="invoice-details" style="font-weight: 500;width: 100%;" > -->
+                        <th class="col" style="text-align: left;
+                        border-bottom: 1px solid lightgray;border-top: 0px ;border-left: 0px;border-right: 0px; width: 20%;
+                        vertical-align: top;top: 0px;padding-top: 1%;padding-left: 3%;
+                        padding-bottom: 1%;">
+                            <b style="font-weight: inherit !important;" >Invoice No.</b><br>
+                            <b style="font-weight: inherit !important;" >Invoice Date </b><br>
+                            <b style="font-weight: inherit !important;" >Due Date </b><br>
+                            <b style="font-weight: inherit !important;" >Reverse Charge </b><br>
+                            <!-- <span style="white-space: nowrap !important;">Invoice Period From</span> <br> -->
+                            <b style="font-weight: inherit !important;white-space: nowrap !important;" >Invoice Period</b><br>
+                        </th>
+                        <th class="col"style="text-align: left; border-bottom: 1px solid lightgray;border-top: 0px ;border-left: 0px;border-right: 0px; width: 25%;
+                        vertical-align: top;top: 0px;padding-top: 1%;padding-left: 3%;font-weight:100 !important;
+                        padding-bottom: 1%;">
+                             <span>: [INVOICENO]</span>  <br>
+                            <span >: [INVOICEDATE]</span> <br>
+                            <span >: [DUEDATE]</span> <br>
+                            <span>: No</span> <br>
+                            <!-- <b style="font-weight: inherit !important;" >: [INVOICEPERIODFROM]</b><br> -->
+                            <span>: [INVOICEPERIOD]</span> <br>
+                        </th>
+                        <!-- <span>Invoice No.</span>  <b>: [INVOICENO]</b>  <br>
+                        <span>Invoice Date </span><b>: [INVOICEDATE]</b> <br>
+                        <span>Due Date </span><b>: [DUEDATE]</b> <br>
+                        <span>Reverse Charge </span><b>: No</b> <br>
+                        <span>Invoice Period From</span> <b>: [INVOICEPERIODFROM]</b><br>
+                        <span>Invoice Period To</span> <b>: [INVOICEPERIODTO]</b> <br> -->
+                    <!-- </div> -->
+
+                    <!-- <hr style="width: 50%; margin-top: 45px;"> -->
+                <!-- </th> -->
+            </tr>
+        </table>
+        <table style="width: 100%;border: 0px !important;border-collapse: collapse;">
+            <tr>
+
+                <th class="col-md-6" style="text-align: left;display: inline-block; width: 50%;border:none;vertical-align: top;
+                border-collapse: collapse;padding-top: 1%;padding-left: 1%;padding-bottom: 1%;">
+
+                    <b >Bill To:</b> <br>
+
+                    <b>Customer Code</b>: <span style="font-weight: 100 !important;">[COMPANYCODE]</span>  <br>
+                    <span style="font-weight: 100 !important;">[COMPANYNAME]</span>  <br>
+                    <b>GSTIN No.</b>: <span style="font-weight: 100 !important;">[GSTNO] - </span><br>
+                    <b>Contact No.</b>: <span style="font-weight: 100 !important;">[COMPANYMOBILE]</span> <br>
+                    <b>Address</b>: <span style="font-weight: 100 !important;">[BILLADDRESS]</span>
+
+                    <br>
+                </th>
+                <th class="col-md-6" style="text-align: left;display: inline-block; width: 45%;border:none;vertical-align: top;
+                ;border-collapse: collapse;padding-top: 1%;padding-left: 3%;padding-bottom: 1%;">
+                    <div class="invoice-details">
+                        
+                        <b>  Ship To:</b> <br>
+                        <b>Customer Code: </b><span style="font-weight: 100 !important;" >[COMPANYCODE]</span>   <br>
+                        <span style="font-weight: 100 !important;">[COMPANYNAME]</span>  <br>
+                        <b>GSTIN No. </b><span style="font-weight: 100 !important;">: [GSTNO] </span> <br>
+                        <b>Contact No. </b><span style="font-weight: 100 !important;">: [COMPANYMOBILE] </span><br>
+                        <b>Address </b><span style="font-weight: 100 !important;">: [SHIPPINGADDRESS]</span>
+
+
+                    </div>
+
+                </th>
+            </tr>
+        </table>
+
+
+
+
+
+        <div class="section" style="width: 100%;border: 0px !important;min-height: 300px !important;">
+            <table>
+                <tr style="background-color: #00a4e4;">
+                    <th style="color: white !important;border: 0px !important;">S. No.</th>
+                    <th style="color: white !important;border: 0px !important;">Particulars</th>
+                    <th style="color: white !important;border: 0px !important;">Qty</th>
+                    <th style="color: white !important;border: 0px !important;">Rate</th>
+                    <th style="color: white !important;border: 0px !important;"> Unit</th>
+                    <th style="color: white !important;border: 0px !important;"> HSN Code</th>
+                    <th style="color: white !important;border: 0px !important;"> GST Rate</th>
+                    <th style="color: white !important;border: 0px !important;"> Taxable Value</th>
+                </tr>
+                [INVOICEDETAIL]
+            </table>
+        </div>
+
+        <div class="section" style="width: 100%;border: 0px !important;border-collapse: collapse;">
+            <table style="width: 100%;border: 0px !important;">
+                <tr>
+
+                    <th class="col-md-8" style="width: 65%;border: 0px !important;font-size: 13px !important;white-space: nowrap !important;
+                    text-align: left !important;">
+                        <label> <b>Amount in words : </b><b>[AMOUNTINWORD]</b></label>
+                    </th>
+                    <!-- <th style="background-color: #00a4e4;color: white !important;text-align: center;width: 5%;border: 0px !important;font-size: 8px !important;">
+                        <label style=" display: [SAMESTATE];"> 
+                            <b>IGST</b><br>
+                            <b>CGST</b><br>
+                            <b>SGST</b><br>
+                            <b>Round Off</b><br>
+                            Total Invoice Value
+                        </label>
+                        <label style="display: [DIFFSTATE]"> 
+                            <b>CGST</b><br>
+                            <b>SGST</b><br>
+                            <b>IGST</b> <br>
+                            <b>Round Off</b><br>
+                            Total Invoice Value
+                        </label>
+                    </th> -->
+                    <!-- <th style="background-color: #00a4e4;color: white !important;text-align: left;width: 15%;border: 0px !important;font-size: 8px !important;">
+                        <label style=" display: [SAMESTATE];"> 
+                            <b>: [IGST]</b><br>
+                            <b>: 0.00  </b><br>
+                            <b>: 0.00</b><br>
+                            <b>: 0.00</b><br>
+                            : [TOTALINVOICEAMT]
+                        </label>
+                        <label style="display: [DIFFSTATE]"> 
+                            <b>: [CGST]</b><br>
+                            <b> [SGST]</b><br>
+                            <b>: 0.00</b> <br>
+                            <b>: 0.00</b><br>
+                            : [TOTALINVOICEAMT]
+                        </label>
+                    </th> -->
+
+                    <th class="col-md-4" style="background-color: #00a4e4;color: white !important;text-align: right;width: 15%;
+                    border: 0px !important;font-size: 13px !important;white-space: nowrap !important;" >
+                       
+                            <!-- <b>IGST : [IGST]  </b><br>
+                            
+                            <b>CGST : 0.00  </b><br>
+                            <b>SGST : 0.00</b><br>
+                            <b>Round Off : 0.00</b><br>
+                            Total Invoice Value : [TOTALINVOICEAMT] -->
+                        
+                    <label style=" display: [SAMESTATE];"> 
+                        <span><b>IGST</b></span> <br>
+                        <span><b>CGST</b> </span><br>
+                        <span><b>SGST</b> </span><br>
+                        <span style="white-space: nowrap !important;"><b>Round Off</b> </span><br>
+                        <span style="white-space: nowrap !important;">Total Invoice Value</span> <br>
+                    </label>
+
+                        <label style="display: [DIFFSTATE]"> 
+                            <!-- <b>CGST : [CGST]  </b><br>
+                            <b>SGST : [SGST]</b><br>
+                            <b>IGST : 0.00</b> <br>
+                            <b>Round Off : 0.00</b><br>
+                            Total Invoice Value : [TOTALINVOICEAMT] -->
+
+                            <span><b>CGST</b></span> <br>
+                            <span><b>SGST</b> </span><br>
+                            <span><b>IGST</b> </span><br>
+                            <span style="white-space: nowrap !important;"><b>Round Off</b> </span><br>
+                            <span style="white-space: nowrap !important;">Total Invoice Value</span> <br>
+                        </label>
+                    </th>
+                <th class="col-md-4" style="background-color: #00a4e4;color: white !important;text-align: left;width: 15%;
+                    border: 0px !important;font-size: 13px !important;white-space: nowrap !important;" >
+                         <label style=" display: [SAMESTATE];"> 
+                            <span><b>: [IGST]</b></span> <br>
+                            <span><b>: 0.00</b> </span><br>
+                            <span><b>: 0.00</b> </span><br>
+                            <span style="white-space: nowrap !important;"><b>: 0.00</b> </span><br>
+                            <span style="white-space: nowrap !important;">: [TOTALINVOICEAMT]</span> <br>
+                        </label>
+                        <label style="display: [DIFFSTATE]"> 
+                            <!-- <b>CGST : [CGST]  </b><br>
+                            <b>SGST : [SGST]</b><br>
+                            <b>IGST : 0.00</b> <br>
+                            <b>Round Off : 0.00</b><br>
+                            Total Invoice Value : [TOTALINVOICEAMT] -->
+
+                            <span><b>: [CGST]</b></span> <br>
+                            <span><b>: [SGST]</b> </span><br>
+                            <span><b>: 0.00</b> </span><br>
+                            <span style="white-space: nowrap !important;"><b>: 0.00</b> </span><br>
+                            <span style="white-space: nowrap !important;">: [TOTALINVOICEAMT]</span> <br>
+                        </label>
+
+                </th>
+                </tr>
+            </table>
+
+
+
+
+        </div>
+
+        <div class="section">
+            <table style="border-bottom: 2px solid #000;width: 100%;border-top: 0px;border-left: 0px;border-right: 0px;">
+                <tr>
+                    <strong for=""> <b>Bank Details :</b></strong><br>
+                </tr>
+                <tr>
+                    <th class="col-md-4" style="border-right: 0px;width: 15%;border-top: 0px;border-left: 0px;
+                    border-bottom: 0px;text-align: left;font-weight: 500;font-size: 13px !important;">
+                        <b style="white-space: nowrap !important;">Account Holder Name</b> <br>
+                        <b>Bank Name </b><br>
+                        <b>Account Number </b><br>
+                        <b>Account Type</b> <br>
+                        <b>IFSC </b><br>
+                    </th>
+                    <th class="col-md-4" style="border-right: 2px solid #000;width: 10%;border-top: 0px;border-left: 0px;
+                    border-bottom: 0px;text-align: left;font-size: 13px !important;">
+                        <span style="white-space: nowrap !important;font-weight: 100 !important;">: [ACCOUNTHOLDERNAME]</span>  <br>
+                        <span style="font-weight: 100 !important;">: [BANKNAME]</span> <br>
+                        <span style="font-weight: 100 !important;">: [ACCOUNTNO]</span> <br>
+                        <span style="font-weight: 100 !important;">: [ACCOUNTTYPE]</span>  <br>
+                        <span style="font-weight: 100 !important;">: [BANKIFSC]</span> <br>
+                    </th>
+                    <!-- <th class="col-md-4" style="border-right: 1px solid #000;width: 20%;border-top: 0px;border-left: 0px;border-bottom: 0px;text-align: left;font-weight: 500;">
+                        <strong for=""> <b>Bank Details :</b></strong><br>
+                        <label for="">
+                            Account Type  : [ACCOUNTTYPE]<br>
+                            Bank Name : [BANKNAME]  <br>
+                            Account Number : [ACCOUNTNO] <br>
+                            IFSC  : [BANKIFSC] <br>
+                        </label>
+                    </th> -->
+                    <th class="col-md-2" style="width: 15%;border-top: 0px;border-left: 0px;border-bottom: 0px;border-right: 0px"></th>
+                    <th class="col-md-6 footer" style="text-align: left !important;width: 40%;border-right:0px ;border-left: 0px;border-bottom: 0px;
+                    border-top: 0px;font-weight: 500;font-size: 13px !important;">
+                            <!-- Branch Name: Main Branch, Indore -->
+                        <!-- <label for="">
+                            IRN  : <br>
+                            Ack No. :   <br>
+                            Ack Date : <br>
+                        </label><br>
+                        <strong style="font-size: 10px !important;">e-Invoicing detail(s) generated from the Government's e-Invoicing system.</strong> -->
+                    </th>
+                </tr>
+
+            </table>
+        </div>
+        <div class="footer" style="margin-bottom: 5px;">
+            <table style="border-bottom: 0px;width: 100%;border-top: 0px;border-left: 0px;border-right: 0px;">
+                <tr>
+                    <th style="width: 80%;white-space: nowrap !important;">
+                        <strong>This is a computer generated invoice does not require signature</strong>
+                    </th>
+                    <th class="width:20%;text-align:right">
+                        <strong>E. & O. E.</strong>
+                    </th>
+                </tr>
+            </table>
+        </div> 
+        <br>  <br>
+</body>
+</html>
+
+

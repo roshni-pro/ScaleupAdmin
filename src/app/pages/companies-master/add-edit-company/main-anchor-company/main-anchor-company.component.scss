@@ -1,0 +1,16 @@
+.inner-shadow-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
+  }
+//   input{
+//     border: none;
+//     color: #2B3674 !important; 
+
+// }  
+input[disabled] {
+  // color:yellow !important; / Set the desired color for the disabled text /
+  background-color: #eee; // Set the desired background color for the disabled input /
+  // Add any additional styling you want for the disabled input /
+  background: rgb(197, 197, 197) !important;
+}

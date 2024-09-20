@@ -1,0 +1,133 @@
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false ) {
+    @font-face {
+      font-family: $font-family;
+      font-weight: $weight;
+      font-style: $style;
+  
+      @if $asset-pipeline == true {
+        src: font-url('#{$file-path}.eot');
+        src: font-url('#{$file-path}.eot?#iefix')          format('embedded-opentype'),
+             font-url('#{$file-path}.woff')                format('woff'),
+             font-url('#{$file-path}.woff2')                format('woff2'),
+             font-url('#{$file-path}.ttf')                 format('truetype'),
+             font-url('#{$file-path}.svg##{$font-family}') format('svg');
+      } @else {
+        src: url('#{$file-path}.eot');
+        src: url('#{$file-path}.eot?#iefix')               format('embedded-opentype'),
+             url('#{$file-path}.woff')                     format('woff'),
+             font-url('#{$file-path}.woff2')                format('woff2'),
+             url('#{$file-path}.ttf')                      format('truetype'),
+             url('#{$file-path}.svg##{$font-family}')      format('svg');
+      }
+    }
+  }
+  
+  
+  
+  $sizes: 200;
+  
+  @mixin margin-classes {
+    @for $i from 1 through $sizes {
+       $margin: $i * 0.25rem;
+      /* margin #{$margin} */
+      .m#{$i}  {margin: $margin!important;}
+      .ml#{$i} {margin-left: $margin!important;}
+      .mr#{$i} {margin-right: $margin!important;}
+      .mt#{$i} {margin-top: $margin!important;}
+      .mb#{$i} {margin-bottom: $margin!important;}
+      .mx#{$i} {margin-left: $margin!important; margin-right: $margin!important;}
+      .my#{$i} {margin-top: $margin!important; margin-bottom: $margin!important;}
+    }
+  }
+  @include margin-classes;
+  
+  @mixin padding-classes {
+    @for $i from 1 through $sizes {
+      $padding: $i * 0.25rem;
+      /* padding #{$padding} */
+      .p#{$i} {padding: $padding!important;}
+      .pl#{$i} {padding-left: $padding!important;}
+      .pr#{$i} {padding-right: $padding!important;}
+      .pt#{$i} {padding-top: $padding!important;}
+      .pb#{$i} {padding-bottom: $padding!important;}
+      .px#{$i} {padding-left: $padding!important; padding-right: $padding!important;}
+      .py#{$i} {padding-top: $padding!important; padding-bottom: $padding!important;}
+    }
+  }
+  @include padding-classes;
+  @media (max-width: 767px) {
+    @mixin margin-classes {
+      @for $i from 1 through $sizes {
+         $margin: $i * 0rem;
+        /* margin #{$margin} */
+        .m-#{$i}  {margin: $margin!important;}
+      }
+    }
+    @include margin-classes;
+    
+    @mixin padding-classes {
+      @for $i from 1 through $sizes {
+        $padding: $i * 0rem;
+        /* padding #{$padding} */
+        .p-#{$i} {padding: $padding!important;}
+      }
+    }
+    @include padding-classes;
+  }
+  /*-------font-size class-------*/
+  
+  @for $i from 10 through 200 {
+    .font-#{$i} {
+      font-size: $i + px!important; 
+    }
+  }
+  @for $i from 10 through 200 {
+    .lineheight-#{$i} {
+      line-height: $i + px; 
+    }
+  }
+  @for $i from 10 through 900 {
+    .minheight-#{$i} {
+      min-height: $i + px; 
+    }
+  }
+  @for $i from 10 through 900 {
+    .maxheight-#{$i} {
+      max-height: $i + px; 
+    }
+  }
+  @for $i from 10 through 900 {
+    .minwidth-#{$i} {
+      min-width: $i + px; 
+    }
+  }
+  @for $i from 10 through 900 {
+    .width-#{$i} {
+      width: $i + px; 
+    }
+  }
+  @for $i from 10 through 900 {
+    .maxwidth-#{$i} {
+      max-width: $i + px!important; 
+    }
+  }
+  @for $i from 4 through 80 {
+    .border-radius-#{$i} {
+      border-radius: $i + px!important; 
+    }
+  }
+  @media screen and (min-width: 769px) {
+  @for $value from 1 through 10 {
+    $width: percentage($value / 10);
+    $height:percentage($value / 10);
+    .w-#{$value} {
+      width: $width;
+      margin: 0px auto;
+    }
+    .h-#{$value} {
+      height: $height!important;
+    }
+  }
+  
+  }
+  

@@ -1,0 +1,601 @@
+<div class="container-fluid">
+
+    <div class="row heading">
+        <div class="row">
+
+            <div class="col">
+                <!-- <code style="color: grey;">Pages / Accounts</code> -->
+                <h3>Loan Detail</h3>
+            </div>
+            <!-- <div class="col-8 mt-2" style="text-align: right;"> -->
+            <!-- <button class="btn btn-blue mt-2" type="button" (click)="back()">Back</button>  -->
+            <!-- </div> -->
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+
+
+    <div class="card my-3">
+        <div class="row p-3 d-flex align-items-center">
+            <div class="col-2">
+                <!-- profile pic -->
+                <img class="selfieimg shadow" *ngIf="LoanAccountDetailResponse && LoanAccountDetailResponse.loanImage"
+                    src="{{LoanAccountDetailResponse.loanImage}}">
+                <img class="selfieimg shadow" *ngIf="!LoanAccountDetailResponse || !LoanAccountDetailResponse.loanImage"
+                    src="../../../../../assets/theme/icons/DummyProfilePic.jpg">
+            </div>
+
+            <div class="col">
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.loanAccountNumber}} |
+                </label> &nbsp;
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.userName}} </label>
+                &nbsp;
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.productType}} |
+                </label> &nbsp;
+                <!-- <label>{{leadData?.screenName}} | </label>  -->
+                <br>
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.phoneNumber}} |
+                </label> &nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.shopName}} |
+                </label>&nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.cityName}} </label>
+                <br>
+                <label class="label-lite">{{LoanAccountDetailResponse &&
+                    LoanAccountDetailResponse.nbfcIdentificationCode}} |
+                </label> &nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.thirdPartyLoanCode}}
+                    |
+                </label>
+            </div>
+
+            <div class="col-3 text-center p-0">
+                <div class="row p-0">
+                    <div class="col-3">
+                        <label class="label-dark">Inactive/Active</label>
+                    </div>
+                    <div class="col">
+                        <p-inputSwitch appMode="edit" name="IsActive" [(ngModel)]="LoanAccountDetailResponse.isAccountActive"
+                            (ngModelChange)="ActiveInactive($event)" [disabled]="LoanAccountDetailResponse.isBlock">
+                        </p-inputSwitch>
+                    </div>
+                </div>
+                <div class="row p-0">
+                    <div class="col-3">
+                        <label class="label-dark">Block</label>
+                    </div>
+                    <div class="col">
+                        <p-inputSwitch appMode="edit" [(ngModel)]="LoanAccountDetailResponse.isBlock" (ngModelChange)="BlockUser()"
+                            [disabled]="LoanAccountDetailResponse.isAccountActive">
+                        </p-inputSwitch>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <button class="btn btn-blue" type="button" (click)="notifyAnchor($event)">Notify Anchor</button>
+                <br>
+                <button class="btn btn-blue mt-2" type="button" (click)="openLogs()">History</button>
+                <br>
+                <button class="btn btn-blue mt-2" type="button" (click)="addVirtualDetail()">Virtual Detail</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+
+        <div class="col-3">
+            <div class="card p-3" style="height: 100% !important;">
+                <div class="row">
+                    <div class="row">
+                        <h5 class="header-title">Credit Line Info</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <label class="label-dark">Total Sanctioned</label><br>
+                        <h4 class="header-title-blue">₹ {{LoanAccountDetailResponse.creditLineInfo.totalSanctionedAmount
+                            | number : '0.2-2' }}</h4>
+                    </div>
+
+                    <div class="row mt-3 mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Total Credit Limit:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLineInfo.totalCreditLimit |
+                                number : '0.2-2'}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Utilized:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLineInfo.utilizedAmount |
+                                number : '0.2-2'}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Life Time Utilized Amt:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLineInfo.ltdUtilizedAmount |
+                                number : '0.2-2'}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Available Limit:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLineInfo.availableLimit |
+                                number : '0.2-2'}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Available limit %:</label>
+                        </div>
+                        <div class="col-6">
+                            <label
+                                class="label-dark">{{LoanAccountDetailResponse.creditLineInfo.availableLimitPercentage |
+                                number : '0.2-2'}} %</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Processing Fee:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">{{LoanAccountDetailResponse.creditLineInfo.processingFee |
+                                number : '0.2-2'}} </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="card p-3" style="height: 100% !important;">
+                <div class="row">
+                    <div class="row">
+                        <h5 class="header-title">Repayments</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <label class="label-dark">Total Paid</label><br>
+                        <h4 class="header-title-blue">₹ {{LoanAccountDetailResponse.repayments.totalPaidAmount | number
+                            : '0.2-2' }}</h4>
+                    </div>
+
+                    <div class="row mt-3 mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Principal:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.principalAmount | number
+                                : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.interestAmount | number :
+                                '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Penal Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.penalInterestAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Overdue Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.overdueInterestAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Extra Payment Amount:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.extraPaymentAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <label class="label-lite">Bounce RePayment Amount:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.repayments.bounceRePaymentAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="card p-3" style="height: 100% !important;">
+                <div class="row">
+                    <div class="row">
+                        <h5 class="header-title">Outstanding</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <label class="label-dark">Total Outstanding</label><br>
+                        <h4 class="header-title-blue">₹ {{LoanAccountDetailResponse.outstanding.totalOutstandingAmount |
+                            number : '0.2-2' }}</h4>
+                    </div>
+
+                    <div class="row mt-3 mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Principal:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.outstanding.principalAmount | number
+                                : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.outstanding.interestAmount | number
+                                : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Penal Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.outstanding.penalInterestAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 ">
+                        <div class="col-6">
+                            <label class="label-lite">Overdue Interest:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.outstanding.overdueInterestAmount |
+                                number : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="card p-3" style="height: 100% !important;">
+                <div class="row">
+
+                    <div class="row">
+                        <h5 class="header-title">Credit line</h5>
+                    </div>
+
+                    <div class="row flex justify-content-center mt-3">
+                        <p-chart type="doughnut" [data]="data" [options]="options"></p-chart>
+                    </div>
+
+                    <!-- <div class="row mt-2 text-center">
+                        <div class="col-6">
+                            <label class="label-lite">Available Credit Limit:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLine.totalCreditLimit| number
+                                : '0.2-2' }}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-2 text-center">
+                        <div class="col-6">
+                            <label class="label-lite">Utilized Amount:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLine.utilizedAmount| number :
+                                '0.2-2' }}</label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row mt-2 text-center">
+                        <div class="col-6">
+                            <label class="label-lite">Available:</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-dark">₹ {{LoanAccountDetailResponse.creditLine.utilizedAmount -
+                                LoanAccountDetailResponse.creditLine.utilizedAmount| number : '0.2-2' }}</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row mt-3 center-all">
+        <div class="col-2" *ngFor="let cardData of topFiveTranx">
+            <div [ngClass]="cardData.status == 'Paid'? 'card-outter-green' : 'card-outter-yellow'">
+                <div class="row m-1">
+                    <div class="inner-card" style="margin-top: 2px;">
+                        <div class="col-12 p-3">
+                            <label class="label-dark">{{cardData.orderNo}}<span *ngIf="cardData.invoiceNo">/</span>
+                                {{cardData.invoiceNo}}</label> <br>
+                            <label class="label-lite">{{cardData.invoiceDate != '1900-01-01T00:00:00'?
+                                (cardData.invoiceDate | date :
+                                'dd/MM/yyyy'):'-'}}</label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 p-1 text-center">
+                        <label class="label-dark" style="color: white !important;">{{cardData.status}}</label>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 shadow text-center">
+        <p-table [value]="transactionList" [paginator]="true" (onLazyLoad)="load($event)" [lazy]="true" [rows]="5"
+            [totalRecords]="totalrecord" [paginator]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Loan Account No./ <br> TP Id</th>
+                    <th>Customer Name/ <br> Mob. No</th>
+                    <th>Utilization Anchor</th>
+
+                    <th>Status</th>
+                    <th>
+                        Order No./
+                        <br>
+                        Invoice No.
+                    </th>
+
+                    <th> Amount</th>
+                    <th>
+                        Date
+                    </th>
+
+                    <th *ngIf="searchPayload.status == 'Paid'">Paid Date</th>
+                    <th>Details</th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-transaction let-columns="columns" let-expanded="expanded">
+                <tr [ngClass]="{'status-overduecl': transaction.status=='Overdue' ,'status-paidcl': transaction.status=='Paid' ,
+                        'status-pendingcl': transaction.status =='Pending' ,
+                        'status-intransitcl': transaction.status =='Intransit',
+                        'status-intitatecl': transaction.status =='Initiate',
+                        'status-partiallyPaidcl': transaction.status =='Partially Paid'
+                         }">
+
+
+                    <!-- (click)="navigateTo(transaction)" -->
+                    <td>{{transaction.accountCode}} <br> <b (click)="navigateTo(transaction)"
+                            class="pointer"><u>{{transaction.thirdPartyLoanCode}}</u></b> </td>
+
+                    <td>{{transaction.customerName}} <br> <b>{{transaction.mobileNo}}</b></td>
+                    <td>{{transaction.utilizationAnchor}}</td>
+
+                    <td>{{transaction.status}}</td>
+                    <td>
+                        {{transaction.orderNo ? transaction.orderNo : '-'}}
+                        <br>
+                        {{transaction.invoiceNo ? transaction.invoiceNo : '-'}}
+                    </td>
+
+                    <td>
+                        ActualOrderAmt: <b>{{transaction.actualOrderAmount | number: '1.2-2'}}</b> <br>
+                        {{ searchPayload.status == 'Partially Paid' ? "Paid Amount" : "Payable Amount"}}:
+                        <b>{{transaction.payableAmount | number: '0.2-2'}}</b>
+                    </td>
+                    <td>
+                        Disbursement: <b>{{transaction.disbursementDate != '1900-01-01T00:00:00'?(
+                            transaction.disbursementDate | date :
+                            'dd/MM/yyyy'): '-'}}</b>
+                        <br>
+                        Due: <b>{{transaction.dueDate != '1900-01-01T00:00:00'?( transaction.dueDate | date :
+                            'dd/MM/yyyy'):
+                            '-'}}</b>
+                        <br>
+                        Invoice: <b>{{transaction.invoiceDate != '1900-01-01T00:00:00'?( transaction.invoiceDate | date
+                            :
+                            'dd/MM/yyyy'):
+                            '-'}}</b>
+                    </td>
+
+                    <td *ngIf="searchPayload.status == 'Paid'">{{transaction.settlementDate | date : 'dd/MM/yyyy'}}</td>
+                    <td>
+
+                        <!-- <button type="button" pButton pRipple 
+                  class="p-button-text p-button-rounded p-button-plain"
+                  [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button> -->
+
+                        <button type="button" pButton pRipple (click)="openInvoiceDetail(transaction)"
+                            class="p-button-text p-button-rounded p-button-plain"
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" class="text-center">
+                <tr>
+                    <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <!-- <div class="mt-3 shadow text-center">
+        <p-table [value]="transactionList" (onLazyLoad)="load($event)" [lazy]="true" [(first)]="first"
+            [paginator]="true" [rows]="10" [totalRecords]="totalrecord" [paginator]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Loan Account No./ <br> TP Id</th>
+                    <th>Customer Name/ <br> Mob. No</th>
+                    <th>Utilization Anchor</th>
+                   
+                    <th>Status</th>
+                    <th>
+                        Invoice Id /
+                        <br> 
+                        Invoice No.</th>
+                  
+                    <th> Amount</th>
+                    <th>
+                        Date
+                    </th>
+                   
+                    <th *ngIf="searchPayload.status == 'Paid'">Paid Date</th>
+                    <th>Details</th>
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-transaction let-columns="columns" let-expanded="expanded">
+                <tr
+                    [ngClass]="{'status-overduecl': transaction.status=='Overdue' ,'status-paidcl': transaction.status=='Paid' ,
+                    'status-pendingcl': transaction.status =='Pending' ,
+                    'status-intransitcl': transaction.status =='Intransit',
+                    'status-intitatecl': transaction.status =='Initiate',
+                    'status-partiallyPaidcl': transaction.status =='Partially Paid'
+                     }">
+
+                    <td>{{transaction.accountCode}}<br> <b (click)="navigateTo(transaction)"
+                            class="pointer"><u>{{transaction.thirdPartyLoanCode}}</u></b> </td>
+
+                    <td>{{transaction.customerName}} <br> <b>{{transaction.mobileNo}}</b></td>
+                    <td>{{transaction.utilizationAnchor}}</td>
+                    
+                    <td>{{transaction.status}}</td>
+                    <td>
+                        {{transaction.invoiceId ? transaction.invoiceId : '-'}} 
+                        <br> 
+                        {{transaction.invoiceNo ? transaction.invoiceNo : '-'}}</td>
+                   
+                    <td>
+                        ActualOrderAmt: <b>{{transaction.actualOrderAmount | number: '1.2-2'}}</b> <br>
+                        {{ searchPayload.status == 'Partially Paid' ? "Paid Amount" : "Payable Amount"}}:   
+                        <b>{{transaction.payableAmount | number: '0.2-2'}}</b>
+                    </td>
+                    <td>
+                        Disbursement: <b>{{transaction.disbursementDate != '1900-01-01T00:00:00'?( transaction.disbursementDate | date :
+                        'dd/MM/yyyy'): '-'}}</b>
+                        <br>
+                        Due:  <b>{{transaction.dueDate != '1900-01-01T00:00:00'?( transaction.dueDate | date : 'dd/MM/yyyy'):
+                        '-'}}</b>
+                        <br>
+                        Invoice: <b>{{transaction.invoiceDate != '1900-01-01T00:00:00'?( transaction.invoiceDate | date :
+                        'dd/MM/yyyy'):
+                        '-'}}</b>
+                    </td>
+                  
+                    <td *ngIf="searchPayload.status == 'Paid'">{{transaction.settlementDate | date : 'dd/MM/yyyy'}}</td>
+                    <td> 
+                      
+                        <button type="button" pButton pRipple (click)="openInvoiceDetail(transaction)"
+                            class="p-button-text p-button-rounded p-button-plain"
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" class="text-center">
+                <tr>
+                    <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>
+
+<div *ngIf="CommentBlock">
+    <p-dialog header="Status" [(visible)]="CommentBlock" [modal]="true" appendTo="body" [closable]="false"
+        [style]="{width: '40vw', overflow: 'auto'}" [draggable]="false" [resizable]="false">
+        <div class="row">
+            <div class="col-12">
+                <label>Comment For Block</label>
+                <textarea rows="1" type="text" placeholder="Comment" class="form-control"
+                    [(ngModel)]="LoanAccountDetailResponse.isBlockComment" name="Comment"></textarea>
+            </div>
+            <div class="col"></div>
+            <div class="col-3 mt-4">
+                <button class="btn btn-raised btn-danger" (click)="OnBlock('Cancel')">Cancel <i
+                        class="pi pi-cross"></i></button>
+            </div>
+            <div class="col-4 mt-4">
+                <button class="btn btn-raised btn-primary" (click)="OnBlock('Submit')">Submit <i
+                        class="pi pi-check"></i></button>
+            </div>
+        </div>
+       
+    </p-dialog>
+</div> -->
+
+    <!-- product history -->
+    <div *ngIf="isLog">
+        <p-dialog header="View History" [(visible)]="isLog" [modal]="true">
+            <!-- {{LogPayload | json}} -->
+            <div *ngIf="LogPayload.entityName && LogPayload.databaseName && LogPayload.entityId">
+                <app-history [entity]="LogPayload.entityName" [databaseName]="LogPayload.databaseName"
+                    [id]="LogPayload.entityId">
+                </app-history>
+            </div>
+        </p-dialog>
+    </div>
+
+    <!-- add virtual detail popup -->
+     <div *ngIf="virtualBankDetailPopup == true">
+         <p-dialog header="Add Virtual Details" [modal]="true" [(visible)]="virtualBankDetailPopup" [style]="{ width: '50rem', height: '70vh' }"
+             [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false">
+             <div class="container-fluid">
+                 <div class="row">
+                    <div class="col-4">
+                        <label class="label-dark">virtual Bank Name</label> <br>
+                        <!-- <input type="text" class="form-control" [(ngModel)]="virtualDetailPayload.virtualBankName"> -->
+                        <p-dropdown appendTo="body" [options]="liveBankList" [style]="{ 'width': '100%'}" placeholder="--Select Bank Name--"
+                        optionLabel="bankName" [(ngModel)]="selectedBank" [disabled]="disableVirtualFields"></p-dropdown>
+                    </div>
+                     <div class="col-4">
+                         <label class="label-dark">virtual Account Number</label> &nbsp;&nbsp;
+                         <input type="number" class="form-control" [(ngModel)]="virtualDetailPayload.virtualAccountNumber" [disabled]="disableVirtualFields">
+                     </div>
+                     <div class="col-4">
+                         <label class="label-dark">virtual IFSC Code</label> &nbsp;&nbsp;
+                         <input type="text" class="form-control" [(ngModel)]="virtualDetailPayload.virtualIFSCCode" [disabled]="disableVirtualFields" (input)="toUpperCase()">
+                     </div>
+                     <div class="col-4 mt-2">
+                         <label class="label-dark">virtual UPIId</label> &nbsp;&nbsp;
+                         <input type="text" class="form-control" [(ngModel)]="virtualDetailPayload.virtualUPIId" [disabled]="disableVirtualFields">
+                     </div>
+                     <div class="col"></div>
+                     <div class="col-2 mt-4">
+                         <button class="btn btn-primary" [disabled]="disableVirtualFields" type="button" (click)="addRepaymentAccountDetails()" >Save</button>
+                     </div>
+     
+                 </div>
+             </div>
+         </p-dialog>
+     </div>
+
+
+    <p-toast></p-toast>
+    <p-confirmDialog></p-confirmDialog>
+
+    <!-- <div class="progress-spinner" *ngIf="loader">
+    <p-progressSpinner></p-progressSpinner>
+</div> -->
+    <div class="overlay" *ngIf="Loader">
+        <div class="loader">
+            <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+        </div>
+    </div>

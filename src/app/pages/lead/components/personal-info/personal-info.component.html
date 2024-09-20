@@ -1,0 +1,338 @@
+<div class="card tp common-padding">
+    <div *ngIf="personalDataDc != null && isComplete">
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">First Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.firstName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Middle Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.middleName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Last Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.lastName}}</div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Father First Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.fatherName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Father Last Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.fatherLastName}}</div>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">DOB</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.dob| date: 'dd/MM/yyyy'}}</div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Gender</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <!-- <div class="ml cl">{{personalDataDc?.gender == 'M'?'Male':'Female'}}</div> -->
+                <div class="ml cl">{{personalDataDc?.gender ? (personalDataDc?.gender=='M' || personalDataDc?.gender=='Male') ? 'Male':'Female' : '-'}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">
+                    Alternate Mobile No</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.alternatePhoneNo}}</div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Email</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.emailId}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Marital Status</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <!-- <div class="ml cl">{{personalDataDc?.marital == 'M'? 'Married':'UnMarried'}}</div> -->
+                <div class="ml cl">{{personalDataDc?.marital}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Permanent Address 1</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.permanentAddress?.addressLineOne}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Permanent Address 2</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.permanentAddress?.addressLineTwo}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Permanent City</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.permanentAddress?.cityName}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Permanent State</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.permanentAddress?.stateName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Current Address 1</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.currentAddress?.addressLineOne}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Current Address 2</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.currentAddress?.addressLineTwo}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">City</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.currentAddress?.cityName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">State</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.currentAddress?.stateName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Pincode</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.currentAddress?.zipCode}}</div>
+            </div>
+        </div>
+
+       
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Ownership Type</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.ownershipType}}</div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">OwnershipType Name</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{personalDataDc?.ownershipTypeName}}</div>
+            </div>
+        </div> -->
+
+        <div class="row" *ngIf="personalDataDc?.manualElectricityBillImage != null && this.personalDataDc?.ownershipTypeProof =='Electricity Manual Bill Upload'">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Electricity Bill Image</div>
+            </div>
+        <div class="col-md-5 col-sm-3 col-12">
+            <div class="ml cl">
+                <div>
+                    <div class="p-img" *ngIf="personalDataDc?.manualElectricityBillImage != null && this.personalDataDc?.ownershipTypeProof =='Electricity Manual Bill Upload'">
+                        <i class="pi pi-file-pdf" style="font-size:48px;color:blue"
+                            (click)="OpenPdf(personalDataDc.manualElectricityBillImage)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+       </div>
+
+       <div class="row" *ngIf="this.personalDataDc?.ownershipTypeProof =='Digital Bill Verification'">
+        <div class="col-md-5 col-sm-3 col-12">
+            <div class="ml cp">IVRS Number</div>
+        </div>
+    <div class="col-md-5 col-sm-3 col-12">
+        <div class="ml cl">
+            <div>
+                {{personalDataDc?.ivrsNumber}}
+            </div>
+        </div>
+    </div>
+   </div>
+
+   <div class="row" *ngIf="this.personalDataDc?.ownershipTypeProof =='Digital Bill Verification'">
+    <div class="col-md-5 col-sm-3 col-12">
+        <div class="ml cp">Service Provider Name</div>
+    </div>
+<div class="col-md-5 col-sm-3 col-12">
+    <div class="ml cl">
+        <div>
+            {{personalDataDc?.electricityServiceProvider}}
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row" *ngIf=" this.personalDataDc?.ownershipTypeProof =='Digital Bill Verification'">
+    <div class="col-md-5 col-sm-3 col-12">
+        <div class="ml cp">ElectricityState</div>
+    </div>
+<div class="col-md-5 col-sm-3 col-12">
+    <div class="ml cl">
+        <div>
+            {{personalDataDc?.electricityState}}
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row" *ngIf=" this.personalDataDc?.ownershipTypeProof =='Digital Bill Verification'">
+    <div class="col-md-5 col-sm-3 col-12">
+        <div class="ml cp">Ownership Type ResponseId</div>
+    </div>
+<div class="col-md-5 col-sm-3 col-12">
+    <div class="ml cl">
+        <div>
+            {{personalDataDc?.ownershipTypeResponseId}}
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="row" *ngIf=" this.personalDataDc?.ownershipTypeProof =='Digital Bill Verification'">
+    <div class="col-md-5 col-sm-3 col-12">
+        <div class="ml cp">Ownership Type Address</div>
+    </div>
+<div class="col-md-5 col-sm-3 col-12">
+    <div class="ml cl">
+        <div>
+            {{personalDataDc?.ownershipTypeAddress}}
+        </div>
+    </div>
+</div>
+</div>
+
+        <div class="row">
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cp">Status</div>
+            </div>
+            <div class="col-md-7 col-sm-9 col-12">
+                <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+            </div>
+        </div>
+
+
+        <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl" style="float: right;">
+                <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer" style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+                <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+            </div> -->
+            <div class="ml cl" style="float: right;">
+                <button class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+            </div>
+        </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl">
+                <i pTooltip="Rejected" class="pi pi-times fa fa-mouse-pointer" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+                <i pTooltip="Approved" class="pi pi-check fa fa-mouse-pointer" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>
+            </div> -->
+            <div class="ml cl">
+              <span  style="float: right;"  *ngIf="isRejected">Completed and Rejected<i  class="pi pi-times fa fa-mouse-pointer"  style="color:red;margin-left: 0.5em "></i></span>
+              <span style="float: right;" *ngIf="isVerified" >Approved<i  class="pi pi-check fa fa-mouse-pointer"  style="color:green;margin-left: 0.5em "></i></span>
+          </div>
+        </div>
+        </div>
+    </div>
+</div>
+    <!-- <div class="no-Txt" *ngIf="personalDataDc == null || personalDataDc?.DocumentName == null">* No Record Found</div> -->
+
+
+<!-- positionTop="100" -->
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <textarea type="text" id="_personalcomment" name="_personalcomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+
+
+<!-- <p-blockUI [blocked]="blocked"></p-blockUI>
+<p-progressSpinner *ngIf="blocked"
+  [style]="{width: '50px', height: '50px', position: 'absolute', left: '48%', top: '48%'}" strokeWidth="8"
+  fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner> -->

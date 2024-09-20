@@ -1,0 +1,216 @@
+<div class="card tp common-padding">
+    <div *ngFor="let bankStatementDetail of bankStatementDetails let i = index">
+        <div *ngIf="isComplete">       
+            <div class="row">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Bank Detail {{i+1}}</div>
+                </div>
+            </div>
+            <div class="row" >
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Is Nach</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.isEnach}}</div>
+                </div>
+            </div> 
+            <div class="row" *ngIf="bankStatementDetail?.borroBankName">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Bank Name</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.borroBankName}}</div>
+                </div>
+            </div>
+        
+            <div class="row" *ngIf="bankStatementDetail?.borroBankAccNum">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Account No</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.borroBankAccNum}}</div>
+                </div>
+            </div>
+        
+            <div class="row" *ngIf="bankStatementDetail?.borroBankIFSC">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">IFSC Code</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.borroBankIFSC}}</div>
+                </div>
+            </div>
+            <div class="row" *ngIf="bankStatementDetail?.accountHolderName != null">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Account Holder Name</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.accountHolderName}}</div>
+                </div>
+            </div> 
+            
+            <div class="row" *ngIf="bankStatementDetail?.accType">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Account Type</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.accType}}</div>
+                </div>
+            </div> 
+        
+            <div class="row" *ngIf="bankStatementDetail?.pdfPassword">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Pdf Password</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.pdfPassword ? bankStatementDetail?.pdfPassword :'-'}}</div>
+                </div>
+            </div> 
+
+            <div class="row" *ngIf="bankStatementDetail?.beneficiary_Bankname">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Beneficiary Bank Name</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.beneficiary_Bankname}}</div>
+                </div>
+            </div>
+        
+            <div class="row" *ngIf="bankStatementDetail?.beneficiary_AccountNumber">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Beneficiary Account No</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.beneficiary_AccountNumber}}</div>
+                </div>
+            </div>
+        
+            <div class="row" *ngIf="bankStatementDetail?.beneficiary_IFSCCode">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Beneficiary IFSC Code</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.beneficiary_IFSCCode}}</div>
+                </div>
+            </div>
+            <div class="row" *ngIf="bankStatementDetail?.beneficiary_Accountholdername != null">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Beneficiary Account Holder Name</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.beneficiary_Accountholdername}}</div>
+                </div>
+            </div> 
+            
+            <div class="row" *ngIf="bankStatementDetail?.beneficiary_Typeofaccount">
+                <div class="col-md-3 col-sm-3 col-12">
+                    <div class="ml cp">Beneficiary Account Type</div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-12">
+                    <div class="ml cl">{{bankStatementDetail?.beneficiary_Typeofaccount}}</div>
+                </div>
+            </div> 
+            <br>
+        </div>
+
+       
+    </div>
+
+    <div class="row" *ngIf="bankStatementCreditLendingDetailDc != null  && isComplete">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">View Bank statement PDF</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">
+                <div>
+                    <div class="p-img"
+                        *ngFor="let item of bankStatementCreditLendingDetailDc?.statementList; let i = index">
+                        <div *ngIf="checkURL(item.imageUrl) == true">
+                            <div class="col-md-6 col-sm-6 col-12">
+                                <div class="ml cl">
+                                    <div class="p-img">
+                                        <img *ngIf="item.imageUrl" src="{{item.imageUrl}}"
+                                            (click)="show(item.imageUrl)" height="100px" width="100px">
+                                            <span>Document</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="checkURL(item.imageUrl) == false">
+                            <i class="pi pi-file-pdf" style="font-size:48px;color:blue" (click)="OpenPdf(item)"></i>
+                            <span>Bank statement {{i+1}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row" *ngIf="bankStatementDetails != null && isComplete">
+            <div class="col-md-3 col-sm-3 col-12" >
+                <div class="ml cp">Status</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <!-- <div class="ml cl" style="float: right;">
+                    <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer"
+                        style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+                    <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer"
+                        style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+                </div> -->
+                <div class="ml cl" style="float: right;">
+                    <button class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                    <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12 ">
+                <div class="ml cl">
+                    <span style="float: right;" *ngIf="isRejected">Completed and Rejected<i
+                            class="pi pi-times fa fa-mouse-pointer" style="color:red;margin-left: 0.5em "></i></span>
+                    <span style="float: right;" *ngIf="isVerified">Approved<i class="pi pi-check fa fa-mouse-pointer"
+                            style="color:green;margin-left: 0.5em "></i></span>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+<!-- <div class="no-Txt" *ngIf="bankDataDc == null || bankDataDc?.DocumentName == null">* No Record Found</div> -->
+
+
+
+<!-- positionTop="100" -->
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+        <textarea type="text" id="_bankcomment" name="_bankcomment" class="form-control" [(ngModel)]="Comment"
+            placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+            (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '70vw',height:'70vh'}">
+    <div>
+        <img class="imgShow" src="{{showUrl}}" />
+    </div>
+    <br>
+    <div style="justify-content:space-between;">
+        <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+    </div>
+</p-dialog>

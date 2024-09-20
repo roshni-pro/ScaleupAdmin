@@ -1,0 +1,32 @@
+.inner-shadow-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  input{
+    border: none;
+    color: #2B3674 !important; 
+
+}
+
+ input[disabled] {
+      // color:yellow !important; / Set the desired color for the disabled text /
+      background-color: #eee; // Set the desired background color for the disabled input /
+      // Add any additional styling you want for the disabled input /
+      background: rgb(235, 235, 235) !important;
+    }
+
+    img{
+      // width: 100%;
+      // margin: auto;
+      max-height: 12vh;
+      display: block;
+      aspect-ratio: auto;
+      min-height: 12vh; 
+    }
+    .imgShow{
+      max-height: 50vh !important;
+      width: 30%;
+      margin-left: 30%;
+      }
+    

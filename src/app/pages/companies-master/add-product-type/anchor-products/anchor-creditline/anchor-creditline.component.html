@@ -1,0 +1,375 @@
+<div class="container-fluid p-3 mt-3">
+  <!-- <div class="container-fluid p-5"> -->
+
+  <div class="row">
+    <div class="col-md-4">
+      <label>
+        <h5>Company configuration</h5>
+
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" *ngIf="this.anchorProductId>0">
+        <label>
+          <input type="text" [(ngModel)]="productname" class="form-control" [disabled]="productname" />
+        </label>
+      </div>
+      <!-- <div class="col-md-4" >
+                <p-dropdown [options]="productList" [(ngModel)]="selectedProduct"  [style]="{'width': '100%','height': '50px',
+    'background-color': 'rgb(228, 242, 247)'}" optionLabel="name" [showClear]="true" placeholder="Select a product"
+      (onChange)="getProduct()"></p-dropdown>
+              </div> -->
+    </div>
+    <div class="card p-3 mt-3">
+
+    <form [formGroup]="anchorForm" (ngSubmit)="onClickSaveBtn()">
+      <div class="row mt-3">
+        <label class="label-dark">
+          <h5><b>Charges :</b></h5>
+        </label> <br>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee payable by :</label><br>
+          <select formControlName="ProcessingFeePayableBy" class="form-control back">
+            <option [ngValue]="'Anchor'">Payable By Anchor</option>
+            <option [ngValue]="'Customer'">Payable By Customer</option>
+          </select>
+          <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeePayableBy'].errors">
+            <span style="color:red;font-size: 12px;"
+              *ngIf="anchorForm.controls['ProcessingFeePayableBy'].errors && (submitted || !submitted) ">
+              * Payable By. is required
+            </span>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee Type :</label><br>
+          <select formControlName="ProcessingFeeType" (change)="setamountpercentagetype()" class="form-control back">
+            <option [ngValue]="'Amount'">Amount</option>
+            <option [ngValue]="'Percentage'">Percentage</option>
+          </select>
+          <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeeType'].errors">
+            <span style="color:red;font-size: 12px;"
+              *ngIf="anchorForm.controls['ProcessingFeeType'].errors && (submitted || !submitted) ">
+              *Select a valid Processing Fee Type
+            </span>
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee {{f['ProcessingFeeType'].value}}:</label><br>
+          <input type="number" class="form-control back" formControlName="ProcessingFeeRate">
+          <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeeRate'].errors">
+            <span style="color:red;font-size: 12px;"
+              *ngIf="anchorForm.controls['ProcessingFeeRate'].errors && ( !submitted) ">
+              *Select a valid Processing Fee Rate
+            </span>
+          </div>
+          <span style="color:red;font-size: 12px;"
+            *ngIf=" submitted && f['ProcessingFeeRate'].errors && f['ProcessingFeeRate'].errors['required']">*Processing
+            Fee Rate. is required</span>
+          <div
+            *ngIf="anchorForm.controls['ProcessingFeeType'].value=='Percentage' && anchorForm.controls['ProcessingFeeRate'].value >100  && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Annual Interest Payable By :</label><br>
+          <select formControlName="AnnualInterestPayableBy" class="form-control back">
+            <option [ngValue]="'Anchor'">Payable By Anchor</option>
+            <option [ngValue]="'Customer'">Payable By Customer</option>
+          </select>
+          <div *ngIf="(submitted ) && anchorForm.controls['AnnualInterestPayableBy'].errors">
+            <span style="color:red;font-size: 12px;"
+              *ngIf="anchorForm.controls['AnnualInterestPayableBy'].errors && (submitted || !submitted) ">
+              * Payable By. is required
+            </span>
+          </div>
+          <!-- <span style="color:red;font-size: 12px;"
+            *ngIf=" submitted && f['TransactionFeePayableBy'].errors && f['TransactionFeePayableBy'].errors['required']">* Payable By. is required</span> -->
+        </div>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Annual Interest Rate %:</label><br>
+          <input type="text"  class="form-control back"
+           formControlName="AnnualInterestRate" 
+            (keypress)="keyPressAmount($event)" [min]="0" [max]="100">
+          <div *ngIf="(submitted ) && anchorForm.controls['AnnualInterestRate'].errors">
+            <span style="color:red;font-size: 12px;"
+              *ngIf="anchorForm.controls['AnnualInterestRate'].errors && ( !submitted) ">
+              *Select a valid Transaction Fee Rate
+            </span>
+          </div>
+          <div
+            *ngIf="anchorForm.controls['AnnualInterestRate'].errors && !anchorForm.controls['AnnualInterestRate'].errors['required'] && 
+                (anchorForm.controls['AnnualInterestRate'].errors && anchorForm.controls['AnnualInterestRate'].errors['max'].actual>anchorForm.controls['AnnualInterestRate'].errors['max'].max) && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter Correct Transaction Fee Rate less than 100</span>
+          </div>
+          <span style="color:red;font-size: 12px;"
+            *ngIf=" submitted && f['AnnualInterestRate'].errors && f['AnnualInterestRate'].errors['required']">*Transaction
+            Fee Rate. is required</span>
+        </div>
+
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Delay Penalty Rate(PA) %:</label><br>
+          <input type="number" id="DelayPenaltyRate" class="form-control back" name="DelayPenaltyRate" 
+            formControlName="DelayPenaltyRate" (keypress)="space($event)" required="1" min="0" max="100"
+            (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+          <div *ngIf="(submitted) && f['DelayPenaltyRate'].errors">
+            <span *ngIf="f['DelayPenaltyRate'].errors['required']" style="color:red;font-size: 12px;">*Delay Penalty
+              Rate is
+              required</span>
+          </div>
+          <div *ngIf="anchorForm.controls['DelayPenaltyRate'].value >100  && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Bounce Charges (in amount):</label><br>
+          <input type="number" id="BounceCharge" class="form-control back" name="BounceCharge"
+            formControlName="BounceCharge" (keypress)="space($event)" required="1" min="0"
+            (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+          <div *ngIf="(submitted) && f['BounceCharge'].errors">
+            <span *ngIf="f['BounceCharge'].errors['required']" style="color:red;font-size: 12px;">*Bounce Charges is
+              required</span>
+          </div>
+          <!-- <div
+                *ngIf="f['BounceCharge'].value >100  && (submitted)">
+                <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+            </div> -->
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <label>Credit Days</label><br>
+
+          <p-multiSelect [options]="creditDays" [showToggleAll]="false"  formControlName="CompanyCreditDays" [disabled]="disableDate" [style]="{'width': '100%','height': '38px',
+            }" (onChange)="customDays()" optionLabel="name"></p-multiSelect>
+          <div *ngIf="(submitted) && f['CompanyCreditDays'].errors">
+            <span *ngIf="f['CompanyCreditDays'].errors['required']" style="color:red;font-size: 12px;">*Credit Days is
+              required</span>
+          </div>
+
+
+          <div *ngIf="f['CompanyCreditDays'].errors && !f['CompanyCreditDays'].errors['required']  && (submitted)">
+            <span style="color:red;font-size: 12px;">*Enter Correct Credit Days</span>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="iscustomDaysreq">
+
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Enter Custom Day</label><br>
+          <input type="number" id="CustomCreditDays" class="form-control back" name="CustomCreditDays"
+            formControlName="CustomCreditDays" (keypress)="space($event)" required="1" min="0"
+            (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+          <div *ngIf="(submitted) && f['CustomCreditDays'].errors">
+            <span *ngIf="f['CustomCreditDays'].errors['required']" style="color:red;font-size: 12px;">*
+              Custom Days is
+              required</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Disbursement TAT:</label><br>
+          <input type="number" id="DisbursementTAT" class="form-control back" name="DisbursementTAT"
+            formControlName="DisbursementTAT" (keypress)="space($event)" required="1" min="0"
+            (keypress)="RestrictCommaSemicolon($event)" autocomplete="off" />
+          <div *ngIf="(submitted) && f['DisbursementTAT'].errors">
+            <span *ngIf="f['DisbursementTAT'].errors['required']" style="color:red;font-size: 12px;">*
+              Disbursement TAT is
+              required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI Option:</label><br>
+          <input type="radio" id="Yes" value="Yes" (change)="onEmiChange('Yes');addvalidators()"
+            formControlName="isEmi">
+          <label for="Yes"> &nbsp; Yes</label>
+          &nbsp;
+          <input type="radio" id="No" value="No" (change)="onEmiChange('No');addvalidators()" formControlName="isEmi">
+          <label for="No"> &nbsp; No</label>
+        </div>
+        <div class="col-md-4" *ngIf="this.anchorForm.controls['isEmi'].value=='Yes'">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI Options:</label><br>
+
+          <p-multiSelect [options]="EmiOptions" [style]="{'width': '100%','height': '38px',
+            'background-color': 'rgb(228, 242, 247)'}" formControlName="CompanyEMIOptions" optionLabel="name">
+          </p-multiSelect>
+          <div *ngIf="(submitted) && f['CompanyEMIOptions'].errors">
+            <span *ngIf="f['CompanyEMIOptions'].errors['required']" style="color:red;font-size: 12px;">*
+              Company EMI Options is
+              required</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3" *ngIf="this.anchorForm.controls['isEmi'].value=='Yes'">
+        <div class="col-md-3">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI Rate (PA)% :</label><br>
+          <input type="number" formControlName="EMIRate" class="form-control back" name="EMIRate" id="EMIRate"
+            (keypress)="keyPressAmount($event)" [min]="0" [max]="100">
+
+          <div *ngIf="(submitted) && f['EMIRate'].errors">
+            <span *ngIf="f['EMIRate'].errors['required']" style="color:red;font-size: 12px;">*
+              EMI Rate is
+              required</span>
+          </div>
+          <div
+            *ngIf="f['EMIRate'].errors && !f['EMIRate'].errors['required'] && 
+                    (f['EMIRate'].errors && f['EMIRate'].errors['max'].actual>f['EMIRate'].errors['max'].max) && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter Correct EMI Rate less than 100</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI PF (PA)%:</label><br>
+          <input type="number" formControlName="EMIProcessingFeeRate" class="form-control back"
+            name="EMIProcessingFeeRate" id="EMIProcessingFeeRate" (keypress)="keyPressAmount($event)" [min]="0"
+            [max]="100">
+
+          <div *ngIf="(submitted) && f['EMIProcessingFeeRate'].errors">
+            <span *ngIf="f['EMIProcessingFeeRate'].errors['required']" style="color:red;font-size: 12px;">*
+              EMI Processing Fee Rate is
+              required</span>
+          </div>
+          <div
+            *ngIf="f['EMIProcessingFeeRate'].errors && !f['EMIProcessingFeeRate'].errors['required'] && 
+                    (f['EMIProcessingFeeRate'].errors && f['EMIProcessingFeeRate'].errors['max'].actual>f['EMIProcessingFeeRate'].errors['max'].max) && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter Correct EMI Processing Fee Rate less than 100</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI Bounce (in amount):</label><br>
+          <input type="number" formControlName="EMIBounceCharge" class="form-control back" name="EMIBounceCharge"
+            id="EMIBounceCharge" (keypress)="keyPressAmount($event)">
+
+          <div *ngIf="(submitted) && f['EMIBounceCharge'].errors">
+            <span *ngIf="f['EMIBounceCharge'].errors['required']" style="color:red;font-size: 12px;">*
+              EMI Bounce Charge is
+              required</span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>EMI Penalty (PA)%:</label><br>
+          <input type="number" formControlName="EMIPenaltyRate" class="form-control back" name="EMIPenaltyRate"
+            id="EMIPenaltyRate" (keypress)="keyPressAmount($event)" [min]="0" [max]="100">
+
+          <div *ngIf="(submitted) && f['EMIPenaltyRate'].errors">
+            <span *ngIf="f['EMIPenaltyRate'].errors['required']" style="color:red;font-size: 12px;">*
+              EMI Penalty Rate is
+              required</span>
+          </div>
+          <div
+            *ngIf="f['EMIPenaltyRate'].errors && !f['EMIPenaltyRate'].errors['required'] && 
+                    (f['EMIPenaltyRate'].errors && f['EMIPenaltyRate'].errors['max'].actual>f['EMIPenaltyRate'].errors['max'].max) && (submitted || !submitted)">
+            <span style="color:red;font-size: 12px;">*Enter Correct EMI Penalty Rate less than 100</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <label class="label-dark">
+          <h5><b>Agreement:</b></h5>
+        </label> <br>
+        <div class="col-md-4" *ngIf="!isAgreementURL && !anchorProductId  && !f['AgreementURL'].value">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Upload</label>
+          <input type="file" #userPhoto1 accept="application/pdf"
+            (change)="upload($event, 'AgreementURL',this.myInputVariable1)" id="AgreementURL" class="form-control back"
+            name="AgreementURL" />
+          <div *ngIf="submitted  && f['AgreementURL'].errors">
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementURL'].errors['required']">Agreement URL is
+              required
+            </span>
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementURL'].errors && (submitted )  ">
+              *Enter a valid Agreement URL
+            </span>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="f['AgreementURL'].value">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Upload</label><br>
+          <!-- <img src="{{f['AgreementURL'].value}}" (click)="show(f['AgreementURL'].value)"  />  -->
+          <img src="../../../../../assets/img/pdflogo.png" (click)="show(f['AgreementURL'].value)"  height="100vh"/>
+          <div *ngIf=" !anchorProductId ">
+            <input type="button" class="btn btn-primary" (click)="removeImage('AgreementURL')" value="remove">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Start Date</label>
+          <input type="date" id="AgreementStartDate" class="form-control back" name="AgreementStartDate"
+            formControlName="AgreementStartDate" (keydown)="space($event)" />
+          <div *ngIf="submitted  && f['AgreementStartDate'].errors">
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementStartDate'].errors['required']">Agreement Start
+              Date is required
+            </span>
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementStartDate'].errors && (submitted )  ">
+              *Enter a valid Agreement Start Date
+            </span>
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="f['AgreementStartDate'].value">
+          <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement End Date</label>
+          <input type="date" id="AgreementEndDate" class="form-control back" name="AgreementEndDate" 
+            min="{{f['AgreementStartDate'].value}}" formControlName="AgreementEndDate" (keydown)="space($event)" />
+          <div *ngIf="submitted  && f['AgreementEndDate'].errors">
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors['required']">Agreement End Date
+              is required
+            </span>
+            <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors && (submitted )  ">
+              *Enter a valid Agreement End Date
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      <div class="row mt-3">
+        <label class="label-dark">
+          <h5><b>Referral :</b></h5>
+        </label> <br>
+        <div class="col-md-4">
+          <label> BlackSoil Referral Code  :</label><br>
+          <input type="text" formControlName="BlackSoilReferralCode" max="100" class="form-control back"
+           name="referralCode" id="referralCode"  max="100"
+          placeholder="Referral Code" />
+          <div *ngIf="anchorForm.controls['BlackSoilReferralCode'].hasError('maxlength')">
+
+            <span style="color:red;font-size: 12px;">Value must be less than  100</span>
+
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-11"></div>
+        <div class="col-md-1">
+          <input type="submit" class="btn btn-darkBlue" value="submit">
+        </div>
+      </div>
+      <p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '80vw'}">
+        <div>
+          <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+        </div>
+
+        <br>
+        <div style="justify-content:space-between;">
+          <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+        </div>
+      </p-dialog>
+    </form>
+  </div>
+</div>
+<!-- </div>   -->
+</div>
+
+
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+</div>

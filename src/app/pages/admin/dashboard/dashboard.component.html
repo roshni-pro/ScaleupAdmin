@@ -1,0 +1,517 @@
+<div class="container-fluid">
+    <div class="row p-2 my-2">
+        <div class="col-3">
+            <code style="color: #2B3674;">Pages/Dashboard</code>
+            <h3 class="pageHeader">Dashboard</h3>
+        </div>
+    </div>
+
+    <!--  Filters -->
+    <div class="card shadow p-3 mt-2">
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <p-dropdown [options]="ProductDropdown" [(ngModel)]="selectedProduct" optionLabel="name"
+                    [style]="{'width':'100%'}" placeholder="Product Type"></p-dropdown>
+            </div>
+            <div class="col-md-3">
+                <p-multiSelect [options]="AnchorList" [style]="{'width':'100%'}" [(ngModel)]="searchFilters.AnchorId"
+                    optionLabel="businessName" placeholder="Anchor" optionValue="id"></p-multiSelect>
+            </div>
+
+            <div class="col-md-3">
+                <p-multiSelect [options]="CityList" [style]="{'width':'100%'}" [(ngModel)]="selectedCities"
+                    optionLabel="cityName" placeholder="City"></p-multiSelect>
+            </div>
+
+            <div class="col-md-3">
+                <p-dropdown [options]="DayList" [(ngModel)]="searchFilters.day" optionLabel="label"
+                    [style]="{'width':'100%'}" placeholder="Select Days" optionValue="value"
+                    (onChange)="getDate(searchFilters.FromDate)"></p-dropdown>
+            </div>
+
+
+
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-3">
+                <p-calendar [(ngModel)]="searchFilters.FromDate" optionLabel="productType"
+                    [style]="{'width':'100%','border-radius':'25%'}" placeholder="From" optionValue="productId"
+                    [maxDate]="searchFilters.ToDate" [disabled]="searchFilters.day!='Custom'"></p-calendar>
+            </div>
+
+            <div class="col-md-3">
+                <p-calendar [(ngModel)]="searchFilters.ToDate" optionLabel="productType"
+                    [minDate]="searchFilters.FromDate" (click)="validateYearDifference()"
+                    [style]="{'width':'100%','border-radius':'25%'}" placeholder="To" optionValue="productId"
+                    [disabled]="searchFilters.day!='Custom'"></p-calendar>
+            </div>
+
+            <div class="col-md-3">
+                <button class="btn btn-liteBlue" type="button" (click)="onSearch()">Search</button>
+            </div>
+        </div>
+    </div>
+
+    <!--  charts -->
+    <div class="row mt-3" *ngIf="apiResponse">
+        <div class="col-md-4">
+            <div class="card shadow p-3 mt-2" style="height: 100% !important;">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="font1">Credit Line Info</label>
+                    </div>
+                    <div class="col-md-7" style="text-align: right;">
+                        <label class="font1">Total Credit Line <b *ngIf="apiResponse">₹
+                                {{apiResponse.dashboardResponse.creditLineInfo.totalCreditLimit}}</b></label>
+                    </div>
+                </div>
+                <hr class="new2">
+
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <p-chart type="line" [data]="creditLineInfoData" [options]="options1" width="400"
+                            height="240"></p-chart> -->
+
+                        <p-chart type="doughnut" [data]="pieChartCreditLineInfoData" [options]="pieChartOptions" width="400"
+                            height="240"></p-chart>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Total Credit Line </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #6DC5D1; border-radius: 20px;">
+                                <label>{{apiResponse.dashboardResponse.creditLineInfo.totalCreditLimit}} </label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Utilized </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #BEADFA;border-radius: 20px;">
+                                <label>{{apiResponse.dashboardResponse.creditLineInfo.utilizedAmount}} </label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Available limit </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #FEB941;border-radius: 20px;">
+                                <label>{{apiResponse.dashboardResponse.creditLineInfo.availableLimit}} </label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Available limit %</label>
+                            </div>
+                            <div class="col-md-6" style="color: #2B3674;text-align: right;">
+                                <label>{{apiResponse.dashboardResponse.creditLineInfo.availableLimitPercentage}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-3 mt-2" style="height:  100% !important;">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="font1">Outstanding</label>
+                    </div>
+                    <div class="col-md-7" style="text-align: right;">
+                        <label class="font1">Total Outstanding <b *ngIf="apiResponse">₹
+                                {{apiResponse.dashboardResponse.outstanding.totalOutstandingAmount}}</b></label>
+                    </div>
+                </div>
+                <hr class="new2">
+
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <p-chart type="line" [data]="outstandingData" [options]="options1" width="400"
+                            height="240"></p-chart> -->
+                        <p-chart type="doughnut" [data]="pieChartOutstandingData" [options]="pieChartOptions" width="400"
+                            height="240"></p-chart>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Principal </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #2D9596;border-radius: 20px;">
+                                <label>{{apiResponse.dashboardResponse.outstanding.principalAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #750E21;border-radius: 20px;">
+                                <label>{{apiResponse.dashboardResponse.outstanding.interestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Overdue Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #E3651D;border-radius: 20px;">
+                                <label
+                                    for="">{{apiResponse.dashboardResponse.outstanding.overdueInterestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Penal Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #BED754;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.outstanding.penalInterestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">PF Outstanding </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #527853;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.outstanding.pfOutStanding}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Bounce</label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #3081D0;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.outstanding.bounce}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-md-4">
+            <div class="card shadow p-3 mt-2" style="height:  100% !important;">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label class="font1">Repayments</label>
+                    </div>
+                    <div class="col-md-7" style="text-align: right;">
+                        <label class="font1">Total Paid <b *ngIf="apiResponse">₹
+                                {{apiResponse.dashboardResponse.repayments.totalPaidAmount }}</b></label>
+                    </div>
+                </div>
+                <hr class="new2">
+
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <p-chart type="line" [data]="repaymentsData" [options]="options1" width="400"
+                            height="240"></p-chart> -->
+                        <p-chart type="doughnut" [data]="pieChartRepaymentsData" [options]="pieChartOptions" width="400"
+                            height="240"></p-chart>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Principal </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #7C9D96;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.principalAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #FFCC70;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.interestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Overdue Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #8DDFCB;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.overdueInterestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Penal Interest </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #C08261;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.penalInterestAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">PF Paid </label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #82A0D8;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.pFpaid}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">Bounce Paid</label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #8ECDDD;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.bounceRePaymentAmount}}</label>
+                            </div>
+                            <hr class="new2">
+                            <div class="col-md-6">
+                                <label style="color: #2B3674;">GST Paid</label>
+                            </div>
+                            <div class="col-md-6" style="color: white;text-align: right;background-color: #EDB7ED;border-radius: 20px;">
+                                <label for="">{{apiResponse.dashboardResponse.repayments.gstAmount}}</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- break -->
+    <hr class="new2" style="margin-top: 2% !important;" *ngIf="apiResponse && apiResponse.leadResponse">
+    <!-- break -->
+
+    <div class="row mt-3" *ngIf="apiResponse && apiResponse.leadResponse">
+        <div class="col-md-10">
+            <h4>Total Lead <b>{{apiResponse.leadResponse.totalLeads}}</b> | Average Application Procesing Time <b>(
+                    {{apiResponse.leadResponse.wholeDays}} )
+                    Days - ( {{apiResponse.leadResponse.remainingHours}} )Hrs</b> </h4>
+        </div>
+        <div class="col-md-2">
+            <!-- <button class="btn btn-blue" type="button" (click)="leadExport()">
+                        Export
+                        <i class="pi pi-download"></i>
+                    </button>                 -->
+        </div>
+    </div>
+
+    <div class="row" *ngIf="apiResponse && apiResponse.leadResponse">
+        <div class="col-md-4">
+            <p-chart type="doughnut" [data]="leadResponsedata" [options]="options" width="400" height="240"></p-chart>
+            <h1 class="something" style="margin-left: 41% !important;">
+                <b>
+                    {{apiResponse.leadResponse.approvalPercentage}}%
+                </b>
+            </h1>
+            <label class="something-text-label" style="margin-left: 41% !important;"><b> Approval %</b> </label>
+
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="approved"><b>{{apiResponse.leadResponse.approved}}</b></h1>
+                        <label class="approved"><b>Approved</b></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="pending"><b>{{apiResponse.leadResponse.pending}}</b></h1>
+                        <label class="pending"><b>Pending</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="rejected"><b>{{apiResponse.leadResponse.rejected}}</b></h1>
+                        <label class="rejected"><b>Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notContactable"><b>{{apiResponse.leadResponse.notContactable}}</b></h1>
+                        <label class="notContactable"><b>Not Contactable</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notInterested"><b>{{apiResponse.leadResponse.notIntrested}}</b></h1>
+                        <label class="notInterested"><b>Not Interested</b></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="new2" *ngIf="apiResponse && apiResponse.accResponseDc">
+
+    <div class="row mt-3" *ngIf="apiResponse && apiResponse.accResponseDc">
+        <div class="col-md-10">
+            <h4>Total Accounts <b>{{apiResponse.accResponseDc.totalAccounts}}</b> </h4>
+        </div>
+        <div class="col-md-2">
+            <!-- <button class="btn btn-blue" type="button">
+                        Export
+                        <i class="pi pi-download"></i>
+                    </button>                 -->
+        </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="apiResponse && apiResponse.accResponseDc">
+        <div class="col-md-4">
+            <p-chart type="doughnut" [data]="accResponseDcdata" [options]="options" width="400" height="240"></p-chart>
+            <h1 class="something" style="margin-left: 38% !important;">
+                <b>
+                    {{apiResponse.accResponseDc.creditApprovalPercentage}}%
+                </b>
+            </h1>
+            <label class="something-text-label" style="margin-left: 35% !important;"><b> Credit Approval %</b> </label>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="approved"><b>{{apiResponse.accResponseDc.creditApproved}}</b></h1>
+                        <label class="approved"><b>Credit Approved</b></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="pending"><b>{{apiResponse.accResponseDc.approvalPending}}</b></h1>
+                        <label class="pending"><b>Pending</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="rejected"><b>{{apiResponse.accResponseDc.creditRejected}}</b></h1>
+                        <label class="rejected"><b>Credit Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notContactable"><b>{{apiResponse.accResponseDc.offerRejected}}</b></h1>
+                        <label class="notContactable"><b>Offer Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notInterested"><b>{{apiResponse.accResponseDc.rejected}}</b></h1>
+                        <label class="notInterested"><b>Rejected</b></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr class="new2" *ngIf="apiResponse && apiResponse.loanResponseDc">
+
+    <!-- selectedProduct.type=='CreditLine' -->
+    <div class="row mt-3" *ngIf="apiResponse && apiResponse.loanResponseDc && selectedProduct.type=='BusinessLoan'">
+        <div class="col-md-10">
+            <h4>Total Loans <b>{{apiResponse.loanResponseDc.totalLoan}}</b> </h4>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="apiResponse  && apiResponse.loanResponseDc && selectedProduct.type=='BusinessLoan'">
+        <div class="col-md-4">
+            <p-chart type="doughnut" [data]="loanResponseDcdata" [options]="options" width="400" height="240"></p-chart>
+            <h1 class="something" style="margin-left:38% !important;">
+                <b>
+                    {{apiResponse.loanResponseDc.disbursementApprovalPercentage}}%
+                </b>
+            </h1>
+            <label class="something-text-label" style="margin-left: 27% !important;"><b> Disbursement Approval %</b> </label>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="approved"><b>{{apiResponse.loanResponseDc.disbursementApproved}}</b></h1>
+                        <label class="approved"><b>Disbursement Approved</b></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="pending"><b>{{apiResponse.loanResponseDc.disbursementPending}}</b></h1>
+                        <label class="pending"><b>Disbursement Pending</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="rejected"><b>{{apiResponse.loanResponseDc.disbursementRejected}}</b></h1>
+                        <label class="rejected"><b>Disbursement Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notContactable"><b>{{apiResponse.loanResponseDc.offerRejected}}</b></h1>
+                        <label class="notContactable"><b>Offer Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notInterested"><b>{{apiResponse.loanResponseDc.rejected}}</b></h1>
+                        <label class="notInterested"><b>Rejected</b></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-3" *ngIf="apiResponse && apiResponse.loanResponseDc && selectedProduct.type=='CreditLine'">
+        <div class="col-md-10">
+            <h4>Total Loans <b>{{apiResponse.loanResponseDc.creditLineTotalLoan}}</b> </h4>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+
+    <div class="row mt-2" *ngIf="apiResponse  && apiResponse.loanResponseDc && selectedProduct.type=='CreditLine'">
+        <div class="col-md-4">
+            <p-chart type="doughnut" [data]="loanResponseDcdata" [options]="options" width="400" height="240"></p-chart>
+            <h1 class="something" style="margin-left: 35% !important;">
+                <b>
+                    {{apiResponse.loanResponseDc.creditLineApprovalPercentage}}%
+                </b>
+            </h1>
+            <label class="something-text-label" style="margin-left: 31% !important;"><b> CreditLine Approval %</b> </label>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="approved"><b>{{apiResponse.loanResponseDc.creditLineApproved}}</b></h1>
+                        <label class="approved"><b>CreditLine Approved</b></label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="pending"><b>{{apiResponse.loanResponseDc.creditLinePending}}</b></h1>
+                        <label class="pending"><b>CreditLine Pending</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="rejected"><b>{{apiResponse.loanResponseDc.creditLineRejected}}</b></h1>
+                        <label class="rejected"><b>CreditLine Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notContactable"><b>{{apiResponse.loanResponseDc.creditLineOfferRejected}}</b></h1>
+                        <label class="notContactable"><b>CreditLine Offer Rejected</b></label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card shadow text-center p-3 mt-2">
+                        <h1 class="notInterested"><b>{{apiResponse.loanResponseDc.clRejected}}</b></h1>
+                        <label class="notInterested"><b>Rejected</b></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+<p-toast position="top-right" appendTo="body"></p-toast>
+<div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+</div>

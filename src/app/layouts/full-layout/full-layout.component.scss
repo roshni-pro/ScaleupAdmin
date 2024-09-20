@@ -1,0 +1,97 @@
+// .bottomHeader {
+//     position: absolute;
+//     display: block;
+//     width: 100%;
+//     padding: 10px 35px;
+//     top: 60px;
+//     background: #fff;
+//     // z-index: 9;
+//     border-top: 1px solid #ccc;
+//     text-transform: capitalize !important;
+
+//     & .btn {
+//         text-transform: uppercase !important;
+//     }
+
+//     & button,
+//     button:hover {
+//         border: 1.5px solid #ccc !important;
+//         color: rgb(75, 75, 75) !important;
+//         font-size: 13px;
+//         text-transform: uppercase !important;
+//         background: none !important;
+//         margin-bottom: 3px !important;
+//     }
+
+//     & button:active,
+//     button.active,
+//     button:focus {
+//         border: 1.5px solid #0452a5 !important;
+//         color: #0452a5 !important;
+//         background: none !important;
+//         font-size: 13px;
+//     }
+
+//     .br {
+//         border: 1.5px solid #0452a5 !important;
+//         color: #0452a5 !important;
+//         background: none !important;
+//         font-size: 13px;
+//     }
+// }
+
+// @media (min-width: 1200px) {
+//     .container {
+//         max-width: 1294px;
+//     }
+// }
+
+// @media (max-height: 1366px) {
+//     .main-panel {
+//         max-height: 1366px;
+//     }
+// }
+
+// .closeIcon {
+//     position: absolute;
+//     top: 20px;
+//     right: 20px;
+//     color: rgb(0, 0, 0);
+//     font-size: 20px;
+//     z-index: 999;
+//     transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+// }
+
+// .content-wrapper {
+//     //   margin-left: 9em;
+//     //   margin-top: 5em;
+// }
+
+// @media screen and (max-width: 700px) {
+//     .sidebar {
+//       width: 100%;
+//       height: auto;
+//       position: relative;
+//     }
+//     .sidebar a {float: left;}
+//     div.content {margin-left: 0;}
+//   }
+  
+//   @media screen and (max-width: 400px) {
+//     .sidebar a {
+//       text-align: center;
+//       float: none;
+//     }
+//   }
+
+.nav-abs {
+    position: absolute;
+    right: 40px !important;
+    top: 15px !important;
+    z-index: 9;
+    border-radius: 30px;
+    background: #FFF;
+    box-shadow: 14px 17px 40px 4px rgba(112, 144, 176, 0.08);
+    width: 61px;
+    height: 61px;
+}

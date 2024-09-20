@@ -1,0 +1,581 @@
+<p-toast></p-toast>
+
+<div class="container-fluid heading px-4">
+    <div class="row mt-2" style="display: flex;">
+        <!-- <p-chart type="pie" [data]="data"></p-chart> -->
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="p-3"><b>CIBIL Score</b></h5>
+                <div class="card-content text-center">
+                    <!-- <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="950"
+                        style="--value: 0;margin-left: 20%;"></div> -->
+                        <div class="row mb-2 text-center d-flex justify-content-center align-items-center">
+                            <div class="col-3">
+                                <label class="label-lite ">CIBIL Score :</label>
+                            </div>
+                            <div class="col-3">
+                                <label class="label-data" *ngIf="!(!customerData?.creditScore)">
+                                    <b>{{customerData?.creditScore}}</b>
+                                </label>
+                                <label class="label-dark" *ngIf="(!customerData?.creditScore)">
+                                    No CIBIL Score
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-img">
+                                    <img *ngIf="customerData?.cibilReport" class="pointer pdf-icon float: right"
+                                        (click)="showImages(customerData?.cibilReport)"
+                                        src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px">
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+
+                <div class="row m-3">
+                    <div class="col-4">
+                        <button class="btn btn-darkBlue" (click)="OnOpenCibilPopup()">Update Cibil</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="p-3"><b>Loan Offer Details</b></h5>
+                    </div>
+                    <div class="col-md-3 p-3"
+                        *ngIf="!(DisbursalProposalData != null && showOfferDetails[0].isCompleted)">
+                        <label class="text-center" style="color: red;">Data Not Found.</label>
+                    </div>
+                </div>
+
+                <!-- <div class=" p-3"> -->
+                <div class="row mb-2">
+                    <div class="col-md-3 col-sm-3 col-12">
+                        <label class="ml cp label-lite label-padding">Lead No :</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-12">
+                        <label class="ml cl label-data label-padding"
+                            *ngIf="DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.leadNo != null">
+                            <b>{{DisbursalProposalData?.leadNo}}</b>
+                        </label>
+                        <label class="ml cl label-dark label-padding"
+                            *ngIf="!(DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.leadNo != null)">
+                            No lead Number
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-12">
+                        <label class="ml cp label-lite label-padding">Applied Date :</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-12">
+                        <label class="ml cl label-data label-padding"
+                            *ngIf="DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.appliedDate != null">
+                            <b>{{DisbursalProposalData?.appliedDate |
+                                date: 'dd/MM/yyyy'}}
+                            </b>
+                        </label>
+                        <label class="ml cl label-dark label-padding"
+                            *ngIf="!(DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.appliedDate != null)">
+                            No Applied Date
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-3 col-12">
+                        <label class="ml cp label-lite label-padding">Credit Limit :</label>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-12"
+                        *ngIf="DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.creditLimit != null">
+                        <!-- <label class="ml cl label-dark label-padding"> <b>{{DisbursalProposalData?.creditLimit}}</b>
+                            </label> -->
+                        <input type="text" class="form control" style="border-radius: 0px !important;
+                            border: white; margin-left: 4% !important;
+                            margin-top: 3% !important;" [(ngModel)]="DisbursalProposalData.creditLimit" disabled>
+                    </div>
+                    <div class="col-md-9 col-sm-9 col-12"
+                        *ngIf="!(DisbursalProposalData != null && showOfferDetails[0].isCompleted && DisbursalProposalData?.creditLimit != null)">
+                        <input type="text" class="form control" style="border-radius: 0px !important;border: white; margin-left: 4% !important;
+                            margin-top: 3% !important;" placeholder="No credit Limit Available" disabled>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <div class="row p-3">
+                    <div class="col-md-2">
+                        <button 
+                            [disabled]="!(!showOfferDetails[0].isCompleted && showOfferDetails[0].isApproved != 1)"
+                            class="btn btnb btn-darkBlue" (click)="onClickApproved()">Approve</button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="card mt-3">
+                <div *ngIf="DisbursedData != null">
+                    <h5 class="p-3"><b>Disbursement Completed</b></h5>
+                    <div class="row mb-1" *ngIf="DisbursedData?.anchorName != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Anchor Name:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="label-data label-padding">
+                                <b>{{DisbursedData?.anchorName}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.productType != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Product Type:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.productType}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.thirdPartyLoanCode != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">ThirdParty LoanCode:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.thirdPartyLoanCode}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.userName != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">user Name:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.userName}}</b>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row mb-1" *ngIf="DisbursedData?.accountId != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">account Id:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.accountId}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.disbursalAmount != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">disbursal Amount:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.disbursalAmount}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1"
+                        *ngIf="DisbursedData?.interestRateType != null && DisbursedData?.interestRateType != ''">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Interest Rate Type:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.interestRateType}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.interestRate != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Interest Rate:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.interestRate}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1"
+                        *ngIf="DisbursedData?.processingFeeType != null && DisbursedData?.payableBy != 'Anchor'">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Processing Fee Type:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{(DisbursedData?.processingFeeType == 'Percentage' ? DisbursedData?.processingFeeType
+                                    : 'Amount') }}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1"
+                        *ngIf="DisbursedData?.processingFeeRate != null && DisbursedData?.processingFeeType == 'Percentage' && DisbursedData?.payableBy != 'Anchor'">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">processing Fee Rate:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.processingFeeRate}}%</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1"
+                        *ngIf="DisbursedData?.processingFeeAmount != null && DisbursedData?.payableBy != 'Anchor'">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">processing Fee Amount:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.processingFeeAmount}}%</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.gstRate != null  && DisbursedData?.payableBy != 'Anchor'">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">gst Rate:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.gstRate}}%</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1"
+                        *ngIf="DisbursedData?.gstProcessingFeeAmount != null  && DisbursedData?.payableBy != 'Anchor'">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">gst Processing Fee Amount:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.gstProcessingFeeAmount}}</b>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row mb-1" *ngIf="DisbursedData?.leadCode != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">lead Code:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.leadCode}}</b>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row" *ngIf="DisbursedData.mobileNo != null">
+                            <div class="col-md-3 col-sm-3 col-12">
+                                <div class="ml cp">mobileNo</div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-12">
+                                <div class="ml cl">{{DisbursedData?.mobileNo}}</div>
+                            </div>
+                        </div> -->
+
+
+                    <div class="row mb-1" *ngIf="DisbursedData?.payableBy != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Processing Fee Payable By:</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding">
+                                <b>{{DisbursedData?.payableBy}}</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="overlay" *ngIf="Loader">
+                    <div class="loader">
+                        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- #region  divider -->
+
+        <div class="col-md-6" *ngIf="!generateOfferStatusData">
+            <div class="card mt-3">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="p-3"><b>Offers</b></h5> <br>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-center p-3" style="color: red;">No Offer Available.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div *ngFor="let row of generateOfferStatusData; let index = index;">
+                    <label class="label-dark ">
+                        <h5 class="p-3"><b style="margin-left: 15px;">Show Offer</b></h5>
+                    </label>
+                    <div class="row m-2">
+                        <div class="col-md-6">
+                            <label class="label-dark">
+                                <label class="label-dark"> <b
+                                        style="margin-left: 17px;">{{row.comapanyName}}</b></label>
+                                <!-- <h5><b>{{row.comapanyName}}</b></h5> -->
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- *ngIf="row.leadOfferStatus == 'OfferGenerated'" -->
+                            <!-- {{LeadOfferData | json}} -->
+                            <!-- [disabled]="!(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0) " -->
+                            <button class="btn btnb btn-blue mr-2"
+                            [disabled]="!(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0) "
+                                (click)="UpdateOffer(row.leadOfferId)" style="width: 100% !important;">Approved</button>
+                        </div>
+                        <div class="col-md-3">
+                            <!-- [disabled]="!(IsleadReject || !isOfferAccepted)" -->
+                            <button class="btn  btnb btn-danger" [disabled]="!(IsleadReject || !isOfferAccepted)"
+                                (click)="OnReject()" style="width: 100% !important;">Reject</button>
+                        </div>
+                        <!-- <div class="col-md-2">
+                        <button class="btn btn-darkBlue">Retry</button>
+                    </div> -->
+                    </div>
+
+
+                    <div class="row m-2">
+                        <div class="col-md-3">
+                            <label class="label-lite label-padding">Credit Limit : </label>
+                        </div>
+                        <div class="col-md-9" style="text-align: left;">
+                            <label class="label-data label-padding"><b>{{row.creditLimit}}</b></label>
+                        </div>
+                        <br>
+                        <div class="col-md-3">
+                            <label class="label-lite label-padding2">Processing Fee : </label>
+                        </div>
+                        <div class="col-md-9" style="text-align: left;">
+                            <label
+                                class="label-data label-padding2"><b>{{row.processingfee+row.processingfeeTax}}</b></label>
+                        </div>
+                        <br>
+                        <!-- <div class="col-md-3">
+                        <label class="label-lite label-padding2">Charges :  </label> 
+                    </div> 
+                    <div class="col-md-9" style="text-align: left;">
+                        <label class="label-dark label-padding2"><b>---</b></label>                    
+                    </div> -->
+                    </div>
+
+                    <div *ngFor="let data of row.subactivityList; let index1 = index;">
+                        <div class="row m-2" style="border: 1px solid #A3AED0;border-radius: 10px;">
+                            <div class="col-md-2 p-2">
+                                <button type="button" (click)="data.expanded=!data.expanded" pButton pRipple
+                                    class="p-button-text p-button-rounded p-button-plain"><i
+                                        [ngClass]="data.expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-lite label-padding">{{data.subActivityName}} </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="label-data label-padding"><b>{{data.status}}</b> </label>
+                            </div>
+                            <div class="col-md-3 mt-1">
+                                <button *ngIf="data.status != 'Completed'" class="btn btnb btn-darkBlue"
+                                    (click)="Retry(data, row)">Retry</button>
+                            </div>
+                        </div>
+                        <div *ngIf="data.expanded">
+                            <div class="row m-2" *ngFor="let i of data.apiList; let index1 = index;">
+                                <div class="col-md-4">
+                                    <label class="label-lite label-padding2 word-wrap">{{i.code}} </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-data label-padding2 ">{{i.apiStatus}} </label>
+                                </div>
+                                <div class="col-md-3 mt-1">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.request)">Request</button>
+                                </div>
+                                <div class="col-md-3 ml-1 mt-1">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.response)">Response</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card mt-3" *ngIf="isPrepareAgreement">
+                <label class="label-dark label-padding">
+                    <h5 class="p-3"><b>Prepare Agreement</b></h5>
+                </label>
+                <div *ngFor="let row of agreementResponseData; let index = index;">
+                    <div class="row m-2">
+                        <div class="col-md-6">
+                            <label class="label-dark ">
+                                <label class="label-dark"> <b
+                                        style="margin-left: 17px;">{{row.comapanyName}}</b></label>
+                                <!-- <h5><b>{{row.comapanyName}}</b></h5> -->
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="row m-2">
+                        <div class="col-md-3">
+                            <label class="label-lite label-padding">Credit Limit : </label>
+                        </div>
+                        <div class="col-md-9" style="text-align: left;">
+                            <label class="label-data label-padding"><b>{{row.creditLimit}}</b></label>
+                        </div>
+                        <br>
+                        <!-- <div class="col-md-3">
+                            <label class="label-lite label-padding2">Processing Fee : </label>
+                        </div>
+                        <div class="col-md-9" style="text-align: left;">
+                            <label class="label-dark label-padding2"><b>{{row.processingfee+row.processingfeeTax}}</b></label>
+                        </div> -->
+                        <br>
+                    </div>
+
+                    <div *ngFor="let data of row.subactivityList; let index1 = index;">
+                        <div class="row m-2" style="border: 1px solid #A3AED0;border-radius: 10px;">
+                            <div class="col-md-2 p-2">
+                                <button type="button" (click)="data.expanded=!data.expanded" pButton pRipple
+                                    class="p-button-text p-button-rounded p-button-plain"><i
+                                        [ngClass]="data.expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-lite label-padding">{{data.subActivityName}} </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="label-data label-padding"><b>{{data.status}}</b> </label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <button *ngIf="data.status != 'Completed'" class="btn btnb btn-darkBlue"
+                                    (click)="agreementRetry(row)">Retry</button>
+                            </div>
+                        </div>
+                        <div *ngIf="data.expanded">
+                            <div class="row m-2" *ngFor="let i of data.apiList; let index1 = index;">
+                                <div class="col-md-4">
+                                    <label class="label-lite label-padding2 word-wrap">{{i.code}} </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-data label-padding2">{{i.apiStatus}} </label>
+                                </div>
+                                <div class="col-md-3 mt-1">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.request)">Request</button>
+                                </div>
+                                <div class="col-md-3 ml-1 mt-1">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.response)">Response</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="isCibilUpload" appendTo="body" [modal]="true" (onHide)="cancel()">
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="p-3">Upload Cibil Score Document</h5> 
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <input type="number" class="form-control" placeholder="Enter CIBIL Score" [(ngModel)]="cibilScore" max="900">
+            <div *ngIf="cibilScore > 900">
+                <label class="text-center p-2" style="color: red;">CIBIL Score must less than 900.</label>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <!-- <input type="file" class="form-control" style="line-height: 2.5 !important;"> -->
+            <input type="file" id="fileupload" #myInput2 type="file"
+            accept="application/pdf,image/png, image/jpeg" (change)="documentUpload($event,'DocumentURL',this.myInputVariable2)"
+            style="line-height: 2.5 !important;" class="form-control"
+            name="DocumentURL">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-darkBlue" (click)="cibilUpdate()">Update Cibil</button>
+        </div>
+    </div>
+
+</p-dialog>
+<p-dialog [draggable]="false" [(visible)]="showImage" appendTo="body" [modal]="true"
+    [style]="{ 'width': '50vw', 'height': '50vh' }">
+    <div class="row" style="text-align: justify;">
+
+        <div class="col-md-12">
+            <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+            <button class="btn btn-primary" style="margin-left: 16px;" (click)="downloadImage(showUrl)">Download</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showRequest" appendTo="body" [modal]="true" [style]="{width: '100vw',height:'100vh'}">
+    <br>
+    <!-- <div style="justify-content:space-between;">
+        {{requestResponseMessage}}
+     </div> -->
+    <div *ngIf="requestResponseMessage">
+        <pre><div *ngIf="typecheck == 'object'">{{requestResponseMessage | json}}</div>
+            <div *ngIf="typecheck == 'string'">{{requestResponseMessage}}</div>
+        </pre>
+    </div>
+</p-dialog>
+
+
+<p-dialog [(visible)]="IsReject" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+        <textarea type="text" id="_selfiecomment" name="_selfiecomment" class="form-control"
+            [(ngModel)]="MessageForReject" placeholder="Enter Reason For Reject">
+     </textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+            (click)="Reject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button"class="btn btn-danger"  style="margin-right: 10px;" (click)="cd.reject()">No</button>
+        <button type="button" class="btn btn-success" (click)="cd.accept()">Yes
+        </button>
+    </p-footer>
+</p-confirmDialog>
+
+<!-- <p-confirmDialog></p-confirmDialog> -->
+
+<!-- <p-dialog [(visible)]="IsReject" [resizable]="false" [modal]="true" appendTo="body"
+                    [style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+                    <p-header>Reason For Reject</p-header>
+                    <div class="ui-fluid">
+                        <textarea type="text" id="_selfiecomment" name="_selfiecomment" class="form-control"
+                            [(ngModel)]="MessageForReject" placeholder="Enter Reason For Reject">
+                    </textarea>
+                    </div>
+                    <p-footer>
+                        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+                            (click)="Reject()">Reject</button>
+                    </p-footer>
+                </p-dialog> -->
+
+
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

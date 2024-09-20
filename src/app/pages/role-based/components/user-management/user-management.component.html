@@ -1,0 +1,98 @@
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-3">
+      <h3 class="heading">User Role Management</h3>
+    </div>
+  </div>
+
+  <div class="card shadow p-4 mt-2">
+    <div class="row">
+      <div class="col-3">
+        <input class="form-control" type="text" [(ngModel)]="keyword" placeholder="Search keyword" min="3"  (keyup.enter)="getRoleList()"/>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-liteBlue"  (click)="getRoleList()" appMode="view">Search</button>
+      </div>
+      <div class="col"></div>
+      <div class="col-2" style="text-align: end;">
+        <button class="btn btn-blue"  (click)="openDialog()" appMode="add">Add new Role</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card p-1 mt-2">
+    <div class="row">
+      <div class="col-12 mt-3">
+          <div class="card-content p-0 text-center ">
+            <p-table [value]="userroleList" [paginator]="true" (onLazyLoad)="getRoleList()" [lazy]="true" [rows]="100" 
+              [scrollable]="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>S.no</th>
+                  <th>Role Name</th>
+                  <th>Delete</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-ir let-i="rowIndex">
+                <tr>
+                  <td>{{i+1}}</td>
+                  <td>{{ir.name}}</td>
+           
+                  <td (click)="deleteRole(ir)"><i class="pi pi-trash"></i>&nbsp;
+                  </td>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="emptymessage">
+                <h5>* Data Not Found</h5>
+              </ng-template>
+
+            </p-table>
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<p-dialog header="Title" [(visible)]="display" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+  <h5 style="font-weight: 500;">Add New Role :-</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" class="form-control" [(ngModel)]="addRole">
+
+
+    </div>
+    <div class="col-md-6">
+      <button class="btn mr-1" style="color: white;background-color: rgb(108, 139, 240);"
+        (click)="createRolebyRoleName(addRole)"> Add Role</button>
+
+    </div>
+  </div>
+</p-dialog>
+
+
+
+<p-dialog header="Title" [(visible)]="editdisplay" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+  <h5 style="font-weight: 500;">Edit Role :-</h5>
+  <div class="row">
+    <div class="col-md-6">
+      <input type="text" class="form-control" [(ngModel)]="addRole">
+
+
+    </div>
+    <div class="col-md-6">
+      <button class="btn mr-1" style="color: white;background-color: rgb(108, 139, 240);" (click)="updateRole()"> Update
+        Role</button>
+
+    </div>
+  </div>
+</p-dialog>
+
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+</div>

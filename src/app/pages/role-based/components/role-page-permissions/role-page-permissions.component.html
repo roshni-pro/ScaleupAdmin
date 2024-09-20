@@ -1,0 +1,281 @@
+<div class="container-fluid">
+
+    <div class="row p-4">
+        <div class="col">
+            <h4>User Page Management</h4>
+        </div>
+    </div>
+    <!-- <div class="card shadow">
+        <div class="card-content">
+            <div class="row p-3">
+                <div class="col-md-3 p-2">
+                    <label>Search by :</label> <br>
+
+
+                    <input type="text" class="form-control" min="3">
+                </div>
+                <div class="col-md-2 mt-2">
+                    <br>
+                    <button type="button" class="btn btn-liteBlue">
+                        Search</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="row">
+
+        <div class="col-3 curve">
+
+            <div class="card shadow">
+                <div class="row">
+
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <label class="label-dark">
+                                <h5 class="heading">Roles</h5>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12" *ngFor="let r of rolelist let i= index;">
+                        <div class=" p-2 text-center">
+                            <label style="width: 100%;" (click)="getRolePagePermissions(r.id,r.name); changeColor(i)"
+                                [ngClass]="{'highlight': i==selectedIndex }" class="pointer">{{r.name}}
+                            </label>
+                        </div>
+
+                        <!-- (click)="changeColor(i)" -->
+                        <!-- <div class="ul-list mt-3">
+                            <ul style="list-style: none;">
+                                <li *ngFor="let r of rolelist let i= index;"
+                                    (click)="getRolePagePermissions(r.id,r.name); changeColor(i)"
+                                    [ngClass]="{'highlight': i==selectedIndex }">
+                                    <a style="text-decoration: none;">{{r.name}} </a>
+                                </li>
+                            </ul>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card shadow" *ngIf="roleName">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="row p-2">
+                                <div class="col">
+                                    <label class="side-bar">Role page Permission for {{roleName}}
+                                    </label>
+                                </div>
+                                <div class="col-4">
+                                    <!-- <i class="pi pi-search"></i> -->
+                                    <input type="text" class="form-control col-12" name="Limit" [(ngModel)]="keyword"
+                                        autocomplete="off" placeholder="Search page" required="1" maxlength="50" min="3"
+                                        (keyup.enter)="getRolePagePermissions(roleId,roleName,keyword)" minlength="2" />
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-liteBlue"
+                                        (click)="getRolePagePermissions(roleId,roleName,keyword)">Search</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <table>
+                            <tr>
+                                <td></td>
+
+                                <td style="width: 35%;">
+                                    <ul>
+
+                                        <div>
+                                            &nbsp; <label class="label-dark"> <b>View</b> </label><br>
+                                        </div>
+                                    </ul>
+                                </td>
+                                <td style="width: 35%;">
+                                    <ul>
+                                        <div>
+                                            &nbsp; <label class="label-dark"> <b>Add</b></label><br>
+
+                                        </div>
+                                    </ul>
+                                </td>
+                                <td style="width: 35%;">
+                                    <ul>
+                                        <div>
+                                            &nbsp; <label class="label-dark"><b>Edit</b> </label><br>
+
+                                        </div>
+                                    </ul>
+                                </td>
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+                                            &nbsp; <label class="label-dark"> <b>Delete</b></label><br>
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+                                            &nbsp;&nbsp;&nbsp; <label><b>All</b> </label><br>
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+                            </tr>
+                            <tr *ngFor="let r of rolePermission">
+                                <td >
+                                    <ul style="list-style: none;">
+                                        <li>
+                                            <label class="label-dark">{{r.pageName}}</label>
+                                        </li>
+
+                                        <!-- <table class="mt-2">
+                                        <tr *ngFor="let c of r.ChildList">
+                                            <td>{{c.PageName}}</td>
+
+                                        </tr>
+                                    </table> -->
+                                    </ul>
+                                </td>
+
+
+
+                                <td>
+                                    <ul>
+                                        <div>
+                                            <p-checkbox [binary]="true"
+                                                (onChange)="parentEachCheckboxChange($event,r.pageMasterId,'view')"
+                                                [(ngModel)]="r.isView" inputId="binary"></p-checkbox>
+
+                                            <!-- <table class="mt-2">
+                                            <tr *ngFor="let c of r.ChildList">
+                                                <p-checkbox [binary]="true"
+                                                    (onChange)="childEachCheckboxChange($event,r.PageMasterId,c.PageName,'view')"
+                                                    [disabled]="!r.IsView" [(ngModel)]="c.IsView" inputId="binary"></p-checkbox>
+
+
+                                            </tr>
+                                        </table> -->
+                                        </div>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <div >
+
+                                            <p-checkbox [binary]="true"
+                                                (onChange)="parentEachCheckboxChange($event,r.pageMasterId,'add')"
+                                                [(ngModel)]="r.isAdd" inputId="binary"></p-checkbox>
+                                            <!-- <table class="mt-2">
+                                            <tr *ngFor="let c of r.ChildList">
+                                                <p-checkbox [binary]="true"
+                                                    (onChange)="childEachCheckboxChange($event,r.PageMasterId,c.PageName,'add')"
+                                                    [disabled]="!r.IsAdd" [(ngModel)]="c.IsAdd" inputId="binary"></p-checkbox>
+
+
+                                            </tr>
+                                        </table> -->
+
+                                        </div>
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <div>
+                                            <p-checkbox [binary]="true"
+                                                (onChange)="parentEachCheckboxChange($event,r.pageMasterId,'edit')"
+                                                [(ngModel)]="r.isEdit" inputId="binary"></p-checkbox>
+                                            <!-- <table class="mt-2">
+                                            <tr *ngFor="let c of r.ChildList">
+                                                <p-checkbox [binary]="true"
+                                                    (onChange)="childEachCheckboxChange($event,r.pageMasterId,c.PageName,'edit')"
+                                                    [disabled]="!r.isEdit" [(ngModel)]="c.isEdit" inputId="binary"></p-checkbox>
+
+
+                                            </tr>
+                                        </table> -->
+
+                                        </div>
+                                    </ul>
+                                </td>
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+                                            <p-checkbox [binary]="true"
+                                                (onChange)="parentEachCheckboxChange($event,r.pageMasterId,'delete')"
+                                                [(ngModel)]="r.isDelete" inputId="binary"></p-checkbox>
+
+
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+                                            <p-checkbox [binary]="true"
+                                                (onChange)="parentallCheckboxChange($event,r.pageMasterId,'all')"
+                                                [(ngModel)]="r.isAll" inputId="binary"></p-checkbox>
+
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+                                <!-- <td>
+                                    <ul>
+                                        <div>
+
+
+                                        </div>
+                                    </ul>
+                                </td> -->
+
+                            </tr>
+
+
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-darkBlue m-3" (click)="updateRolePagePermissions()"
+                        style="float:right ;" appMode="edit">Update</button>
+                </div>
+
+            </div>
+
+            <div class="card" *ngIf="!roleName">
+                <h5 class="p-3 ml-3">Please Select Role To Proceed....</h5>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

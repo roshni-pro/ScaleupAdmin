@@ -1,0 +1,69 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-9">
+            <h3 class="heading">Country</h3>
+        </div>
+        <!-- <div class="col-md-2 mt-3">
+            <button type="button"  class="btn btn-blue" (click)="onClickAddBtn()">Add Country</button>
+        </div> -->
+    </div>
+    <div class="row p-4">
+      <div class="col-md-12" style="text-align: right;">
+        <button type="button"  class="btn btn-blue" (click)="onClickAddBtn()">Add Country</button>
+      </div>
+  </div>
+    <div class="card">
+        <p-table [value]="countryList" [rows]="25" [paginator]="true"  styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Country Code</th>
+                    <th >Currency Code</th>
+                    <th >Name</th>
+                    <th >Created Date</th>
+                    <th >Edit</th>
+                    <!-- <th>Delete</th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-country>
+                <tr >
+                    <td>{{country.countryCode}}</td>
+                    <td >{{country.currencyCode}}</td>
+                    <td >{{country.name}}</td>
+                    <td >{{country.created | date : 'mediumDate'}}</td>
+                    <td >
+                    <!-- <button class="btn btn-secondary" >
+                        <a href="javascript:void(0);" style="color: white;text-decoration: none;" (click)="onClickEdit(country)">
+                            <i class="pi pi-pencil"></i>&nbsp;Edit
+                        </a>
+                    </button> -->
+                    <img src="../../../../../assets/theme/icons/edit.svg" (click)="onClickEdit(country)">
+                    </td>
+                    <!-- <td><a href="javascript:void(0);" (click)="onClickDelete(country)"><i class="fa fa-trash"></i>&nbsp;Delete</a></td> -->
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+<!-- </div> -->
+<p-toast></p-toast>
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+      <button type="button" class="btn btn-danger"  style="margin-right: 10px;" (click)="cd.accept()">Yes </button>
+      <button type="button" class="btn btn-sucesss"(click)="cd.reject()">No</button>
+    </p-footer>
+  </p-confirmDialog>
+
+  <div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+<!-- <p-confirmPopup></p-confirmPopup> -->
+<!-- <p-confirmDialog #cd appendTo="body" header="Confirmation">
+    <p-footer>
+      <button type="button" class="btn btn-raised btn-primary mr-1" (click)="cd.reject()">No</button>
+      <button type="button" class="btn btn-raised btn-danger mr-1" (click)="cd.accept()">Yes</button>
+    </p-footer>
+  </p-confirmDialog> -->
+
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
+<!-- <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog> -->

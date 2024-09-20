@@ -1,0 +1,243 @@
+<div class="container-fluid px-4">
+
+  <div class="row heading">
+    <div class="col-3">
+      <!-- <code style="color: grey;">Pages/Profile</code> -->
+      <h3 *ngIf="StatusFilter=='Profile'">Profile/BL</h3>
+      <!-- <h3 *ngIf="StatusFilter=='Activity'">Profile/Activity</h3> -->
+      <h3 *ngIf="StatusFilter=='Offer'">Profile/BL/Offer</h3>
+    </div>
+  </div>
+
+  <div class="row mt-2" style="display: flex;">
+    <div class="card">
+      <div class="card-content p-3">
+
+        <div class="row">
+
+          <div class="col-2">
+            <img class="selfieimg shadow" *ngIf="this.selfieDetail.frontImageUrl"
+              src="{{this.selfieDetail.frontImageUrl}}">
+            <img class="selfieimg shadow" *ngIf="!this.selfieDetail.frontImageUrl"
+              src="../../../../../assets/theme/icons/DummyProfilePic.jpg">
+          </div>
+
+          <div class="col-md-6">
+
+            <div class="row">
+              <div class="col-12">
+                <!-- <label class="label-dark mt-3">{{leadData.leadCode}} &nbsp;</label> -->
+                <label class="label-dark mt-3">{{customerData?.leadCode}} &nbsp;</label>
+                <label class="label-dark mt-3" *ngIf="this.businessDetail.businessName">|
+                  {{this.businessDetail.businessName}} &nbsp;</label>
+                <label class="label-lite mt-3" *ngIf="aadharDetail.name">| {{aadharDetail.name}} &nbsp;</label>
+                <label class="label-lite mt-3" *ngIf="this.personalDetail.MobileNumber"> |
+                  {{this.personalDetail.MobileNumber}} &nbsp;</label>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col" style="display: contents;">
+                <!-- <p-selectButton [options]="StatusList" [(ngModel)]="StatusFilter" [unselectable]="true"
+                    optionLabel="label" optionValue="value">
+                    <ng-template let-item pTemplate>
+                      <label><b>{{item.label}}</b></label>
+                    </ng-template>
+                  </p-selectButton> -->
+                <button class="btn btnb" [ngClass]="IsProfile=='Profile'? 'btn-darkBlue':'btn-blue'"
+                  (click)="IsProfile='Profile';  setProfile()">Profile</button>&nbsp;&nbsp;
+
+                <button class="btn btnb btn-blue" [ngClass]="IsProfile=='Offer'?'btn-darkBlue':'btn-blue'"
+                  (click)="IsProfile='Offer';  setProfile()">Offer</button>&nbsp;&nbsp;
+
+
+              </div>
+              <!-- <div class="col-md-2">
+                
+              </div> -->
+              <!-- <div class="col" style="text-align: justify;">
+               
+            </div> -->
+            </div>
+            <div class="row mt-2">
+              <div class="col-12" *ngIf="dsaLeadData">
+                <label class="label-dark mt-3" *ngIf="dsaLeadData.profileType != 'Connector'">{{dsaLeadData.anchorName}} &nbsp;</label>
+                <label class="label-dark mt-3">|
+                  {{dsaLeadData.profileType}} &nbsp;</label>
+                <label class="label-lite mt-3">| {{dsaLeadData.customerName}} &nbsp;</label>
+                <label class="label-lite mt-3">| {{dsaLeadData.dsaLeadCode}} &nbsp;</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4" style="text-align: right;">
+            <!-- Activite Physcial NaCH -->
+            <!-- && ((customerData?.leadGenerator == null || customerData?.leadGenerator == '') || (customerData?.leadConvertor == null || customerData?.leadConvertor =='')) -->
+            <div class="row"> 
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <button type="button" class="btn btn-blue btnb" (click)="refresh()">Refresh</button> &nbsp;&nbsp;
+                <button type="button" class="btn btnb btn-blue"  *ngIf="!userTypeRole"
+                (click)="LeadActivityHistory()">History</button>&nbsp;&nbsp;
+                <button type="button"
+                  *ngIf="( checkroleExistence('Sales Manager') || checkroleExistence('Operations Manager') || checkroleExistence('superadmin') )"
+                  class="btn btn-blue btnb" (click)="addLeadPopup()" [hidden]="!userTypeRole" [disabled]="!userTypeRole">Add LG LC</button> &nbsp;
+                <!-- <button class="btn btn-blue btnb" type="button" [disabled]="!isOfferGenerated"
+                  (click)="onClickOffeGenerated()">Send to
+                  LOS</button> -->
+                  <!-- [disabled]="!(isOfferGenerated && !isRolePermission)" -->
+                  <button class="btn btn-blue btnb" type="button"  [hidden]="!userTypeRole" [disabled]="!(isOfferGenerated && userTypeRole)"
+                  (click)="onClickSendToLOS()">Send to LOS</button>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-12 d-flex justify-content-center align-items-center">
+                <button *ngIf="userTypeRole" type="button" class="btn btnb btn-blue"
+                  (click)="LeadActivityHistory()">History</button>&nbsp;&nbsp;
+                  <!--reset condition [disabled]="(isOfferAccepted)" -->
+                <button *ngIf="!isReset" type="button" class="btn btnb btn-darkBlue" (click)="reset()"  [hidden]="!userTypeRole">Reset</button>&nbsp;&nbsp;
+   
+                <button type="button"  [hidden]="!userTypeRole" *ngIf="IsleadReject || !isOfferAccepted" class="btn btnb btn-danger"
+                  (click)="OnReject()" [disabled]="!userTypeRole">Lead Reject</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- <div class="row mt-1" style="text-align: center;">
+          </div> -->
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [(visible)]="isLeadGeneratorPopup" [resizable]="false" [modal]="true" appendTo="body"
+  [style]="{width: 'auto', height:'auto'}" (onHide)="cancelleadGeneratorpopup()">
+  <p-header>Add Lead Generator And Convertor</p-header>
+  <div class="ui-fluid">
+    <div>
+      <label>Lead Generator<span style="color: red;">*</span></label>
+      <input type="text" id="_LeadGenerator" name="_LeadGenerator" class="form-control"
+        placeholder="Enter Lead Generator" [(ngModel)]="LeadGeneratorConvertorObj.LeadGenerator"
+        (keypress)="onkeypress($event)">
+      <!-- [disabled]="isLeadGeneratorDisabled" -->
+    </div>
+    <div>
+      <label>Lead Convertor<span style="color: red;">*</span></label>
+      <input type="text" id="_LeadConvertor" name="_LeadConvertor" class="form-control"
+        placeholder="Enter Lead Convertor" [(ngModel)]="LeadGeneratorConvertorObj.LeadConvertor"
+        (keypress)="onkeypress($event)">
+      <!-- [disabled]="isLeadConvertorDisabled" -->
+    </div>
+  </div>
+  <p-footer>
+    <button class="btn btn-blue" (click)="addLeadGeneratorConvertor()"><i class="fa fa-search"></i>Save</button>
+  </p-footer>
+</p-dialog>
+<p-dialog header="View History" [(visible)]="isLeadActivityHistory" appendTo="body" [modal]="true"
+  [style]="{width: '100vw',height:'100vh'}">
+
+
+  <div class="col-12 mt-3">
+    <div class="card shadow">
+      <div class="card-content text-center">
+        <p-table #dt [value]="LeadActivityHistoryData" [scrollable]="true" styleClass="p-datatable-striped"
+          [paginator]="true" [rows]="10">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>SNo.</th>
+              <th>UserName</th>
+              <th>Action</th>
+              <th>ActivityMasterName</th>
+              <th>SubActivityMasterName</th>
+              <th>Date</th>
+              <th>Changes</th>
+              <!-- <th>Userid</th>                                                   -->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-ir let-i="rowIndex">
+            <tr style="cursor: pointer;">
+              <td>{{i+1}}</td>
+              <td>{{ir.userName}}</td>
+              <td>{{ir.action}}</td>
+              <td>{{ir.activityMasterName}}</td>
+              <td>{{ir.subActivityMasterName}}</td>
+              <td>{{ir.timeStamp | date: 'dd/MM/yyyy'}}</td>
+              <!-- <td>{{ir.changes}}</td> -->
+              <td style="text-align:center!important;">
+                <span [innerHTML]="ir.changes"></span>
+              </td>
+              <!-- <td>{{ir.userId}}</td> -->
+
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <h5>* Data Not Found</h5>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+
+</p-dialog>
+<p-dialog [(visible)]="IsReject" [draggable]="false" [resizable]="false" [modal]="true" appendTo="body"
+  [style]="{width: '40vw'}">
+
+  <!-- {{this.selectedActionStatus| json}} -->
+  <p-header>Perform an Action</p-header>
+  <div class="ui-fluid">
+    <textarea type="text" id="_Rejectcomment" name="_Rejectcomment" class="form-control"
+      [(ngModel)]="MessageForLeadReject" placeholder="Enter Reason For Reject">
+         </textarea>
+  </div>
+  <p-footer>
+    <button type="button" class="btn btnb btn-danger" (click)="Reject()">Reject</button>
+  </p-footer>
+
+</p-dialog>
+<p-dialog [(visible)]="isSelectedSendToLOSPopup" appendTo="body" [modal]="true" (onHide)="cancel()" [style]="{width: '35vw',height:'40vh'}" [draggable]="false">
+    <!-- <div class="row">   
+        <div class="col-md-6">
+            <h5 class="p-3">Send To LOS</h5>
+        </div>
+    </div> -->
+    <div class="row mt-3 d-flex justify-content-center">
+        <div class="col-1"></div>
+        <div class="col-md-5">
+            <p-multiSelect class="ui-multiselect-panel"  appendTo="body" [options]="companyData" [(ngModel)]="selectedCompany" optionLabel="nbfcCompanyName" placeholder="Select Company" 
+            (onChange)="onChangeCompany($event)" [style]="{'width':'100%'}"/>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4 mt-2">
+            <button class="btn btn-blue btnb" type="button" [disabled]="!isOfferGenerated"
+                  (click)="onClickOffeGenerated()">Send to LOS</button>
+        </div>
+
+        <div class="col">
+        </div>
+    </div>
+
+</p-dialog>
+<ng-container *ngIf="IsProfile">
+
+  <ng-container *ngIf="IsProfile=='Profile'">
+    <app-bl-lead-profile [isOfferAccepted]="customerData?.offerCompanyId && customerData?.offerCompanyId>0?true:false"></app-bl-lead-profile>
+  </ng-container>
+
+  <!-- <ng-container *ngSwitchCase="'Activity'">
+      <app-profile-activity></app-profile-activity>
+    </ng-container> -->
+
+  <ng-container *ngIf="IsProfile=='Offer'">
+    <app-bl-profile-offer-detail [leadData]="leadData" [leadActivitiesList]="leadActivitiesList" [isShowUMRN]="customerData?.offerCompanyId && customerData?.offerCompanyId>0?true:false"
+      [IsleadReject]="IsleadReject" (stateResetChange)="onResetChange($event)"></app-bl-profile-offer-detail>
+  </ng-container>
+</ng-container>
+<div class="overlay" *ngIf="loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

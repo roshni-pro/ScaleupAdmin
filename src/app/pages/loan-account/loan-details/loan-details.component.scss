@@ -1,0 +1,29 @@
+.selfieimg {
+    width: 120px;
+    border-radius: 50%;
+    height: 120px;
+}
+
+.header-title-blue{
+    color: rgba(1, 150, 206, 1);
+}
+
+.card-outter-green{
+    background: #00A980;
+    border-radius: 12px;
+}
+.card-outter-yellow{
+    background: #FBB82D;
+    border-radius: 12px;
+}
+
+.inner-card{
+    background: white;
+    border-radius: 8px;
+}
+
+.center-all{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}

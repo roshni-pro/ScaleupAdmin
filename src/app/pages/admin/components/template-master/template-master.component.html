@@ -1,0 +1,188 @@
+<div class="container-fluid">
+
+    <div class="row mt-4">
+      <h3 class="pageHeader">Template Master</h3>
+    </div>
+    <div class="card shadow mt-4">
+        <div class="card-content">
+            <div class="row p-4">
+                <div class="col-md-3">
+                    <p-dropdown [options]="TemplateForEnum" [style]="{'width':'100%'}" placeholder="Select Template For" optionLabel="Type" [(ngModel)]="searchTemplate"
+                    (ngModelChange)="getList(selectedTemplateForEnum)"></p-dropdown>
+                </div>
+                <div class="col-md-3">
+                    <p-dropdown [options]="TemplateType"  [style]="{'width':'100%'}" placeholder="Select Type" optionLabel="Type" [(ngModel)]="searchType"
+                    (ngModelChange)="getList(selectedType)"></p-dropdown>
+                </div>
+                <div class="col-md-3 text-right">
+
+              </div>
+                <div class="col-md-3" style="text-align: end;">
+                  <button class="btn btn-liteBlue" (click)="Search()"><i
+                    class="fa fa-search"></i>Search</button>&nbsp;&nbsp;
+                    <button class="btn btn-blue" (click)="AddDialoag()" appMode="add"><i
+                            class="fa fa-search"></i>Add</button>&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div  class="mt-3 text-center">
+        <p-table #dt [value]="TemplateMasterLists" [showCurrentPageReport]="true" [paginator]="true" [rows]="10" [scrollable]="true"
+        [globalFilterFields]="['templateFor']"
+        dataKey="id"
+        >
+        <!-- <ng-template pTemplate="caption">
+          <div class="flex">
+              <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+              <span class="p-input-icon-left ml-auto">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+              </span>
+          </div>
+      </ng-template> -->
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Template For</th>
+                    <th>Template Type</th>
+                    <th>DLTID</th>
+                    <th>Template Code</th>
+                    <th>Template Description</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-template>
+                <tr>
+                    <td>{{template.templateFor}}</td>
+                    <td>{{template.templateType}}</td>
+                    <td>{{template.dltid}}</td>
+                    <td>{{template.templateCode}}</td>
+                    <td>{{template.template==null?'--':template.template}}</td>
+                    <td [ngStyle]="template.isActive==true?{color:'green'}:{color:'red'}" >{{template.isActive==true?'Active':'Inactive'}}</td>
+                    <td style="width:100px">
+                      <img src="../../../../../assets/theme/icons/edit.svg" appMode="edit" (click)="Edit(template)">
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td colspan="15" style="text-align: center;">
+                  <br>
+                  <h5><b>No Data Found.</b></h5>
+                </td>
+              </tr>
+          </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="Add" [(visible)]="display" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="city"><b>Template For:</b></label><br>
+        <p-dropdown [options]="TemplateForEnum" [style]="{'width':'100%'}"  placeholder="Select Template For" optionLabel="Type" [(ngModel)]="selectedTemplateForEnum"
+        (ngModelChange)="getList(selectedTemplateForEnum)"></p-dropdown>
+    </div>
+    <div class="col-md-6">
+      <label for="city"><b>Template Type:</b></label><br>
+        <p-dropdown [options]="TemplateType" placeholder="Select Type" [style]="{'width':'100%'}"  optionLabel="Type" [(ngModel)]="selectedType"
+        (ngModelChange)="getList(selectedType)"></p-dropdown>
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mt-4" *ngIf="selectedType?.Type=='SMS'">
+        <label for="city"><b>DLTID :</b></label><br>
+        <input [(ngModel)]="addDLTID" class="form-control" placeholder="Enter DLTID" (keypress)="omit_special_char_and_text($event)">
+      </div>
+    </div>
+    <div class="row mt-4">
+        <!-- <div class="col-12 mt-4">
+          <textarea id="float-input" placeholder="Write Here.." [(ngModel)]="code" class="form-control" (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+        </div> -->
+
+        <label for="city"><b>Template Code :</b></label><br>
+          <div class="grow-wrap">
+            <textarea pInputTextarea  onInput="this.parentNode.dataset.replicatedValue = this.value" id="float-input" placeholder="Write Here.." [(ngModel)]="code" (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+            <!-- <textarea
+           ></textarea> -->
+          </div>
+    </div>
+    <div class="row mt-4">
+        <!-- <div class="col-12 mt-4">
+          <textarea id="float-input" pInputTextarea placeholder="Write Here.." [(ngModel)]="msg" class="form-control" (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+        </div> -->
+        <label for="city"><b>Template Description :</b></label><br>
+        <div class="grow-wrap">
+          <textarea pInputTextarea  onInput="this.parentNode.dataset.replicatedValue = this.value" id="float-input" placeholder="Write Here.." [(ngModel)]="msg" (keydown)="space($event)" ></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4">
+          <label for="city"><b>Status :</b></label><br>
+          <p-inputSwitch [(ngModel)]="Status" (ngModelChange)="ActiveInactive(Status)"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4 ">
+            <button style="margin-left: 84%;" class="btn btn-blue" (click)="Submit()">Save</button>&nbsp;&nbsp;
+        </div>
+    </div>
+  </p-dialog>
+
+  <p-dialog header="Edit" [(visible)]="isEdit" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+    <hr>
+    <div class="row">
+      <div class="col-12 mt-4" *ngIf="selectedType && selectedType?.Type=='SMS'">
+        <label for="city"><b>DLTID :</b></label><br>
+        <input [(ngModel)]="addDLTID" class="form-control" placeholder="Enter DLTID" (keypress)="omit_special_char_and_text($event)">
+      </div>
+    </div>
+    <div class="row mt-4">
+        <!-- <div class="col-12 mt-4">
+          <textarea id="float-input" placeholder="Write Here.." [(ngModel)]="code" class="form-control" (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+        </div> -->
+        <label for="city"><b>Template Code :</b></label><br>
+        <div class="grow-wrap">
+            <textarea  onInput="this.parentNode.dataset.replicatedValue = this.value" id="float-input" placeholder="Write Here.." [(ngModel)]="code"  (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+            <!-- <textarea
+           ></textarea> -->
+          </div>
+    </div>
+    <div class="row mt-4">
+        <!-- <div class="col-12 mt-4">
+          <textarea id="float-input" placeholder="Write Here.." [(ngModel)]="msg" class="form-control" (keydown)="space($event)" (keypress)="omit_special_char($event)"></textarea>
+        </div> -->
+        <label for="city"><b>Template Description :</b></label><br>
+        <div class="grow-wrap">
+          <textarea  id="float-input" placeholder="Write Here.." [(ngModel)]="msg"  (keydown)="space($event)" (keypress)="omit_special_char($event)"
+          onInput="this.parentNode.dataset.replicatedValue = this.value"></textarea>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4">
+          <label for="city"><b>Status :</b></label><br>
+          <p-inputSwitch [(ngModel)]="Status" (ngModelChange)="ActiveInactive(Status)"></p-inputSwitch>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 mt-4 ">
+            <button style="margin-left: 84%;" class="btn btn-darkBlue" (click)="Update()">Update</button>&nbsp;&nbsp;
+        </div>
+    </div>
+  </p-dialog>
+
+  <p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+      <button type="button" class="btn btn-danger"  style="margin-right: 10px;" (click)="cd.reject()">No</button>
+      <button type="button" class="btn btn-sucesss"  (click)="cd.accept()">Yes </button>
+    </p-footer>
+  </p-confirmDialog>
+
+  <p-toast ></p-toast>
+
+  <div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif" alt="Loading..." /> </div>
+  </div>

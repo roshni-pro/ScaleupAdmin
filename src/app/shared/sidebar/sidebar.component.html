@@ -1,0 +1,47 @@
+<div class="sidebar-content" style="background-color: azure;">
+    <div>
+        <!-- <img src="../../../assets/theme/logo/scale blue (1).svg" style="width: 60%;
+        margin: 20px;" alt="Logo"> -->
+        <!-- <img src="../../../assets/theme/logo/Scaleup Logo 2 1.png" style="width: 80%;
+        margin-top: 28px; margin-left: 20px;" alt="Logo"> -->
+
+        <!-- <img src="../../../assets/theme/logo/Scaleup logo blue (2).png" style="width: 80%;
+        margin-top: 28px; margin-left: 20px;" alt="Logo"> -->
+
+        <img src="../../../assets/theme/logo/Scale up Logo.png" style="width: 80%;
+        margin-top: 28px; margin-left: 20px;" alt="Logo">
+    </div>
+    <div class="p-2">
+        <hr>
+    </div>
+    <div>
+        <nav id="navbar-example3">
+            <nav class="nav nav-pills flex-column">
+                <ng-container *ngFor="let menu of menuItemlist">
+                    <li class="sidebar-item" [ngClass]="menu.class" [title]="menu.title" style="padding-left: 8%;">
+                        <a class="nav-link sidebar-link waves-effect waves-dark sidebar-link pointer"
+                            (click)="setPermissions(menu)" [routerLink]="menu.submenu.length === 0 ? menu.path : null"
+                            routerLinkActive="active" (click)="toggleSubMenu(menu)">
+                            <i [ngClass]="[menu.icon]" style="margin-right: 5%;"></i>
+                            {{menu.title}}
+                            <i *ngIf="menu.submenu.length > 0 && !menu.showSubMenu" class="pi pi-angle-right"
+                                style="float: right"></i>
+                            <i *ngIf="menu.submenu.length > 0 && menu.showSubMenu" class="pi pi-angle-up"
+                                style="float: right"></i>
+                        </a>
+                        <ul *ngIf="menu.showSubMenu" style="list-style-type: none; padding-left: 1em !important;">
+                            <li (click)="setPermissions(a)" class="sidebar-item" *ngFor="let a of menu.submenu" [routerLink]="a.path"
+                                [title]="a.title" >
+                                <a class="nav-link sidebar-link waves-effect waves-dark sidebar-link pointer"
+                                    [routerLink]="[a.path]" routerLinkActive="active">
+                                    <i [ngClass]="[a.icon]"></i>
+                                    {{a.title}}
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ng-container>
+            </nav>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+.ml{margin-left: 12px;
+    padding: 6px;
+    // border-bottom: solid 1px gray;
+}
+.cp{text-transform: uppercase;}
+.cl{color: black;font-weight: bold;}
+.tp{margin-top: 0em;}
+.common-padding{
+    padding: 20px;
+  }
+  .no-Txt
+  {
+    color: blue;
+  }
+
+  .fa-mouse-pointer:hover {
+    animation: mouse-pointer 1s cubic-bezier(.36,.07,.57,.99) infinite;
+      cursor: pointer;
+  }
+
+  img{
+    // width: 100%;
+    // margin: auto;
+    // max-height: 15vh;
+    max-height: 10vh;
+    display: block;
+    aspect-ratio: auto;
+    // min-height: 12vh; 
+    min-height: 4vh;
+  }
+
+
+  :host ::ng-deep  .pi-check:before {
+    background-color: 	green!important;
+    border-radius: 110px !important;
+    color: white;
+    //margin-left: 5700%;
+}
+:host ::ng-deep  .pi-times:before {
+    background-color: 	red!important;
+    border-radius: 110px !important;
+    color: white;
+    //margin-left: 5700%;
+}
+
+:host ::ng-deep  .pi-chevron-down:before {
+    // background-color: 	green!important;
+    border-radius: 110px !important;
+    // color: white;
+    //margin-left: 5700%;
+}
+
+:host ::ng-deep  .pi-chevron-right:before {
+    // background-color: 	green!important;
+    border-radius: 110px !important;
+    // color: white;
+    //margin-left: 5700%;
+}
+
+// img[_ngcontent-ng-c1556916346] {
+//     max-height: 0vh;
+//     display: block;
+//     aspect-ratio: auto;
+//     min-height: 6vh;
+// }
+
+.lefttextalign
+{
+text-align: left;
+
+}

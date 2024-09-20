@@ -1,0 +1,17 @@
+<div class="card tp common-padding">
+    <div class="row" *ngIf="AgreementData != null && isComplete">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">View PDF</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">
+                <div>
+                    <div class="p-img" *ngIf="AgreementData.agreementUrl != null">
+                        <i class="pi pi-file-pdf" style="font-size:48px;color:blue"
+                            (click)="OpenPdf(AgreementData.agreementUrl)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,198 @@
+<div class="card tp common-padding">
+<div *ngIf="DisbursedData != null">
+    <div class="row" *ngIf="DisbursedData.anchorName != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Anchor Name</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.anchorName}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.productType != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Product Type</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.productType}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.thirdPartyLoanCode != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">ThirdParty LoanCode</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.thirdPartyLoanCode}}</div>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="DisbursedData.userName != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">user Name</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.userName}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.accountId != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">account Id</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.accountId}}</div>
+        </div>
+    </div>
+
+    <!-- <div class="row" *ngIf="DisbursedData.convenienceFeeRate != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">convenienceFeeRate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.convenienceFeeRate}}</div>
+        </div>
+    </div> -->
+
+    <div class="row" *ngIf="DisbursedData.disbursalAmount != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">disbursal Amount</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.disbursalAmount}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.interestRateType != null && DisbursedData.interestRateType != ''">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Interest Rate Type</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData.interestRateType}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.interestRate != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Interest Rate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData.interestRate}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.processingFeeType != null && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Processing Fee Type</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{(DisbursedData.processingFeeType == 'Percentage' ? DisbursedData.processingFeeType : 'Amount') }}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.processingFeeRate != null && DisbursedData.processingFeeType == 'Percentage' && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">processing Fee Rate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.processingFeeRate}}%</div>
+        </div>
+    </div>
+
+    <!-- <div class="row" *ngIf="DisbursedData.processingFeeRate != null && DisbursedData.processingFeeType != 'Percentage' && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">processing Fee Rate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.processingFeeRate}}</div>
+        </div>
+    </div> -->
+
+    <div class="row" *ngIf="DisbursedData.processingFeeAmount != null && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">processing Fee Amount</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.processingFeeAmount}}</div>
+        </div>
+    </div>
+    <!-- <div class="row" *ngIf="DisbursedData.processingFeeRate != null && DisbursedData.processingFeeType == 'Percentage' && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">processing Fee Rate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.processingFeeRate}}%</div>
+        </div>
+    </div> -->
+    <!-- <div class="row" *ngIf="DisbursedData.processingFeeRate != null && DisbursedData.processingFeeType == 'Amount'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">processing Fee Amount</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.processingFeeRate}} Rs</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.processingFeeRate != null && DisbursedData.processingFeeType == 'Percentage'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Processing Fee Amount</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.disbursalAmount * ((DisbursedData?.processingFeeRate)/100)}}</div>
+        </div>
+    </div> -->
+
+    <div class="row" *ngIf="DisbursedData.gstRate != null  && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">gst Rate</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.gstRate}}%</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.gstProcessingFeeAmount != null  && DisbursedData.payableBy != 'Anchor'">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">gst Processing Fee Amount</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.gstProcessingFeeAmount}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursedData.leadCode != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">lead Code</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.leadCode}}</div>
+        </div>
+    </div>
+
+    <!-- <div class="row" *ngIf="DisbursedData.mobileNo != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">mobileNo</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.mobileNo}}</div>
+        </div>
+    </div> -->
+
+  
+
+    <div class="row" *ngIf="DisbursedData.payableBy != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Processing Fee Payable By</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursedData?.payableBy}}</div>
+        </div>
+    </div>
+
+</div>
+</div>
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+  </div>

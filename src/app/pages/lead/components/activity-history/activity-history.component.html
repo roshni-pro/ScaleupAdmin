@@ -1,0 +1,69 @@
+<div class="card flex justify-content-center">
+    <p-tree [value]="nodes" class="w-full md:w-30rem">
+        <ng-template let-node pTemplate="url">
+             <a [href]="node.data" target="_blank" rel="noopener noreferrer" class="text-700 hover:text-primary">{{ node.label }}</a>
+        </ng-template>
+        <ng-template let-node pTemplate="default">
+            <b>{{ node.label }}</b>
+        </ng-template>
+    </p-tree>
+</div>
+<p-table #dt [value]="leadActivitiesList" 
+    [showCurrentPageReport]="true"  [scrollable]="true"  >
+          <ng-template pTemplate="body" id="dtt" let-rowData let-expanded="expanded" let-rowIndex="rowIndex" >
+                <tr href="#" [pRowToggler]="rowData" >
+                    <div class="card flex justify-content-center mt-4 p-3">
+                    <td  >
+                        <div class="row">
+                            <div class="col">
+                                <span [ngClass]="(rowData.isCompleted ) ? 'pi pi-check' : 'pi pi-times'"> </span>
+                                <span style="font-size: 20px; margin-left:30px;"><b>{{(rowData.subActivityName==""||rowData.subActivityName==null)?rowData.activityName:rowData.subActivityName}}</b></span>
+                            </div>
+                            <div class="col-1">
+                                <div class="text-right">
+                                    <i [ngClass]="(rowData.expanded) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'" ></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span>{{rowData.isCompleted}}   {{rowData.isApproved}}</span> -->
+                    </td>
+                </div>
+                </tr>
+            <tr *ngIf="rowData.expanded">
+                <td colspan="9" *ngIf="rowData.children">
+                        <p-table  [value]="rowData.children"  >
+                            <ng-template pTemplate="header">
+                                <tr >
+                                    <th>Date</th>
+                                    <th>Day</th>
+                                    <th>Check-In</th>
+                                    <th>Check-Out</th>
+                                    <th>TC</th>
+                                    <th>Status</th>
+                                    <th>PC</th>
+                                    <th>TADA</th>
+                                    <!-- <th> <button pButton pRipple label="Export" (click)="subExcelDownload(rowData)" class="p-button-success"></button></th> -->
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-order>
+                                <tr >
+                                    <td><b> {{order.CreatedDate }} </b></td>
+                                    <td><b>{{order.Day}}</b></td>
+                                    <td><b>{{order.FirstCheckIn==null?'--':order.FirstCheckIn }}</b></td>
+                                    <td><b>{{order.LastCheckOut==null?'--':order.LastCheckOut }}</b></td>
+                                    <td><b>{{order.TC}}</b></td>
+                                    <td><b>{{order.Status}}</b></td>
+                                    <td><b>{{order.PC}}</b></td>
+                                    <td><b>{{order.TADA}}</b></td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="emptymessage">
+                                <tr>
+                                    <td>Data Not Found.</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                </td>
+            </tr>
+        </ng-template>
+</p-table>

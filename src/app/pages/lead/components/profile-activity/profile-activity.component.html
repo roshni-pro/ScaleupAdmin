@@ -1,0 +1,139 @@
+<div class="container-fluid mt-4">
+
+    <div class="card p-4">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="row p-2">
+                    <h5>Recent Activities</h5>
+                </div>
+
+                <!-- <div class="row p-2 mt-2" *ngFor="let activity of activities">
+                    <div class="col-2">
+                        <label class="label-lite">{{activity.createDate | date}}</label> <br>
+                        <label class="label-lite">{{activity.createDate | date:'mediumTime'}}</label>
+                    </div>
+                    <div class="col-1">
+                        <label>+</label>
+                    </div>
+                    <div class="label-lite col" [innerHtml]="activity.narrationHTML | safeHTML"></div>
+                </div> -->
+
+                <div class="row p-2 mt-2 d-flex justify-content-center align-items-center"
+                    *ngFor="let activity of clubedRecords">
+                    <div class="col-2">
+                    </div>
+                    <div class="col">
+                        <label (click)="activity.isExpanded = !activity.isExpanded">
+                            <i *ngIf="!activity.isExpanded" class="pi pi-plus-circle pointer"
+                                style="font-size: 1rem"></i>
+                            <i *ngIf="activity.isExpanded" class="pi pi-minus-circle pointer"
+                                style="font-size: 1rem"></i>
+                        </label>
+                        <label (click)="activity.isExpanded = !activity.isExpanded"
+                            class="label-blue pointer">{{activity.date | date}}</label> <br>
+                    </div>
+                    <!-- *ngIf="activity.isExpanded == false" -->
+                    <!-- <div class="col-9" >
+                    </div> -->
+                    <div *ngIf="activity.isExpanded == true">
+                        <div *ngFor="let record of activity.records" class="row p-2">
+                            <div class="col-2 p-2 text-center">
+                                <span class="label-time">{{record.createDate | date:'shortTime'}}</span>
+                            </div>
+                            <div class="col-1 p-2">
+                                <i *ngIf="activity.isExpanded" class="pi pi-clock" style="font-size: 1rem"></i>
+                                <div class="v-line"></div>
+                            </div>
+                            <div class="col-9 p-2">
+                                <label class="label-bluee">{{record.eventName}} - </label> &nbsp;
+                                <span class="label-text" [innerHtml]="record.narrationHTML | safeHTML"></span> &nbsp;
+                                <label class="label-bluee pointer" (click)="ShowName(record.userId)"> by - {{record.userId}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div *ngFor="let group of clubedRecords">
+                    hi
+                    <h3>{{ group.date }}</h3>
+                    <ul>
+                        <li *ngFor="let record of group.records">
+                            {{ record.eventName }} - {{ record.narration }}
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button [disabled]="!isLoadMore" style="float: right;" class="btn btn-sm btn-primary" (click)="loadMore()">Load More</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<p-dialog [(visible)]="showDocsPopup" [draggable]="false" appendTo="body" [modal]="true"
+    [style]="{ 'width': '55vw', 'height': 'auto' }" [closable]="false">
+    <div class="row text-center">
+
+        <div class="col-md-12" *ngIf="mediaPath">
+            <label class="label-dark pointer" (click)="downloadDoc()">{{mediaPath}}</label>
+        </div>
+        <div class="col-md-12" *ngIf="!mediaPath">
+            <h3>No doc found</h3>
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <button class="btn btn-sm btn-primary" type="button" style="float:right"
+                (click)="showDocsPopup = false">Close</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showAddress" [draggable]="false" appendTo="body" [modal]="true"
+    [style]="{ 'width': '55vw', 'height': 'auto' }" [closable]="false">
+    <div class="row ">
+        <div class="col-md-12" *ngIf="addressObj">
+            <h5>{{addressObj.addressTypeName}} Address</h5>
+        </div>
+        <div class="col-md-12" *ngIf="addressObj">
+            <label class="label-lite">Address - </label> &nbsp;
+            <label>{{addressObj.addressLineOne}} {{addressObj.addressLineTwo}}
+                {{addressObj.addressLineThree}}</label> &nbsp;
+            <label>{{addressObj.cityName}} {{addressObj.stateName}} {{addressObj.zipCode}} </label>
+            <br>
+            <label> {{addressObj.countryName}}</label>
+        </div>
+        <div class="col-md-12" *ngIf="!addressObj">
+            <h3>No Address found</h3>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <button class="btn btn-sm btn-primary" type="button" style="float:right"
+                (click)="showAddress = false">Close</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="showName" [draggable]="false" appendTo="body" [modal]="true"
+    [style]="{ 'width': '55vw', 'height': 'auto' }" [closable]="false">
+    <div class="row ">
+        <div class="col-md-12">
+            <label class="label-lite"> Name - </label>
+            <label class="label-dark">  {{userName}}  </label>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <button class="btn btn-sm btn-primary" type="button" style="float:right"
+                (click)="showName = false">Close</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-confirmDialog></p-confirmDialog>

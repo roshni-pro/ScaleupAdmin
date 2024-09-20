@@ -1,0 +1,25 @@
+.selfieimg {
+    // width: 100%;
+    // margin: auto;
+    // max-height: 15vh;
+    // display: block;
+    // aspect-ratio: auto;
+    // min-height: 12vh;
+    // border-radius: 40px;
+
+    width: 120px;
+    border-radius: 50%;
+    height: 120px;
+}
+.btnb{
+    height: 30px !important;
+      font-size: 12px !important;
+      border-radius: 7px !important;
+      align-items: center;
+    text-align: center;
+    display: flex;
+  }
+  .ui-multiselect-panel {
+    z-index: 1051 !important; /* Ensure it's higher than the dialog */
+   // position: fixed !important; /* Prevent it from being affected by scrolling */
+}

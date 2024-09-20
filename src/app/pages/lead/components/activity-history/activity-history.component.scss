@@ -1,0 +1,71 @@
+.wd {
+    display: block;
+    // width: 100%;
+    margin-left: 6em;
+    .lft-wd {
+      width: 3%;
+      display: inline-block;
+      position: relative;
+  
+      img {
+           position: absolute;
+    top: -34px;
+    height: 91px;
+    left: -30px;
+      }
+}
+.rgt-wd {
+      width: 80%;
+      display: inline-block;
+      padding: 1em 0em;
+    }
+  }
+  
+
+  .cn{font-size: 16px;}
+.cn-detail{font-size: 16px;font-weight: 400;}
+.tp{margin-top: 0em;}
+
+.rotateimg180 {
+  -webkit-transform:rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(270deg);
+  margin-left: 5em;
+  width: 36px;
+  height: 177px;
+}
+.cr{
+  transform: rotate(180deg);
+  margin-left: 2em;
+  width: 29px;
+  height: 68px;
+  margin-top: 7.27em;
+}
+.no-Txt{
+  font-size: large;
+  font-weight: 500;
+  text-align: center;
+  color: blue;
+  padding: 10px 15px;
+  // text-decoration:underline 5px black;
+  padding-bottom: 2em;
+  background: white;
+  padding-top: 1.8em;
+}
+
+:host ::ng-deep  .pi-check:before {
+  /* color: green; */
+  background-color: 	#088F8F!important;
+  border-radius: 110px !important;
+  color: white;
+  border: black !important;
+}
+:host ::ng-deep  .pi-times:before {
+  /* color: green; */
+  background-color: 	#f83333!important;
+  border-radius: 110px !important;
+  color: white;
+  border: black !important;
+}

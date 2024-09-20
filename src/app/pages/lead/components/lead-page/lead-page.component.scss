@@ -1,0 +1,33 @@
+.btn-Export {
+  border-radius: 10px !important;
+  background: #0196CE !important;
+  color: #FFF !important;
+  height: 97%;
+}
+
+// .heading
+// {
+//    margin-top: 1%;
+//    margin-bottom: 1%;
+// }
+
+:host ::ng-deep .p-datatable {
+  border-radius: 20px; /* Adjust the value as needed */
+  overflow: hidden;
+}
+
+
+:host ::ng-deep .p-datepicker-trigger {
+    color: #ffffff;
+    background: #005373;
+    border: 1px solid #005373;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+}
+
+.btn{
+    display: inline-block;
+    height: 45px;
+    }

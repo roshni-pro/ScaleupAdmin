@@ -1,0 +1,408 @@
+<div class="container-fluid">
+  <div class="row p-2 my-2">
+    <div class="col-3">
+      <code style="color: #2b3674">HOP/Dashboard</code>
+      <h4><b>Dashboard</b></h4>
+    </div>
+  </div>
+
+  <!--  Filters -->
+  <div class="card shadow p-3 mt-2">
+    <div class="row mt-3">
+      <div class="col-3">
+        <p-multiSelect [options]="AnchorList" [style]="{ width: '100%' }" [(ngModel)]="searchFilters.AnchorId"
+          optionLabel="businessName" placeholder="Anchor" optionValue="id"></p-multiSelect>
+      </div>
+
+      <div class="col-3">
+        <p-multiSelect [options]="CityList" [style]="{ width: '100%' }" [(ngModel)]="selectedCities"
+          optionLabel="cityName" placeholder="City"></p-multiSelect>
+      </div>
+      <div class="col-3">
+        <p-calendar [(ngModel)]="searchFilters.FromDate" optionLabel="productType"
+          [style]="{ width: '100%', 'border-radius': '25%' }" placeholder="From" optionValue="productId"
+          [maxDate]="searchFilters.ToDate" [disabled]="searchFilters.day != 'Custom'"></p-calendar>
+      </div>
+
+      <div class="col-3">
+        <p-calendar [(ngModel)]="searchFilters.ToDate" optionLabel="productType" [minDate]="searchFilters.FromDate"
+          (click)="validateYearDifference()" [style]="{ width: '100%', 'border-radius': '25%' }" placeholder="To"
+          optionValue="productId" [disabled]="searchFilters.day != 'Custom'"></p-calendar>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-3">
+        <p-dropdown [options]="DayList" [(ngModel)]="searchFilters.day" optionLabel="label" [style]="{ width: '100%' }"
+          placeholder="Select Days" optionValue="value" (onChange)="getDate(searchFilters.FromDate)"></p-dropdown>
+      </div>
+
+      <div class="col-3">
+        <button class="btn btn-liteBlue" type="button" (click)="onSearch()" appMode="view">
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- break -->
+  <!-- <hr class="new2" style="margin-top: 2% !important" /> -->
+  <!-- break -->
+
+
+
+
+
+
+  <!-- trends start -->
+  <!-- trend 1 -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col-10">
+        <h5><b>Trends</b></h5>
+      </div>
+      <!-- <div class="col-1">
+        <button type="button" class="btn btn-blue">Export</button>
+      </div> -->
+    </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <p-chart type="line" [data]="trends.utilizationSCF" [options]="graphStyleOptions" />
+        <h5 style="color: rgb(12, 127, 161)"><b>Utilization - SCF</b></h5>
+      </div>
+
+      <div class="col-6">
+        <p-chart type="line" [data]="trends.disbursementBL" [options]="graphStyleOptions" />
+        <h5 style="color: rgb(12, 127, 161)"><b>Disbursement - BL</b></h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- trend 2 -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col-10">
+        <h5><b>Trends</b></h5>
+      </div>
+      <!-- <div class="col-1">
+        <button type="button" class="btn btn-blue">Export</button>
+      </div> -->
+    </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <p-chart type="line" [data]="trends.loanBook" [options]="graphStyleOptions" />
+        <h5 style="color: rgb(12, 127, 161)"><b>Loan Book</b></h5>
+      </div>
+
+      <div class="col-6">
+        <p-chart type="line" [data]="trends.revenue" [options]="graphStyleOptions" />
+        <h5 style="color: rgb(12, 127, 161)"><b>Revenue</b></h5>
+      </div>
+    </div>
+  </div>
+
+  <!-- trend 3 -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col-10">
+        <h5><b>Trends</b></h5>
+      </div>
+      <!-- <div class="col-1">
+        <button type="button" class="btn btn-blue">Export</button>
+      </div> -->
+    </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <p-chart type="line" [data]="trends.overdue" [options]="graphStyleOptions" />
+        <h5 style="color: rgb(12, 127, 161)"><b>Overdue</b></h5>
+      </div>
+    </div>
+  </div>
+  <!-- trends end -->
+
+  <!-- Disbursement start -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col">
+        <h5><b>Disbursement</b></h5>
+      </div>
+    </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <div class="perc_label">
+              <h4>{{disbursement.SCFData.utilizationPerc}}%</h4>
+              <label>Utilization</label>
+            </div>
+            <p-chart type="doughnut" [data]="disbursement.SCF" [options]="donutStyleOptions" />
+          </div>
+          <div class="col-6">
+            <div class="row div-box-blue mt-4">
+              <div class="col-12 mt-2">
+                <h4 style="color: rgb(0, 153, 255);">{{disbursement.SCFData.totalLimit}}</h4>
+                <label style="color: rgb(0, 153, 255);">Total Limit</label>
+              </div>
+            </div>
+            <div class="row div-box-blue mt-3">
+              <div class="col-12 mt-2">
+                <h4>{{disbursement.SCFData.AvgUtilization}}</h4>
+                <label>Avg Utilization</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 style="color: rgb(12, 127, 161)"><b>SCF</b></h5>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <div class="perc_label_two">
+              <h4>{{disbursement.BLData.outstandingPerc}}%</h4>
+              <label>Outstanding</label>
+            </div>
+            <p-chart type="doughnut" [data]="disbursement.BL" [options]="donutStyleOptions" />
+          </div>
+          <div class="col-6">
+            <div class="row div-box-blue mt-4">
+              <div class="col-12 mt-2">
+                <h4 style="color: rgb(0, 153, 255);">{{disbursement.BLData.totalLimit}}</h4>
+                <label style="color: rgb(0, 153, 255);">Total Limit</label>
+              </div>
+            </div>
+            <div class="row div-box-blue mt-3">
+              <div class="col-12 mt-2">
+                <h4>{{disbursement.BLData.OutStanding}}</h4>
+                <label>Outstanding</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 style="color: rgb(12, 127, 161)"><b>BL</b></h5>
+      </div>
+    </div>
+  </div>
+  <!-- Disbursement end -->
+
+  <!-- Asset Quality start -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col">
+        <h5><b>Asset Quality</b></h5>
+      </div>
+      <!-- <div class="col-1">
+        <button type="button" class="btn btn-blue">Export</button>
+      </div> -->
+    </div>
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <div class="perc_label">
+              <h4>{{disbursement.overallData.OverduePerc}}%</h4>
+              <label>Overdue</label>
+            </div>
+            <p-chart type="doughnut" [data]="disbursement.overall" [options]="donutStyleOptions" />
+          </div>
+          <div class="col-6">
+            <div class="row div-box-blue mt-4">
+              <div class="col-12 mt-2">
+                <h4 style="color: rgb(0, 153, 255);">{{disbursement.overallData.totalOutstanding}}</h4>
+                <label style="color: rgb(0, 153, 255);">Total Outstanding</label>
+              </div>
+            </div>
+            <div class="row div-box-blue mt-3">
+              <div class="col-12 mt-2">
+                <h4>{{disbursement.overallData.overdue}}</h4>
+                <label>Overdue</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 style="color: rgb(12, 127, 161)"><b>Overall</b></h5>
+      </div>
+      <div class="col-6">
+        <div class="row">
+          <div class="col-6">
+            <div class="perc_label_two">
+              <h4>{{disbursement.assetQualityData.cibilLess}}%</h4>
+              <label>Civil>700</label>
+            </div>
+            <p-chart type="doughnut" [data]="disbursement.assetQuality" [options]="donutStyleOptions" />
+          </div>
+          <div class="col-6">
+            <div class="row div-box-blue mt-4">
+              <div class="col-12 mt-2">
+                <h4 style="color: rgb(0, 153, 255);">{{disbursement.assetQualityData.cibilLess}}%</h4>
+                <label style="color: rgb(0, 153, 255);"> CIBIL<700 </label>
+              </div>
+            </div>
+            <div class="row div-box-blue mt-3">
+              <div class="col-12 mt-2">
+                <h4>{{disbursement.assetQualityData.NTC}}%</h4>
+                <label>NTC</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 style="color: rgb(12, 127, 161)"><b>Asset Quality</b></h5>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="row mt-3 text-center">
+      <div class="col-6">
+        <p-table [value]="bldpd" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>DPD</th>
+              <th>Amount</th>
+              <th>% Outstanding</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.range }}</td>
+              <td>{{ product.amount | number: '2.0-1' }}</td>
+              <td>{{ product.avgPercentage > 0 ? product.avgPercentage : 0 }}%</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <h5 class="mt-2" style="color: rgb(12, 127, 161)"><b>Outstanding - BL</b></h5>
+      </div>
+      <div class="col-6">
+        <p-table [value]="scdpd" [paginator]="true" [rows]="5">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>DPD</th>
+              <th>Amount</th>
+              <th>% Outstanding</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr>
+              <td>{{ product.range }}</td>
+              <td>{{ product.amount | number: '2.0-2' }}</td>
+              <td>{{ product.avgPercentage > 0 ? product.avgPercentage : 0 }}%</td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <h5 class="mt-2" style="color: rgb(12, 127, 161)"><b>Outstanding - SCF</b></h5>
+      </div>
+    </div>
+  </div>
+  <!-- Asset Quality end -->
+
+  <!-- Customer Cohort start -->
+  <div class="card shadow p-3 mt-3">
+    <div class="row">
+      <div class="col">
+        <h5><b>Customer Cohort</b></h5>
+      </div>
+    </div>
+
+    
+    <!-- <div>
+      <div class="inl">
+        <div class="lbl">sdjkfjdsf</div>
+        <div class="inner">2 hours</div>
+      </div>
+      <div class="inl">
+        
+        <div class="lbl">sdjkfjdsf</div>
+        <div class="inner">2 hours</div>
+      </div>
+    </div> -->
+
+
+    
+    <div class="div-row-blue p-2">
+      <div class="col">
+        <h5>TAT</h5>
+      </div>
+      <div class="mt-4 mb-2" style="width: 100%;" #divToMeasure>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureOB>
+          <div class="lbl">OnBoarding</div>
+          <div class="inner" style="background: rgba(0, 160, 227, 1);">{{tatReport.onBoardingHrs | number: '1.0-0'}} hours</div>
+        </div>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureApp>
+          <div class="lbl">Approval</div>
+          <div class="inner " style="background: rgba(0, 160, 227, 0.85)">{{tatReport.approvalHrs | number: '1.0-0'}} hours</div>
+        </div>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureNBFC>
+          <div class="lbl">Send to NBFC</div>
+          <div class="inner" style="background: rgba(0, 160, 227, 0.7)">{{tatReport.sendToNBFCHrs | number: '1.0-0'}} hours</div>
+        </div>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureAcRj>
+          <div class="lbl">Accept/Reject</div>
+          <div class="inner" style="background: rgba(0, 160, 227, 0.55)">{{tatReport.accRejHrs | number: '1.0-0'}} hours</div>
+        </div>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureAgre>
+          <div class="lbl">Agreement</div>
+          <div class="inner" style="background: rgba(0, 160, 227, 0.4)">{{tatReport.agreementHrs | number: '1.0-0'}} hours</div>
+        </div>
+        <div class="inl" [ngStyle]="{'width': 16.66 + '%'}" #divMeasureDis>
+          <div class="lbl">Disbursal</div>
+          <div class="inner" style="background: rgba(0, 160, 227, 0.35)">{{tatReport.disbursalHrs | number: '1.0-0'}} hours</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row p-2 mt-2">
+      <div class="col div-row-blue m-1 p-2">
+        <h5>Average Revenue Per User</h5>
+
+        <div class="row mt-3">
+          <label class="label-dark">Supply Chain Finance - {{revenue.scRevenue}}₹</label>
+          <progress [value]="revenue.scRevenue" [max]="revenue.totalRevenue" class="pgrs_bar"></progress>
+          <!-- <p-progressBar [value]="50" [styleClass]="'custom-progressbar'" /> -->
+        </div>
+        <div class="row mt-3">
+          <label class="label-dark">Business Loan - {{revenue.blRevenue}}₹</label>
+          <progress [value]="revenue.blRevenue" [max]="revenue.totalRevenue" class="pgrs_bar"></progress>
+
+          <!-- <p-progressBar [value]="50" [styleClass]="'custom-progressbar'" /> -->
+        </div>
+        <div class="row mt-3">
+          <label class="label-dark">Totals - {{revenue.totalRevenue}}₹</label>
+          <progress [value]="revenue.totalRevenue" [max]="revenue.totalRevenue" class="pgrs_bar"></progress>
+          <!-- <p-progressBar [value]="100" [styleClass]="'custom-progressbar'" /> -->
+        </div>
+      </div>
+      <div class="col div-row-blue m-1 p-2">
+        <h5>Retention</h5>
+        <div class="row m-2">
+          <div class="col"></div>
+          <div class="col">
+            <h5 style="color: rgb(12, 127, 161)"><b>SCF</b></h5>
+          </div>
+          <hr />
+        </div>
+        <div class="row m-2">
+          <div class="col">Mom</div>
+          <div class="col">{{retention.mom}}%</div>
+          <hr />
+        </div>
+        <div class="row m-2">
+          <div class="col">QoQ</div>
+          <div class="col">{{retention.qoq}}%</div>
+          <hr />
+        </div>
+        <div class="row"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Customer Cohort end -->
+</div>
+
+<p-toast position="top-right" appendTo="body"></p-toast>
+
+<div class="progress-spinner" *ngIf="Loader">
+  <p-progressSpinner></p-progressSpinner>
+</div>

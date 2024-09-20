@@ -1,0 +1,141 @@
+@import "../../../styles.scss";
+
+.sidebar-content {
+  margin: 0 !important;
+  padding: 2px !important;
+  background-color: $white !important;
+
+  position: fixed !important;
+  height: 100% !important;
+  overflow: auto !important;
+  top: -4em;
+  box-shadow: 5px 5px 5px $gray;
+
+  max-width: 250px;
+  min-width: 250px;
+  width: 250px;
+
+  a {
+    display: block;
+    color: $graytext ;
+    padding: 8px;
+    // font-weight: 500;
+    text-decoration: none;
+    border-right: 4px solid $white;
+    border-radius: 0px !important;
+    background: $white !important;
+
+    &:hover {
+      margin: 0px !important;
+    }
+
+    &.active {
+      background: rgb(185, 240, 242) !important;
+      background: linear-gradient(632deg, rgb(210, 242, 243) 0%, rgb(255, 255, 255) 85%) !important;
+      // border: 2px solid $blue;
+      // border-radius: 6px !important;
+      color: $blue;
+      border-radius: 5px;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
+    }
+
+    // &.subActive {
+    //   background: rgb(59, 78, 78) !important;
+    //   background: linear-gradient(90deg, rgb(33, 39, 39) 0%, rgba(255, 255, 255, 1) 85%) !important;
+    //   // border: 2px solid $blue;
+    //   // border-radius: 6px !important;
+    //   color: $blue;
+    //   border-radius: 5px;
+    // }
+    // &:hover:not(.subActive) {
+    //   // border-bottom: 4px solid $blue;
+    //   color: $blue;
+    //   border-radius: 5px;
+    // }
+
+    &:hover:not(.active) {
+      // border-bottom: 4px solid $blue;
+      color: $blue;
+      border-radius: 5px;
+    }
+  }
+
+  nav-container.active {
+    border-right: 4px solid $blue;
+    color: $blue;
+  }
+
+}
+
+
+
+
+
+
+/*  .sidebar-content nav-container.notactive
+{
+    background-color: #f1f1f1 !important;
+    color: black !important;
+}
+ .app-sidebar .navigation li:hover > a {
+    background: #2196F3 !important;
+    color: green;
+}
+ 
+*/
+
+:host::ng-deep .sidebar-content a:not(.p-disabled):focus .p-menuitem-text {
+  color: #DC4C3A;
+}
+
+:host::ng-deep .sidebar-content a:not(.p-disabled)>a {
+  border-color: #DC4C3A;
+  background: #DC4C3A;
+  color: #FFFFFF;
+}
+
+
+:host::ng-deep .sidebar-content a:not(.p-disabled):focus .p-menuitem-icon {
+  color: #DC4C3A;
+}
+
+
+
+.active {
+  color: red;
+}
+
+nav{
+  font-size: 13px;
+}
+
+
+/* Default State */
+// .nav-link {
+//   color: #black;
+//   background-color: #white;
+// }
+
+// /* Active State */
+// .nav-link.active {
+//   color: #white;
+//   background-color: #blue;
+//   border-bottom: 2px solid #blue;
+// }
+
+// /* Hover State */
+// .nav-link:hover {
+//   color: #black;
+//   background-color: #lightgrey;
+// }
+
+/* Icon Styles */
+.nav-link i {
+  margin-right: 10px;
+}
+
+/* Submenu Styles */
+.nav-link ul {
+  margin-left: 20px;
+}
+
+/* Add custom styles here based on your requirements */

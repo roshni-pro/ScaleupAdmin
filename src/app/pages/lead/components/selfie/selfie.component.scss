@@ -1,0 +1,33 @@
+
+.fa-mouse-pointer:hover {
+    animation: mouse-pointer 1s cubic-bezier(.36,.07,.57,.99) infinite;
+      cursor: pointer;
+  }
+
+  .ml{margin-left: 12px;
+    padding: 6px;
+    // border-bottom: solid 1px gray;
+}
+.cp{text-transform: uppercase;}
+.cl{color: black;font-weight: bold;}
+.tp{margin-top: 0em;}
+.common-padding{
+    padding: 20px;
+  }
+
+  :host ::ng-deep  .pi-check:before {
+    background-color: 	green!important;
+    border-radius: 110px !important;
+    color: white;
+    //margin-left: 5700%;
+}
+:host ::ng-deep  .pi-times:before {
+    background-color: 	red!important;
+    border-radius: 110px !important;
+    color: white;
+    //margin-left: 5700%;
+}
+.imgShow{
+    max-height: 90vh !important;
+    width: 100%;
+    }

@@ -1,0 +1,53 @@
+<div class="card tp common-padding">
+<div *ngIf="DisbursalProposalData != null && isComplete">
+    <div class="row" *ngIf="DisbursalProposalData?.leadNo != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Lead No</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursalProposalData?.leadNo}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursalProposalData?.appliedDate != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Applied Date</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursalProposalData?.appliedDate | date: 'dd/MM/yyyy'}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="DisbursalProposalData?.creditLimit != null">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Credit Limit</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{DisbursalProposalData?.creditLimit}}</div>
+        </div>
+    </div>
+</div>
+<!-- comment due to not use -->
+<div>
+    <button *ngIf="!isComplete && isApproved != 1"  class="btn btn-primary" style="margin-left: 10px;" (click)="onClickApproved()" >Approve</button>
+    <!-- <button *ngIf="!isComplete"  class="btn btn-danger" style="margin-left: 10px;" (click)="onClickReject()" >Reject</button> -->
+</div>
+</div>
+
+
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: 'auto', overflow: 'auto'}">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <input type="text" id="_selfiecomment" name="_selfiecomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject">
+    </div>
+    <p-footer>
+        <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+  </div>
+

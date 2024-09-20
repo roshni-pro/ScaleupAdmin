@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <div class="row mt-4">
+        <div class="col-md-9">
+            <h3 class="heading">City</h3>
+        </div>
+        <!-- <div class="col-md-2 mt-3">
+            <button  type="button"   class="btn btn-blue" (click)="onClickAddBtn()"><i class="fa fa-plus-circle"></i> &nbsp;Add City</button>
+        </div> -->
+    </div>
+      <!-- <div class="content"> -->
+    <div class="row p-4">
+        <div class="col-md-12" style="text-align: right;">
+          <button type="button"   class="btn btn-blue" (click)="onClickAddBtn()"><i class="fa fa-plus-circle"></i> &nbsp;Add City</button>
+        </div>
+    </div>
+    <div class="card-content p-0 text-center ">
+        <p-table [value]="cityList" responsiveLayout="scroll" [rows]="25" [paginator]="true" [scrollable]="true" styleClass="p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>City Name</th>
+                    <th>State Name</th>
+                    <th>Edit</th>
+                    <!-- <th>Delete</th> -->
+                    <th>Status</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{product.cityName}}</td>
+                    <td>{{product.stateName}}</td>
+                    <td>
+                      <!-- <a href="javascript:void(0);" (click)="onClickEdit(product)"><i class="fa fa-pencil"></i>&nbsp;Edit</a> -->
+                      <!-- <button class="btn btn-secondary" >
+                        <a href="javascript:void(0);" style="color: white;text-decoration: none;" (click)="onClickEdit(product)">
+                            <i class="pi pi-pencil"></i>&nbsp;Edit
+                        </a>
+                    </button> -->
+                    <img src="../../../../../assets/theme/icons/edit.svg" (click)="onClickEdit(product)">
+                    </td>
+                    <!-- <td><a href="javascript:void(0);" (click)="onClickDelete(product)"><i class="fa fa-trash"></i>&nbsp;Delete</a></td> -->
+                    <td >
+                        <p-inputSwitch [(ngModel)]="product.status" (ngModelChange)="ActiveInactive(product.id,product.status,product)"></p-inputSwitch>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+  </div>
+<!-- </div> -->
+<p-toast></p-toast>
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button"class="btn btn-danger"  style="margin-right: 10px;"(click)="cd.reject()">No</button>
+      <button type="button" class="btn  btn-sucesss"  (click)="cd.accept()">Yes </button>
+    </p-footer>
+  </p-confirmDialog>
+
+  <div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
+
+

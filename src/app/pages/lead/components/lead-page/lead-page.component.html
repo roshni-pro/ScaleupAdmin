@@ -1,0 +1,172 @@
+<div class="container-fluid">
+
+
+
+    <div class="row heading">
+        <div class="col">
+            <!-- <code style="color: grey;">Pages/Profile</code> -->
+            <h3>Supply Chain Lead List</h3>
+        </div>
+    </div>
+
+    <div class="row mt-2" style="display: flex;">
+        <div class="col-12">
+            <!-- style="align-items: center;" -->
+            <div class="card shadow" >
+                <div class="card-content p-2">
+                    <p-selectButton class="my-slt-btn" [options]="StatusList" [unselectable]="true" [(ngModel)]="StatusFilter"
+                        optionLabel="label" optionValue="value" (onChange)="StatusSearch('search')">
+                        <ng-template let-item pTemplate>
+                            <label><b>{{item.label}}</b></label>
+                        </ng-template>
+                    </p-selectButton>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card shadow p-2">
+                <div class="row p-2">
+                    <div class="col-3">
+                        <p-dropdown [options]="companyData" [(ngModel)]="selectedcompany" optionLabel="businessName"
+                            placeholder="Anchor Company" (onChange)="getProduct(selectedcompany)"
+                            [style]="{'width':'100%'}"></p-dropdown>
+                    </div>
+                    <!-- <div class="col-3">
+                        <p-dropdown [options]="productList" [(ngModel)]="selectedproduct" optionLabel="productName"
+                            [style]="{'width':'100%'}" placeholder="Product"></p-dropdown>
+                    </div> -->
+                    <div class="col-3">
+                        <p-dropdown [(ngModel)]="selectedCity" [options]="cityList" optionLabel="cityName"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="Select City">
+                        </p-dropdown>
+                    </div>
+                    <div class="col-3">
+                        <p-calendar #sellerOfferCalendar [style]="{'width':'100%'}" selectionMode="range" [readonlyInput]="true" inputId="range"
+                            [dateFormat]="dateFormat" [showIcon]="true" [(ngModel)]="rangeDates"
+                            placeholder="Date range" (ngModelChange)="onChangeDate(rangeDates)">
+                        </p-calendar>
+                    </div>
+                    <div class="col-3 ">
+                        <input class="form-control" type="text" placeholder="Search keyword"
+                            style="border-radius: 20px;" [(ngModel)]="Keyword" (keypress)="keypress($event)" />
+                    </div>
+                </div>
+
+                <div class="row mt-3" style="text-align: justify;margin-right: 2px;">
+                    <div class="col"></div>
+                    <div class="col-4" style="text-align: end;">
+                      <button class="btn btn-liteBlue"  (click)="search(null)"> Search</button>
+                      &nbsp;&nbsp;
+                      <button class="btn btn-darkBlue"(click)="Export()"> Export</button>&nbsp;&nbsp;
+                      <button class="btn btn-blue" (click)="clear()"> Clear</button>
+                    </div>
+                  </div>
+                <!-- <div class="row p-2">
+                    <div class="col"></div>
+                    <div class="col-1 m-1">
+                        <button class="btn btn-blue" (click)="search(null)"><i class="fa fa-search"></i>Search</button>
+                    </div>
+                    <div class="col-1 m-1">
+                        <button class="btn btn-blue" (click)="Export()"><i class="fa fa-search"></i>Export</button>
+                    </div>
+                    <div class="col-1 m-1">
+                        <button class="btn btn-blue" (click)="clear()"><i class="fa fa-search"></i>Clear</button>
+                    </div>
+                </div> -->
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row  mt-2">
+        <div class="col-12 ">
+            <p-table #dt [value]="leadPageData" [totalRecords]="totalcount" (onLazyLoad)="search($event)" [lazy]="true"
+                [paginator]="true" [rows]="10" [scrollable]="true" scrollHeight="130vh" [(first)]="first"
+                styleClass="p-datatable-striped">
+                <ng-template pTemplate="header">
+                    <tr class="text-center">
+                        <th>Lead Code</th>
+                        <th>Applicant Name</th>
+                        <!-- <th>Buisness Name</th> -->
+                        <th>Mobile No</th>
+                        <th>Activity</th>
+                        <th>Anchor Name</th>
+                        <th>Status</th>
+                        <th>CityName</th>
+                        <th>Created Date</th>
+                        <th>Anchor Code</th>
+                        <th>Avg Monthly Buying</th>
+                        <!-- <th>View/Edit</th> -->
+                        <th>Details</th>
+                        <th *ngIf="StatusFilter == 'KYCReject' && isSuperadminrole ">Update Status</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-ir let-i="rowIndex">
+                    <tr>
+                        <td>{{ir.leadCode}}</td>
+                        <td>{{ir.customerName}}</td>
+                        <!-- <td>{{ir.businessName}}</td> -->
+                        <td>{{ir.mobileNo}}</td>
+                        <td>{{ir.screenName}}</td>
+                        <td>{{ir.anchorName}}</td>
+                        <td>
+                            {{ir.status}}
+                        </td>
+                        <td>
+                            {{ir.cityName}}
+                        </td>
+                        <!-- <td>{{ir.createdDate | date: 'dd/MM/yyyy'}}<br><br>{{ir.lastModified | date: 'dd/MM/yyyy'}}
+                        </td> -->
+                        <!-- <td>{{(ir.lastModified ? ir.lastModified : ir.createdDate) | date: 'dd/MM/yyyy'}}
+                        </td> -->
+                        <td>{{(ir.createdDate) | date: 'dd/MM/yyyy'}}<br>{{ir.lastModified ?(ir.lastModified | date:
+                            'dd/MM/yyyy' )+'(Modified Date)' :'' }}
+                        </td>
+                        <td>{{ir.uniqueCode}}</td>
+                        <td>{{ir.avgMonthlyBuying}}</td>
+                        <!-- <td><img src="../../../../../assets/theme/icons/edit.svg" (click)="onclick(ir)" class="pointer">
+                        </td> -->
+                        <td><img src="../../../../../assets/theme/icons/edit.svg" (click)="navigate(ir)"
+                                class="pointer" ></td>
+                        <td *ngIf="StatusFilter == 'KYCReject' && isSuperadminrole && ir.screenName == 'KYC'" (click)="updateKycStatus(ir)"><button class="btn btn-blue" style="padding: 8px 18px !important;font-size: 12px !important;">Update Status</button></td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="10" class="text-center"
+                            style="color: red; text-align: center; vertical-align: middle;">Data
+                            Not Found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+    </div>
+    <!-- <div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+</div> -->
+
+    <div class="overlay" *ngIf="Loader">
+        <div class="loader">
+            <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+        </div>
+    </div>
+
+
+    <p-toast></p-toast>
+    <!-- <p-confirmDialog></p-confirmDialog> -->
+    <p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+        <p-footer>
+            <button type="button"class="btn btn-danger"  style="margin-right: 10px;" (click)="cd.reject()">No</button>
+            <button type="button" class="btn btn-sucesss" (click)="cd.accept()">Yes</button>&nbsp;
+        </p-footer>
+      </p-confirmDialog>

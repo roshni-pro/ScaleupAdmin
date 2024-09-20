@@ -1,0 +1,1847 @@
+<div class="container-fluid">
+
+    <!-- <div class="row heading">
+        <div class="col-3">
+            <h3>Profile</h3>
+        </div>
+    </div> -->
+
+    <!-- profile pic -->
+    <!-- <div class="card my-3">
+        <div class="row p-3 d-flex align-items-center">
+            <div class="col-2">
+                <img class="selfieimg shadow" *ngIf="this.selfieDetail.frontImageUrl"
+                    src="{{this.selfieDetail.frontImageUrl}}">
+                <img class="selfieimg shadow" *ngIf="!this.selfieDetail.frontImageUrl"
+                    src="../../../../../assets/theme/icons/DummyProfilePic.jpg">
+            </div>
+
+            <div class="col">
+                <label class="label-dark">{{leadData.leadCode}} | &nbsp;</label>
+                <label class="label-dark"> {{this.businessDetail.businessName}}</label><br>
+                <label class="label-lite"> {{aadharDetail.name}} | &nbsp;</label>
+                <label class="label-lite"> {{this.personalDetail.MobileNumber}}</label>
+            </div>
+
+            <div class="col-2">
+                <button class="btn btn-blue" type="button">Send to LOS</button>
+            </div>
+        </div>
+    </div>-->
+    <div class="row mt-3">
+
+        <!-- Business docs and details starts -->
+        <div class="col-6">
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Business Details</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.BusinessInfo == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.BusinessInfo == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.businessApproveStatus" class="btn btnbb btn-success" 
+                            appMode="edit"  (click)="changeActivity(1,'BusinessInfo')" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.businessRejectStatus" class="btn btnbb btn-danger" style="margin-left:10px ;float: right;"
+                            appMode="edit"   (click)="changeActivity(2,'BusinessInfo')" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div>
+                        <!-- <div class="col-1" (click)="changeStatus('BusinessInfo', activityApprovalStatus.BusinessInfo)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div> -->
+                        <!-- <div class="col-3">
+                            {{activityApprovalStatus.BusinessInfo}}
+                        </div> -->
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Name</label>
+                                <label class="label-dark">{{this.businessDetail.businessName ?
+                                    this.businessDetail.businessName:'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Type</label>
+                                <label class="label-dark">{{this.businessDetail.BusinessType ?
+                                    this.businessDetail.BusinessType : '-'}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <!-- <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Business Turnover</label>
+                                <label class="label-dark">{{this.businessDetail.BusinessTurnOver}}</label>
+                            </div>
+                        </div> -->
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Business Turnover</label>
+                                <label class="label-dark">{{this.businessDetail.IncomeSlab ? this.businessDetail.IncomeSlab : '-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Incorporation Date</label>
+                                <label class="label-dark">{{this.businessDetail.IncorporationDate |
+                                    date:'dd/MM/yyyy'}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <!-- <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Income Slab</label>
+                                <label class="label-dark">{{this.businessDetail.IncomeSlab}}</label>
+                            </div>
+                        </div> -->
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Gst Number</label>
+                                <label class="label-dark">{{this.businessDetail.GstNumber ? this.businessDetail.GstNumber : '-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Inquiry Amount</label>
+                                <label class="label-dark">{{this.businessDetail.InquiryAmount ? this.businessDetail.InquiryAmount : ''}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Surrogate Type</label>
+                                <label class="label-dark">{{this.businessDetail.SurrogateType ?
+                                    this.businessDetail.SurrogateType :'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Anchor Company Name</label>
+                                <label class="label-dark">{{this.businessDetail.anchorCompanyName ? this.businessDetail.anchorCompanyName : '-'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Anchor Vintage Days</label>
+                                <!-- <label class="label-dark">{{this.businessDetail.vintageDays.months?this.businessDetail.vintageDays.months:0}}&nbsp;Months,&nbsp;{{this.businessDetail.vintageDays.days?this.businessDetail.vintageDays.days:0}}&nbsp;Days</label> -->
+                                <label
+                                class="label-dark">{{this.businessDetail.vintageDays?.months ? this.businessDetail.vintageDays?.months:0}}&nbsp;Months,&nbsp;{{this.businessDetail.vintageDays.days?this.businessDetail.vintageDays.days:0}}&nbsp;Days</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Vintage Days</label>
+                                <!-- <label class="label-dark">{{this.businessDetail.vintageDays.months?this.businessDetail.vintageDays.months:0}}&nbsp;Months,&nbsp;{{this.businessDetail.vintageDays.days?this.businessDetail.vintageDays.days:0}}&nbsp;Days</label> -->
+                                <label
+                                class="label-dark">{{this.businessDetail.businessVintageDays?.months ? this.businessDetail.businessVintageDays?.months:0}}&nbsp;Months,&nbsp;{{this.businessDetail.businessVintageDays.days?this.businessDetail.businessVintageDays.days:0}}&nbsp;Days</label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+
+                        </div>
+                        <div class="col-2 text-right pointer" *ngIf=" this.businessDetail.GstNumber == null || this.businessDetail.GstNumber == '' || this.businessDetail.GstNumber == undefined ">
+                            <img *ngIf="userTypeRole" src="../../../../../assets/theme/icons/edit.svg" style="float: right; margin-top: 2em;"
+                            appMode="edit"  (click)="editBusinessDetails('BuisnessDetail')">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>Business Address</b>
+
+                    <div class="row my-2">
+                        <div class="col-10 label-lite">
+                            {{this.businessDetail.CurrentAddress.addressLineOne}},{{this.businessDetail.CurrentAddress.addressLineTwo}},{{this.businessDetail.CurrentAddress.addressLineThree}},{{this.businessDetail.CurrentAddress.cityName}},{{this.businessDetail.CurrentAddress.zipCode}}
+                        </div>
+
+                        <div class="col-2 text-right" *ngIf="this.businessDetail.CurrentAddress.id &&
+                        (this.businessDetail.GstNumber == null || this.businessDetail.GstNumber == '' || this.businessDetail.GstNumber == undefined)">
+                            <img *ngIf="userTypeRole" src="../../../../../assets/theme/icons/edit.svg" style="float: right;"
+                            appMode="edit"  (click)="updateAddressDetailsPopup('BuisnessDetail')">
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="label-dark">State:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.stateName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark">City:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.cityName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark">Pin:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.zipCode}}</label>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="btn btnb btn-blue" style="width: max-content;">Current Business
+                                Details</label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>Documents</b>
+
+                    <!-- <div class="row my-3">
+
+                        <div class="col-9">
+                            <label class="label-lite">
+                                Business Proof
+                            </label>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="p-img ">
+                                <img class="pointer pdf-icon float: right" *ngIf="this.businessDetail.buisnessProofUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.businessDetail.buisnessProofUrl)">
+                            </div> -->
+                    <!-- *ngFor="let item of personalDetail?.manualElectricityBillImage; let i = index" -->
+                    <!-- </div>
+                    </div> -->
+
+                    <!-- {{items| json}} -->
+                    <!-- <div *ngFor="let items of allDocs">
+                        <div class="row my-2 d-flex justify-content-center align-items-center ">
+                            <div class="col-9">
+                                <label class="label-lite">
+                                    {{items.documentName}}
+                                </label> <br>
+                                <label class="label-dark" *ngIf="items.pdfPassword">
+                                    <i>File Password:</i> {{items.pdfPassword}}
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <div class="p-img ">
+                                    <img class="pointer pdf-icon float: right" *ngIf="items.fileUrl"
+                                        src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                        (click)="showImages(items.fileUrl)">
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="row d-flex justify-content-around align-items-center mb-2"
+                        *ngFor="let items of allDocs; index as i">
+                        
+                        <div class="col-3">
+                            <label class="label-lite">
+                                {{items.label}}
+                            </label> <br>
+
+                            <label class="label-dark" *ngIf="items.pdfPassword">
+                                <i>File Password:</i> {{items.pdfPassword}}
+                            </label>
+                        </div>
+                        <!-- {{isUploadable(items)}} {{ this.IsOfferGeneratedFlag }} {{items.documentName}} -->
+                        <div class="col-7 d-flex justify-content-around align-items-center" *ngIf="isUploadable(items) == false"></div>
+                        <div class="col-7 d-flex justify-content-around align-items-center" *ngIf="isUploadable(items)==true">
+
+                            <input type="file" id="DocumentURL{{i}}" #myInput2 type="file"
+                                accept="application/pdf,image/png, image/jpeg" (change)="documentUpload($event, items, false)"
+                                style="height: 32px !important; margin-top: 8px;" class="form-control"
+                                name="DocumentURL" hidden multiple>
+
+                            <label for="DocumentURL{{i}}" class="upload-file  truncate-text pointer"
+                                style="padding: 9px;">
+                                <!-- {{items.newFilePath ? items.newFilePath : items.fileUrl ? items.fileUrl : "upload File"}} -->
+                                {{items.docList && items.docList.length != 0 ? items.docList.length + " File(s) Attached" : "Upload file" }}
+                            </label>
+
+                            <div class="upld-img-wrapper">
+                                <img class="upload-file-btn pointer" (click)="onUploadDocument(items)"
+                                appMode="edit" src="./../../../../../assets/theme/icons/document-upload.svg">
+                            </div>
+
+                        </div>
+
+                        <div class="col-1">
+                            <div class="p-img">
+                                <img *ngIf="items.fileUrl.length>0" class="pointer pdf-icon float: right"
+                                    (click)="showMultiImages(items.fileUrl)"
+                                    appMode="edit"   src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row my-3">
+
+                        <div class="col-9">
+                            <label class="label-lite">
+                                GST Certificate*
+                            </label>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="p-img "> -->
+                    <!-- <img class="pointer pdf-icon float: right" *ngIf="this.businessDetail.buisnessProofUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.businessDetail.buisnessProofUrl)"> -->
+                    <!-- </div> -->
+                    <!-- *ngFor="let item of personalDetail?.manualElectricityBillImage; let i = index" -->
+                    <!-- </div>
+                    </div> -->
+
+                    <!-- <div class="row my-3">
+                        <div class="col-9">
+                            <label class="label-lite">
+                                Electricity Bill Image
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img">
+                                <img class="pointer pdf-icon float: right" *ngIf="this.businessDetail.buisnessProofUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.personalDetail.ElectricityBillImage)"> -->
+                    <!-- <i class="pi pi-file-pdf" style="font-size:48px;color:blue;"
+                                    (click)="showImages(this.personalDetail.ElectricityBillImage);"></i> -->
+                    <!-- </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="row my-3">
+                        <div class="col-9">
+                            <label class="label-lite">
+                                Udyam Certificate
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img">
+                                <img class="pointer pdf-icon float: right" *ngIf="this.msmeDetail.MsmeCertificateUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.msmeDetail.MsmeCertificateUrl)">
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="row my-3">
+                        <div class="col-9">
+                            <label class="label-lite">
+                                GSTR*
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img"> -->
+                    <!-- <img class="pointer pdf-icon float: right" *ngIf="this.msmeDetail.MsmeCertificateUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.msmeDetail.MsmeCertificateUrl)"> -->
+                    <!-- </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="row my-3">
+                        <div class="col-9">
+                            <label class="label-lite">
+                                Bank Statements*
+                            </label><br>
+                            <label class="label-dark">
+                                <i>File Password</i> {{this.bankDetail.pdfPassword?this.bankDetail.pdfPassword : '-'}}
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img"> -->
+                    <!-- <img class="pointer pdf-icon float: right" *ngIf="this.msmeDetail.MsmeCertificateUrl"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.msmeDetail.MsmeCertificateUrl)"> -->
+                    <!-- </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div 
+            *ngIf="userTypeRole" class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>SLA Section</b>
+                    <!-- *ngIf="ArthmateLoanOffer?.urlSlaDocument" -->
+                    <div class="row my-3" >
+                        <!-- <div class="col-3">
+                            <label class="label-lite">
+                                Upload Agreement Document
+                            </label>
+                        </div> -->
+                        <div class="col-3">
+                            <label class="label-lite">
+                                Download SLA &nbsp;
+                                <img *ngIf="ArthmateLoanOffer" class="pointer pdf-icon"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    appMode="edit"  (click)="showImages(ArthmateLoanOffer.urlSlaDocument)">
+                                <label *ngIf="!ArthmateLoanOffer" style="color: rgb(214, 104, 104) !important"
+                                    class="label-lite">unavailabe</label>
+                            </label>
+
+                        </div>
+                        <!-- *ngIf="ArthmateLoanOffer?.urlSlaUploadSignedDocument == ''" -->
+                        <div class="col-6" >
+                            <input #myInput1 type="file" accept="application/pdf,image/png, image/jpeg"
+                                (change)="upload($event, 'AgreementDocumentURL',this.myInputVariable1)"
+                                style="height: 32px !important; margin-top: 8px;" id="AgreementDocumentURL"
+                                class="form-control back" name="AgreementDocumentURL" />
+                        </div>
+                        <!-- *ngIf="ArthmateLoanOffer?.urlSlaUploadSignedDocument == ''" -->
+                        <div class="col-3" >
+                            <!-- <img class="pointer" src="./../../../../../assets/theme/icons/pdf-upload.svg" height="50px"
+                                width="50px" (click)="onUpload()"> -->
+                            <button class="btn btn-darkBlue" type="button" appMode="edit" (click)="onUpload()" [disabled]="!userTypeRole">Upload</button>
+                        </div>
+                        <!-- <div class="col-5" *ngIf="ArthmateLoanOffer?.urlSlaUploadSignedDocument != ''"></div> -->
+                        <div class="col-4" *ngIf="ArthmateLoanOffer?.urlSlaUploadSignedDocument != ''">
+                            <label class="label-lite">
+                                Signed SLA Document &nbsp;
+                                <img *ngIf="ArthmateLoanOffer" class="pointer pdf-icon"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    appMode="edit"  (click)="showImages(ArthmateLoanOffer.urlSlaUploadSignedDocument)">
+                                <label *ngIf="!ArthmateLoanOffer" style="color: rgb(214, 104, 104) !important"
+                                    class="label-lite">unavailabe</label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row my-3" *ngIf="ArthmateLoanOffer?.eSignRemark">
+                        <div class="col-3">
+                            <label class="label-lite">
+                                Rejection Reason
+                            </label>
+                            <label class="label-dark">
+                                {{ArthmateLoanOffer?.eSignRemark}}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="isOfferAccepted" class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>{{role}} Finance Agreement Section</b>
+                    <div class="row my-3" >
+                        <!-- <div class="col-3">
+                            <label class="label-lite">
+                                Download Agreement &nbsp;
+                                <img *ngIf="financeAgreementdetails" class="pointer pdf-icon"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(financeAgreementdetails.docUnSignUrl)">
+                                <label *ngIf="!financeAgreementdetails" style="color: rgb(214, 104, 104) !important"
+                                    class="label-lite">unavailabe</label>
+                            </label>
+                        </div> -->
+                        <div class="col-9" >
+                            <input type="file" #fileRef id="fileRef" name="fileRef" accept="application/pdf,image/png, image/jpeg" class="form-control back"
+                                        (change)="Upload($event)" style="height: 32px !important; margin-top: 8px;" />
+                            <br>
+                            <img *ngIf="uploadedImage && fileExtension!='pdf'" [src]="uploadedImage" id="uploadedImage" (click)="openLargeImage(uploadedImage)"
+                                style="width:348px!important; height: 200px !important;" />
+                                <!-- <pdf-viewer  *ngIf="uploadedImage && fileExtension=='pdf'" 
+                                [src]="'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf'"
+                                [rotation]="0"
+                                [original-size]="false"
+                                [show-all]="true"
+                                [fit-to-page]="false"
+                                [zoom]="1"
+                                [zoom-scale]="'page-width'"
+                                [stick-to-page]="false"
+                                [render-text]="true"
+                                [external-link-target]="'blank'"
+                                [autoresize]="true"
+                                [show-borders]="false"
+                                style="width: 100%; height: 100vh;"
+                              ></pdf-viewer> -->
+      
+                        </div>
+                        <div class="col-3 d-flex" >
+                            <button class="btn btn-darkBlue" type="button" appMode="edit" (click)="OnSave()">Upload</button>&nbsp;&nbsp;
+                        </div>
+                        <div class="col-6" *ngIf="financeAgreementdetails?.docSignedUrl != ''">
+                            <label class="label-lite">
+                                Signed Agreement &nbsp;
+                                <img *ngIf="financeAgreementdetails" class="pointer pdf-icon"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    appMode="edit"  (click)="showImages(financeAgreementdetails?.docSignedUrl)">
+                                <label *ngIf="!financeAgreementdetails" style="color: rgb(214, 104, 104) !important"
+                                    class="label-lite">unavailabe</label>
+                            </label>
+                        </div>
+                        <div >
+                            <img src="./../../../../../assets/theme/icons/clean.png" height="30px" width="32px" style="float: right"
+                            appMode="edit" (click)="OnClear()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>Documents Upload</b>
+
+                    <div *ngIf="!IsOfferGeneratedFlag">
+                        <div class="row my-3">
+    
+                            <div class="col-6">
+                                <p-dropdown [options]="uploadDocumentList" [(ngModel)]="selectedDocumentName"
+                                    optionLabel="label" placeholder="Select upload Document" [style]="{'width':'100%'}"
+                                    (onChange)="onDocumentChange($event)"></p-dropdown>
+                            </div>
+    
+                            <div class="col-6">
+                                <input #myInput2 type="file" accept="application/pdf,image/png, image/jpeg"
+                                    (change)="documentUpload($event, 'DocumentURL',this.myInputVariable2)"
+                                    style="height: 32px !important; margin-top: 8px;" id="DocumentURL"
+                                    class="form-control back" name="DocumentURL" />
+                            </div>
+                        </div>
+    
+                        <div class="row my-3">
+    
+                            <div class="col-6" *ngIf="uploadDocument.documentName == 'Statement'">
+                                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                                    placeholder="Enter Pdf Password" [(ngModel)]="uploadDocument.pdfPassword"
+                                    minlength="11">
+                            </div>
+    
+    
+                        </div>
+                        <div class="row my-3">
+                            <div class="col">
+    
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btnbb btn-darkBlue" (click)="onUploadDocument()">Save Document</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="IsOfferGeneratedFlag">
+                        <code style="color: red;">Offer Generated So Documents Can not be Uploaded </code>
+                    </div>
+
+                </div>
+            </div> -->
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Banking</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.BankDetail == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.BankDetail == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.bankApproveStatus" class="btn btnbb btn-success" 
+                            appMode="edit"   (click)="changeActivity(1,'Bank Detail')" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.bankRejectStatus" class="btn btnbb btn-danger" style="margin-left:10px ;float: right;"
+                            appMode="edit"   (click)="changeActivity(2,'Bank Detail')" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div>
+                        <!-- <div class="col-1" (click)="changeStatus('Bank Detail', activityApprovalStatus.BankDetail)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div> -->
+                    </div>
+
+                    <div *ngFor="let bankDetails of bankDetail; index as i">
+                        <!--
+                        <label class="label-ddark">Bank Info {{i+1}}
+                            ---------------------------------------------------- </label> -->
+
+                        <div class="row my-1" *ngIf="bankDetails.Type">
+                            <h6 class="mt-2">{{bankDetails.Type == "borrower" ? "Borrower Bank Detail" :
+                                bankDetails.Type == "beneficiary" ? 'E-Nach Bank Detail' : '' }}</h6>
+                            <!-- <h6 class="mt-2" *ngIf="bankDetails.isEnach">E-NACH Bank</h6> -->
+                            <div class="col-6">
+                                <label
+                                    class="label-lite">{{bankDetails.Bankname?bankDetails.Bankname:'BankName'}}:</label>
+                                &nbsp;
+                                <label class="label-dark">{{bankDetails.AccountNumber}}</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="label-lite">IFSC:</label>
+                                &nbsp;
+                                <label class="label-dark">{{bankDetails.IFSCCode}}</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="label-lite">Account Holder Name:</label>
+                                &nbsp;
+                                <label class="label-dark">{{bankDetails.Accountholdername}}</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="label-lite">AccType:</label>
+                                &nbsp;
+                                <label class="label-dark">{{bankDetails.AccountType}}</label>
+                            </div>
+
+                            <div class="col-12 text-right pointer" *ngIf="bankDetails.Type == 'beneficiary'">
+                                <!-- *ngIf="bankDetails.Type == 'beneficiary'" -->
+                                <img *ngIf="userTypeRole" src="../../../../../assets/theme/icons/edit.svg" style="float: right"
+                                appMode="edit"   (click)="updateBenificiaryBankDetail(bankDetails)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Purchase Invoices</b>
+                </div>
+            </div> -->
+
+
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Photos</b>&nbsp;
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.selfieApproveStatus" class="btn btnbb btn-success" 
+                            appMode="edit"   (click)="changeActivity(1,'Selfie')" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.selfieRejectStatus" class="btn btnbb btn-danger" style="float: right;"
+                            appMode="edit"   (click)="changeActivity(2,'Selfie')" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div>
+                        <!-- <div class="col-1" *ngIf="!IsOfferGeneratedFlag"
+                            (click)="changeStatus('Selfie', activityApprovalStatus.Selfie)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div> -->
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <div class="col-3">
+                            <label class="label-lite">Selfie :</label>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="p-img">
+                                <img class="shadow pointer" *ngIf="this.selfieDetail.frontImageUrl"
+                                    src="{{this.selfieDetail.frontImageUrl}}" height="200px" width="200px"
+                                    appMode="edit"   style="border-radius: 10px;" (click)="showImages(this.selfieDetail.frontImageUrl);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-1">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>UDYAM Details of the Business</b> &nbsp;
+                            <span *ngIf="activityApprovalStatus.MSME == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.MSME == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.msmeApproveStatus" class="btn btnbb btn-success" 
+                            appMode="edit"  (click)="changeActivity(1,'MSME')" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.msmeRejectStatus" class="btn btnbb btn-danger" style="margin-left:10px ;float: right;"
+                            appMode="edit" (click)="changeActivity(2,'MSME')" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div>
+                        <!-- <div class="col-1" (click)="changeStatus('MSME', activityApprovalStatus.MSME)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div> -->
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Name</label>
+                                <label class="label-dark">{{this.msmeDetail.BusinessName?
+                                    this.msmeDetail.BusinessName:
+                                    '-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Type</label>
+                                <label
+                                    class="label-dark">{{this.msmeDetail.BusinessType?this.msmeDetail.BusinessType:'-'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">MSME RegNum</label>
+                                <label
+                                    class="label-dark">{{this.msmeDetail.MsmeRegNum?this.msmeDetail.MsmeRegNum:'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Vintage(month)</label>
+                                <label
+                                    class="label-dark">{{this.msmeDetail.Vintage?this.msmeDetail.Vintage:'-'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row m-1">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>Purchase Invoices</b>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 text-center ">
+                            <p-table [value]="companyBuyingHistories" [paginator]="true" [rows]="10"
+                                [totalRecords]="totalrecord">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Total Amount</th>
+                                        <th>Total Month Invoice</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-Histories>
+                                    <tr>
+                                        <td>{{Histories.monthFirstBuyingDate|
+                                            date: 'MMM yyyy' }}</td>
+                                        <td>{{Histories.monthTotalAmount}}</td>
+                                        <td>{{Histories.totalMonthInvoice}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="emptymessage">
+                                    <tr>
+                                        <td colspan="10" class="text-center" style="color: red;">Data Not Found.</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Additional Document</b>
+                        </div>
+                    </div>
+
+
+                    <div class="row d-flex justify-content-around align-items-center mb-2"
+                        *ngFor="let items of constDocumentList; index as i">
+                        <div class="col-3">
+                            <label class="label-lite">
+                                {{items.label}}
+                            </label>
+
+                        </div>
+                        <div class="col-7 d-flex justify-content-around align-items-center">
+
+                            <input type="file" id="DocumentURLs{{i}}" #myInput2
+                                accept="application/pdf,image/png, image/jpeg" (change)="documentUpload($event, items, true)"
+                                style="height: 32px !important; margin-top: 8px;" class="form-control"
+                                name="DocumentURLs" hidden multiple>
+
+                            {{items.docList}}
+                            <label for="DocumentURLs{{i}}" class="upload-file  truncate-text pointer"
+                                style="padding: 9px;">
+                                {{items.docList && items.docList.length != 0 ? items.docList.length + " File(s) Attached" : "Upload file" }}
+                            </label>
+
+                            <div class="upld-img-wrapper">
+                                <img class="upload-file-btn pointer" (click)="onUploadDocument(items)"
+                                    src="./../../../../../assets/theme/icons/document-upload.svg">
+                            </div>
+
+                        </div>
+
+                        <div class="col-1">
+                            <div class="p-img">
+                                <img *ngIf="items.fileUrl.length>0" class="pointer pdf-icon float: right"
+                                    (click)="showMultiImages(items.fileUrl)"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> -->
+
+        </div>
+        <!-- Business docs and details ends -->
+
+        <!-- personal docs and details starts -->
+        <div class="col-6">
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Borrower Details</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.PersonalInfo == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.PersonalInfo == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.personalApproveStatus" class="btn btnbb btn-success" 
+                            appMode="edit"   (click)="changeActivity(1,'PersonalInfo')" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.personalRejectStatus" class="btn btnbb btn-danger" style="margin-left:10px ;float: right;"
+                            appMode="edit"   (click)="changeActivity(2,'PersonalInfo')" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div>
+                        <!-- <div class="col-1" (click)="changeStatus('PersonalInfo', activityApprovalStatus.PersonalInfo)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div> -->
+                        <br><br>
+                        <!-- <label class="label-lite">Full Name(As per Aadhaar)</label> -->
+                        <br>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">First Name</label>
+                                <label class="label-dark">{{this.borrowerDetail.firstName?
+                                    this.borrowerDetail.firstName
+                                    : '-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Middle Name</label>
+                                <label
+                                    class="label-dark">{{this.borrowerDetail.middleName?this.borrowerDetail.middleName:'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Last Name</label>
+                                <label class="label-dark">{{this.borrowerDetail.lastName ?
+                                    this.borrowerDetail.lastName
+                                    : '-'}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">DOB</label>
+                                <label class="label-dark">{{this.borrowerDetail.dob | date: 'dd/MM/yyyy'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Gender</label>
+                                <!-- <label class="label-dark">{{this.borrowerDetail.gender?this.borrowerDetail.gender=='M'?'Male':'Female':'-'}}</label> -->
+                                <label class="label-dark">{{this.borrowerDetail.gender?(this.borrowerDetail.gender=='M'
+                                    || this.borrowerDetail.gender=='Male')?'Male':'Female':'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Ownership type</label>
+                                <label class="label-dark">{{this.borrowerDetail.ownershipType ? this.borrowerDetail.ownershipType :'-'}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-8 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Email Id</label>
+                                <label class="label-dark">{{this.personalDetail.EmailId}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Alternate Phone</label>
+                                <label class="label-dark">{{this.borrowerDetail.alternatePhoneNo ? this.borrowerDetail.alternatePhoneNo :'-'}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Father/Spouse</b>
+
+                    <div class="row my-2">
+                        <div class="col-6">
+                            <label class="label-dark">{{this.panDetail.fatherName}}</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-lite right">Father</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>KYC Documents</b>
+
+                    <div class="row mt-2 p-2">
+
+                        <div class="col">
+                            <div class="row">
+                                <label class="label-lite">PAN
+                                    &nbsp;
+                                    <span *ngIf="activityApprovalStatus.Pan == 'Accepted'">
+                                        <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                                    </span>
+                                    <span *ngIf="activityApprovalStatus.Pan == 'Rejected'">
+                                        <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="label-dark">{{panDetail.uniqueId}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="p-img">
+                                <img class="shadow pointer" *ngIf="this.panDetail.frontImageUrl"
+                                    src="{{this.panDetail.frontImageUrl}}" height="50px" width="100px"
+                                    appMode="edit"   style="border-radius: 4px;" (click)="showImages(this.panDetail.frontImageUrl)">
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-2 d-flex" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.panApproveStatus" class="btn btnbb btn-success" 
+                                (click)="changeActivity(1,'Pan')">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.panRejectStatus" class="btn btnbb btn-danger" style="float: right;"
+                                (click)="changeActivity(2,'Pan')">Reject
+                            </button>
+                        </div> -->
+
+                        <div class="col-1" *ngIf="!IsOfferGeneratedFlag"
+                        appMode="edit"  (click)="changeStatus('Pan', activityApprovalStatus.Pan)">
+                            <i class="pi pi-ellipsis-v pi-size mt-3"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2 p-2">
+
+                        <div class="col">
+                            <div class="row">
+                                <label class="label-lite">Aadhar
+                                    &nbsp;
+                                    <span *ngIf="activityApprovalStatus.Aadhar == 'Accepted'">
+                                        <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                                    </span>
+                                    <span *ngIf="activityApprovalStatus.Aadhar == 'Rejected'">
+                                        <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="label-dark">{{aadharDetail.maskedAadhaarNumber}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="p-img">
+                                        <img *ngIf="this.aadharDetail.frontImageUrl" class="shadow pointer"
+                                            style="border-radius: 4px;" src="{{this.aadharDetail.frontImageUrl}}"
+                                            height="50px" width="100px"
+                                            appMode="edit"  (click)="showImages(this.aadharDetail.frontImageUrl)">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-img">
+                                        <img *ngIf="this.aadharDetail.backImageUrl" class="shadow pointer"
+                                            style="border-radius: 4px;" src="{{this.aadharDetail.backImageUrl}}"
+                                            height="50px" width="100px"
+                                            appMode="edit"   (click)="showImages(this.aadharDetail.backImageUrl)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="col-2 d-flex" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.aadhaarApproveStatus" class="btn btnbb btn-success" 
+                                (click)="changeActivity(1,'Aadhar')">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.aadhaarRejectStatus" class="btn btnbb btn-danger" style="float: right;"
+                                (click)="changeActivity(2,'Aadhar')">Reject
+                            </button>
+                        </div> -->
+                        
+                        <div class="col-1" *ngIf="!IsOfferGeneratedFlag"
+                        appMode="edit"  (click)="changeStatus('Aadhar', activityApprovalStatus.Aadhar)">
+                            <i class="pi pi-ellipsis-v pi-size mt-3"></i>
+                        </div>
+
+
+                    </div>
+
+                    <div class="row mt-2 p-2">
+                        <div class="col-9">
+                            <div class="row">
+                                <label class="label-lite">Electricity</label>
+                            </div>
+
+                            <div class="row">
+                                <label class="label-dark">-</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img pointer">
+                                <!-- <img *ngIf="this.personalDetail.ElectricityBillImage" style="border-radius: 4px;"
+                                    class="shadow" src="{{this.personalDetail.ElectricityBillImage}}" height="50px"
+                                    width="100px" (click)="showImages(this.personalDetail.ElectricityBillImage)"> -->
+                                <img class="pointer pdf-icon float: right"
+                                    *ngIf="this.personalDetail.ElectricityBillImage"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    appMode="edit"   (click)="showImages(this.personalDetail.ElectricityBillImage)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row my-2">
+                <div class="col-6">
+                    <div class="card p-3">
+                        <b>PAN</b>
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <div class="card shadow p-3">
+                                    <label class="label-lite">Number</label>
+                                    <label class="label-dark">{{this.panDetail.uniqueId}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card p-3">
+                        <b>Aadhaar</b>
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <div class="card shadow p-3">
+                                    <label class="label-lite ">Number</label>
+                                    <label class="label-dark">{{this.aadharDetail.maskedAadhaarNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>KYC Details</b>
+                    <div class="row my-2">
+
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Person PAN Parsed Data</label></b>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Date:</label>
+                                    <label class="right label-data p-2">{{panDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Father:</label>
+                                    <label class="right label-data p-2">{{panDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Name:</label>
+                                    <label class="right label-data p-2">{{panDetail.nameOnCard}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Panno:</label>
+                                    <label class="right label-data p-2">{{panDetail.uniqueId}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-6">
+
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Aadhar Parsed Data</label></b>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row" class="alterColor">
+                                <div class="col-12 p-2">
+                                    <label class="label-lite">BankName:</label>
+                                    <label class="right label-dark">AccNo</label>
+                                </div>
+                            </div> -->
+
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="label-lite p-2">Address:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label
+                                                class="right label-data p-2">{{aadharDetail.locationAddress.addressLineOne}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Father:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Pin:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.pinCode}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Aadhar:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.maskedAadhaarNumber}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">DOB:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Gender:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.gender?aadharDetail.gender
+                                        == 'M'?'Male':'Female':''}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Name:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Personal Address</b>
+                    <div class="row my-2">
+                        <div class="col-10 label-lite">
+                            {{this.personalDetail.CurrentAddress.addressLineOne}},{{this.personalDetail.CurrentAddress.addressLineTwo}},{{this.personalDetail.CurrentAddress.addressLineThree}},{{this.personalDetail.CurrentAddress.cityName}},{{this.personalDetail.CurrentAddress.zipCode}}
+                        </div>
+                        <div class="col-2 text-right" *ngIf="this.personalDetail.CurrentAddress.id">
+                            <img src="../../../../../assets/theme/icons/edit.svg" style="float: right;"
+                            appMode="edit"  (click)="updateAddressDetailsPopup('PersonalDetail')">
+                        </div>
+
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <label class="label-dark ">State:</label> &nbsp;
+                            <label class="label-lite">{{this.personalDetail.CurrentAddress.stateName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">City:</label>&nbsp;<label
+                                class="label-lite">{{this.personalDetail.CurrentAddress.cityName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">Pin:</label>&nbsp;<label
+                                class="label-lite ">{{this.personalDetail.CurrentAddress.zipCode}}</label>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="btn btnb btn-blue" style="width: max-content;">Current Personal
+                                Details</label>
+                        </div>
+
+                    </div> -->
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2" *ngIf="this.personalDetail.IvrsNumber != null">
+                <div class="card p-3">
+                    <b>IVRS Address</b>
+                    <div class="row my-2">
+                        <div class="col-6">
+                            <label class="label-lite ">Electricity State:</label>&nbsp;<label electricityState
+                                class="label-dark">{{this.personalDetail.ElectricityState}}</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-lite ">Electricity Service Provider:</label>&nbsp;<label
+                                class="label-dark ">{{this.personalDetail.ElectricityServiceProvider}}</label>
+                        </div>
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-6">
+                            <label class="label-lite ">ownershipTypeName:</label> &nbsp;
+                            <label class="label-dark">{{this.personalDetail.OwnershipTypeName}}</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-lite ">IVRS:</label> &nbsp;
+                            <label class="label-dark">{{this.personalDetail.IvrsNumber}}</label>
+                        </div>
+
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-12">
+                            <label class="label-lite ">ownershipTypeAddress:</label>&nbsp;<label ownershipTypeName
+                                class="label-dark">{{this.personalDetail.OwnershipTypeAddress}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div *ngIf="CommentBlock">
+    <p-dialog header="Status" [(visible)]="CommentBlock" [modal]="true" appendTo="body" [closable]="false"
+        [style]="{width: '40vw', overflow: 'auto'}" [draggable]="false" [resizable]="false">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-12">
+                <div style="margin-top: 1em;">
+                    <label>Comment For Block</label>
+                    <textarea class="col-md-8" rows="1" type="text" placeholder="Comment" class="form-control"
+                        [(ngModel)]="Comment" name="Comment"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-12 mt-4">
+                <div style="margin-top: 1em;">
+                    <!-- <button class="btn btn-raised btn-primary" (click)="OnBlock()">Submit <i
+                            class="pi pi-check"></i></button> -->
+                    <!-- <button class="btn btn-raised btn-danger ml-1" (click)="CancelButton()">Cancel <i
+                            class="pi pi-cross"></i></button> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="radio" [(ngModel)]="this.loanAccount.IsBlockHideLimit" [value]="'HideLimit'">
+                  <label>Hide Limit</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" [(ngModel)]="this.loanAccount.IsBlockHideLimit" [value]="'ShowLimit'">
+                  <label>Show Limit</label><br>
+            </div>
+        </div>
+    </p-dialog>
+</div>
+
+
+<!-- image show /download panel  -->
+<p-dialog [draggable]="false" [(visible)]="showImage" appendTo="body" [modal]="true"
+    [style]="{ 'width': '50vw', 'height': '50vh' }">
+    <div class="row" style="text-align: justify;">
+
+        <div class="col-md-12">
+            <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+            <button class="btn btn-primary" style="margin-left: 16px;" appMode="edit" (click)="downloadImage(showUrl)">Download</button>
+        </div>
+        <!-- <div class="col-2" >
+            
+        </div> -->
+    </div>
+</p-dialog>
+
+<!-- multi image  show /download panel  -->
+<p-dialog [(visible)]="showMultiImage" [draggable]="false" appendTo="body" [modal]="true"
+    [style]="{ 'width': '55vw', 'height': 'auto' }">
+    <div class="row" *ngFor="let items of showMultiImgList">
+        <div class="col-md-12" style="text-align: justify;">
+            <img class="imgShow" src="{{items.logo?items.logo:items.url}}" />
+            <button class="btn btn-primary" style="margin-left: 16px;"
+            appMode="edit"  (click)="downloadImage(items.url)">Download</button>
+        </div>
+    </div>
+</p-dialog>
+
+
+
+<p-dialog [draggable]="false" [(visible)]="isViewLoanStatus" header="Loan Status" appendTo="body" [modal]="true"
+    [style]="{width: 'auto',height:'auto'}">
+    <div class="row p-2">
+        <div class="col-5">
+            <label class="label-lite">Loan Status</label>
+        </div>
+        <div class="col-md-5 col-sm-5 col-12">
+            {{ArthmateLoanOffer?.loanStatus}}
+        </div>
+    </div>
+
+    <div class="row p-2">
+        <div class="col-5">
+            <!-- (onChange)="getProduct(selectedcompany)" -->
+            <p-dropdown [options]="LoanStatus" [(ngModel)]="selectedLoanStatus" optionLabel="label"
+                placeholder="Select loan status" [style]="{'width':'100%'}"></p-dropdown>
+        </div>
+        <div class="col-md-5 col-sm-5 col-12">
+            <button class="btn btn-primary" appMode="edit" (click)="LoanStatusUpdate(selectedLoanStatus)" [disabled]="!userTypeRole">change loan
+                status kyc approval</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="isBenificiaryBankDetailPopup" header="Add Beneficiary Bank Detail" appendTo="body" [modal]="true"
+    [style]="{width: '75vw',height:'80vh'}" [draggable]="false">
+    <div class="row mt-2 mb-3">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div><span> <b>This Bank account will be used for NACH </b></span></div>
+        </div>
+    </div>
+    <div class="row p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Same as Disbursement Bank account details</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <p-checkbox [(ngModel)]="checked" [binary]="true" appMode="edit" (click)="sameAsbankDetails()"></p-checkbox>
+            </div>
+        </div>
+
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Account Holder Name</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input placeholder="Acc. Holder Name" style="padding: 6px; width: 50%;" type="text"
+                    [(ngModel)]="ArthmateBankDetails.Accountholdername" class="form-control inptBx"
+                    (keydown)="isValidNumber($event)">
+            </div>
+        </div>
+        <div class="row mt-1 p-2">
+            <div class="col-md-5 col-sm-5 col-12">
+                <div class="ml cp">Bank Name</div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-12">
+                <div class="ml cl" style="margin-left: 11px;">
+                    <!-- <input placeholder="Bank Name" style="padding: 6px; width: 50%;" type="text"
+                        [(ngModel)]="benificiaryArthmateDetails.Beneficiary_Bankname" class="form-control inptBx"
+                        (keydown)="isValidNumber($event)"> -->
+                    <p-dropdown [options]="liveBankList" [style]="{ 'width': '52%'}" placeholder="--Select Bank Name--"
+                        optionLabel="bankName" [(ngModel)]="selectBankName"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Account No</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input style="padding: 6px; width: 50%;" type="tel" pattern="\d*" maxlength="17"
+                    (keypress)="decimalFilter($event)" (keydown)="onKeydown($event)"
+                    [(ngModel)]="ArthmateBankDetails.AccountNumber" placeholder="Bank Acc. No."
+                    class="form-control inptBx">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">IFSC Code</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input style="padding: 6px; width: 50%;" oninput="this.value = this.value.toUpperCase()" type="text"
+                    maxlength="17" (keypress)="validateAlphaNumeric($event)" [(ngModel)]="ArthmateBankDetails.IFSCCode"
+                    placeholder="IFSC Code" class="form-control inptBx">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Type Of Account</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12" style="text-align: justify;">
+            <div class="ml cl">
+                <p-dropdown [options]="AccountTypeList" [style]="{ 'width': '50%'}" placeholder="--Select type--"
+                    optionLabel="name" [(ngModel)]="ArthmateBankDetails.AccountType"></p-dropdown>&nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-blue mr-1" appMode="edit" appMode="edit" (click)="SaveNachDetails()" [disabled]="!userTypeRole">Save</button>
+            </div>
+        </div>
+        <!-- <div class="col-md-1 col-sm-1" style="margin-left: -245px;">
+           
+        </div> -->
+    </div>
+</p-dialog>
+
+<!-- <p-dialog [(visible)]="isViewBeneficiaryBankDetail" header="Benificiary Nach Bank Detail" appendTo="body" [modal]="true"
+    [style]="{width: '50vw',height:'50vh'}">
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Account Holder Name</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                {{bankDetail.beneficiary_Accountholdername}}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Bank Name</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                {{bankDetail.beneficiary_Bankname}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Account No</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                {{bankDetail.beneficiary_AccountNumber}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">IFSC Code</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                {{bankDetail.beneficiary_IFSCCode}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Type Of Account</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                {{bankDetail.beneficiary_Typeofaccount}}
+            </div>
+        </div>
+    </div>
+</p-dialog> -->
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="progress-spinner" *ngIf="loader">
+    <p-progressSpinner></p-progressSpinner>
+</div>
+
+<div *ngIf="this.selectedActionStatus">
+    <p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body" [draggable]="false"
+        [style]="{width: '35vw'}">
+
+        <!-- {{this.selectedActionStatus| json}} -->
+        <p-header>Perform an Action</p-header>
+        <div class="row">
+            <div class="col">
+                <label class="label-dark"><b>{{this.selectedActionStatus.activity}}</b></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="label-lite"><b>Completion Status</b> - </label> <label
+                    [ngStyle]="this.selectedActionStatus.isCompleted ==true?{'color':'green'}:{'color':'red'}"><b>
+                        {{this.selectedActionStatus.isCompleted ==true?"Document Completed": 
+                        "Document In-Complete"}}</b></label>
+            </div>
+        </div>
+
+
+        <!-- <div class="ui-fluid"
+            *ngIf="this.selectedActionStatus && this.selectedActionStatus.isCompleted == true && this.selectedActionStatus.activity != 'Bank Detail' && !isBankDetailApprove">
+            <textarea type="text" id="_aadharcomment" name="_aadharcomment" class="form-control" [(ngModel)]="Comment"
+                placeholder="Comment here...">
+            </textarea>
+        </div> -->
+        <!-- <div class="ui-fluid" *ngIf="checkButtonReject() || checkButtonApprove()">
+            <textarea type="text" id="_aadharcomment" name="_aadharcomment" class="form-control" [(ngModel)]="Comment"
+                placeholder="Comment here...">
+            </textarea>
+        </div> -->
+
+        <p-footer>
+            <!-- {{this.selectedActionStatus | json}} -->
+            <button *ngIf="checkButtonApprove()" class="btn btn-success mt-2 pt-2" style="margin-left: .5em;"
+            appMode="edit"  (click)="changeActivity(1,this.selectedActionStatus.activity)" [disabled]="!userTypeRole">Approve</button>
+            <button *ngIf="checkButtonReject()" class="btn btn-danger mt-2 pt-2" style="margin-left: .5em;"
+            appMode="edit"  (click)="changeActivity(2,this.selectedActionStatus.activity)" [disabled]="!userTypeRole">Reject
+            </button>
+
+            <!-- <button
+                *ngIf="this.selectedActionStatus && this.selectedActionStatus.isApproved != 1 && this.selectedActionStatus.isCompleted == true && this.selectedActionStatus.activity != 'Bank Detail' && !isBankDetailApprove"
+                class="btn btn-success mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+                (click)="changeActivity(1)">Approve
+            </button>
+
+            <button
+                *ngIf="this.selectedActionStatus && this.selectedActionStatus.isApproved != 1 && this.selectedActionStatus.isCompleted == true && this.selectedActionStatus.activity == 'Bank Detail' && isBankDetailApprove"
+                class="btn btn-success mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+                (click)="changeActivity(1)">Approve
+            </button>
+
+            <button
+                *ngIf="(this.selectedActionStatus && this.selectedActionStatus.isApproved == 0 && this.selectedActionStatus.isCompleted == true) || ((this.selectedActionStatus.activity == 'Pan' || this.selectedActionStatus.activity == 'Aadhar' || this.selectedActionStatus.activity == 'Selfie') && this.selectedActionStatus.isCompleted == true)"
+                class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+                (click)="changeActivity(2)">Reject
+            </button> -->
+
+
+        </p-footer>
+
+    </p-dialog>
+
+</div>
+
+
+<p-dialog [(visible)]="isAddressEditPopup" header="Edit Address" appendTo="body" [modal]="true" [draggable]="false"
+    [style]="{width: '60vw',height:'70vw'}">
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 1</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- (keypress)="allowSpecialSymbolsAndAlphabets($event)" -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 1" [(ngModel)]="updatedAddress.addressLineOne" minlength="11"
+                >
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 2</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- (keypress)="allowSpecialSymbolsAndAlphabets($event)" -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 2" [(ngModel)]="updatedAddress.addressLineTwo" minlength="11"
+                    >
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 3</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- (keypress)="allowSpecialSymbolsAndAlphabets($event)" -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 3" [(ngModel)]="updatedAddress.addressLineThree" minlength="11"
+                    >
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Pin Code</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input type="text" class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter PinCode" [(ngModel)]="updatedAddress.zipCode" [min]="6" [max]="6"
+                    (keypress)="decimalFilter($event)" (keydown)="onKeydown($event)" maxlength="6" minlength="6">
+                <div *ngIf=" (updatedAddress.zipCode.length < 6)">
+                    <code style="color: red;">Pincode length should be 6</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">State</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <!-- <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter State Name" [(ngModel)]="updatedAddress.stateName"
+                    minlength="11">
+            </div> -->
+            <div class="ml cl">
+                <p-dropdown [options]="stateList" [style]="{'width':'102%'}" placeholder="--Select type--"
+                    optionLabel="name" optionValue="id" [(ngModel)]="updatedAddress.stateId"
+                    (onChange)="onchangeState($event)"></p-dropdown>&nbsp;&nbsp;
+                &nbsp;&nbsp;
+            </div>
+
+            <!-- (ngModelChange)="getList(selectedTemplateForEnum)" -->
+            <!-- (onChange)="getDate(searchFilters.FromDate)" -->
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">City</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <!-- <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter City Name" [(ngModel)]="updatedAddress.cityName"
+                    minlength="11">
+            </div> -->
+            <div class="ml cl">
+                <p-dropdown [options]="cityList" [style]="{'width':'102%'}" placeholder="--Select type--"
+                    optionLabel="name" optionValue="id" [(ngModel)]="updatedAddress.cityId"
+                    (onChange)="onchangeCity($event)"></p-dropdown>&nbsp;&nbsp;
+                &nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Country</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Country Name" [(ngModel)]="updatedAddress.countryName" minlength="11">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-darkBlue" appMode="edit" (click)="updateAddress()" [disabled]="!userTypeRole">Update</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="isBusinessDetailEditPopup" header="Edit Business Detail" appendTo="body" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw',height:'90vw'}">
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Gst Number</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Gst Number" [(ngModel)]="editBusinessDetail.GstNumber" maxlength="15"> -->
+                <!-- [disabled]="Id" -->
+                <input type="text" id="GSTNo" class="form-control" name="GSTNo"
+                    [(ngModel)]="editBusinessDetail.GstNumber" placeholder="Enter GST No"
+                    class="form-control label-dark" (input)="checkGstPattern(editBusinessDetail.GstNumber) "
+                    maxlength="15" (keydown)="space($event)" (keypress)="alphaNumberOnly($event)" autocomplete="off"
+                    required #gstInput="ngModel"
+                    pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[A-Z]{1}[0-9A-Z]{1}">
+            </div>
+            <code>Note:- {{this.isGstVerified == true? "Verified" : "Not-Verified"}}</code>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Name</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input class="form-control" style="width: 100%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Business Name" [(ngModel)]="editBusinessDetail.businessName"
+                    (keypress)="AlphabetNumberOnly($event)" [disabled]="isGstVerified">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Type</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <div class="ml cl">
+                    <!-- {{selectedBusinessType | json}} -->
+                    <p-dropdown [options]="buisnesTypeList" [style]="{'width':'100%'}"
+                        placeholder="--Select Business type--" optionLabel="label" optionValue="value"
+                        [(ngModel)]="this.editBusinessDetail.BusinessType"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Turn Over</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <p-dropdown [options]="incomeSlabList" [style]="{'width':'100%'}" placeholder="--Select Income Slab--"
+                    optionLabel="label" optionValue="value"
+                    [(ngModel)]="this.editBusinessDetail.IncomeSlab"></p-dropdown>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Incorporation Date</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{editBusinessDetail.IncorporationDate}} -->
+                <!-- it must be calender -->
+                <!-- <input type="text" class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter PinCode" [(ngModel)]="editBusinessDetail.IncorporationDate" > -->
+                <input [(ngModel)]="editBusinessDetail.IncorporationDate" type="date" [disabled]="isGstVerified"
+                    [style]="{'width':'100%','border-radius':'25%'}" class="form-control" placeholder="Select Date">
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Inquiry Amount</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input class="form-control" style="width: 100%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Inquiry Amount" [(ngModel)]="editBusinessDetail.InquiryAmount">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Surrogate Type</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Select Surrogate Type" [(ngModel)]="editBusinessDetail.SurrogateType" > -->
+                <p-dropdown [options]="surrogateTypeList" [style]="{'width':'100%'}"
+                    placeholder="--Select Surrogate Type--" optionLabel="label" optionValue="value"
+                    [(ngModel)]="editBusinessDetail.SurrogateType"></p-dropdown>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-darkBlue" appMode="edit" (click)="updateBusinessDetailFun()" [disabled]="!userTypeRole">Update</button>
+        </div>
+    </div>
+</p-dialog>

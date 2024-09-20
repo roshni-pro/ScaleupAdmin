@@ -1,0 +1,60 @@
+hr.new2 {
+    // margin-top: 35px;
+    border-top: 2px dashed black;
+}
+
+.card {
+    border-radius: 15px;
+    height: 90%;
+}
+
+.font1 {
+    font-weight: 700;
+    font-size: 15px !important;
+    color: #2D3748;
+}
+
+.shadow {
+    border-radius: 5px !important;
+}
+
+.something {
+    position: relative;
+    // left: 45%;
+    bottom: 43%;
+}
+.something-text-label{
+    position: relative;
+    // left: 43%;
+    bottom: 48%;
+}
+
+.rejected {
+    color: #FF7781;
+}
+
+.approved {
+    color: #50CFBC;
+}
+
+.pending {
+    color: #FFBC54;
+}
+
+.notContactable {
+    color: #45BFFF;
+}
+
+.notInterested {
+    color: #707EEF;
+}
+
+.coloredLabel {
+    font-size: 25px !important;
+}
+
+.btn {
+    height: 40px !important;
+    font-size: 15px !important;
+    // padding: 20px !important;
+}

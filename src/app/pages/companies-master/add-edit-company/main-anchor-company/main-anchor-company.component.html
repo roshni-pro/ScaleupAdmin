@@ -1,0 +1,1151 @@
+<div class="container-fluid">
+    <div class="row mt-2">
+        <label>
+            <h2 *ngIf="Id==null">Add new Anchor</h2>
+            <h2 *ngIf="Id>0">Edit Anchor</h2>
+
+        </label>
+    </div>
+    <div class="row">
+        <!-- ==========================================================Symmetry DIVIDE=================================== -->
+        <div class="col-6">
+
+            <div class="card mt-2 p-3">
+                <div class="label-dark p-2">
+                    <h4>GST Details</h4>
+                </div>
+                <!-- <div class="card shadow p-3"> -->
+                <div class="row">
+                    <div class="col-5">
+                        <p class="label-lite p-2"><span style="color: red;font-size: 12px;">*</span> GST No</p>
+                        <input type="text" id="GSTNo" class="form-control" name="GSTNo" [(ngModel)]="saveCompany.GSTNo"
+                            [disabled]="Id" placeholder="Enter GST No" class="form-control label-dark"
+                            (input)="checkGstPattern(saveCompany.GSTNo) " maxlength="15" (keydown)="space($event)"
+                            (keypress)="alphaNumberOnly($event)" autocomplete="off" required #gstInput="ngModel"
+                            pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[A-Z]{1}[0-9A-Z]{1}">
+
+                        <!-- Error messages based on validation conditions -->
+
+                        <div class="text-danger">
+                            <div *ngIf="gstInput.hasError('required') && submitted">Gst details are required.</div>
+                            <div *ngIf="gstInput.hasError('required') && submitted ">
+                                Invalid Gst format.</div>
+                        </div>
+                        <!-- <div class="text-danger" *ngIf="!saveCompany.GSTNo && submitted">
+                <div style="color: red; font-size: 12px;">* GST No is required</div>
+              </div> -->
+                    </div>
+                    <div class="col-1">
+                        <p class="label-lite p-2"></p>
+                        <i class="pi pi-check-circle" *ngIf="isGstVerified"
+                            style="color: #0196CE !important;margin-top: 28px;"></i>
+
+                    </div>
+
+                    <div class="col-6" *ngIf="!saveCompany.GSTDocumentURL &&   (!isGSTDocumentURL|| (Id==0 || !Id))">
+                        <p class="label-lite p-2">GST Document</p>
+                        <input #myInput1 type="file" accept="application/pdf,image/png, image/jpeg" [disabled]="Id"
+                            (change)="upload($event, 'GSTDocumentURL',this.myInputVariable1)" id="GSTDocumentURL"
+                            class="form-control back" name="GSTDocumentURL" />
+
+
+                    </div>
+                    <!-- saveCompany.GSTDocumentURL=={{saveCompany.GSTDocumentURL}} -->
+                    <div class="col-6" *ngIf="saveCompany.GSTDocumentURL">
+                        <span style="color: red;font-size: 12px;">* &nbsp;</span><label>GST Document Upload </label><br>
+                        <img src="{{defGSTDocumentURL?defGSTDocumentURL:saveCompany.GSTDocumentURL}}" height="100vh"
+                            (click)="show(saveCompany.GSTDocumentURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('GSTDocumentURL')"
+                                value="remove">
+                        </div>
+                    </div>
+
+                </div>
+                <!-- </div> -->
+            </div>
+
+
+            <div class="card mt-2 p-3">
+                <div class="label-dark p-2">
+                    <h4>Pan Details</h4>
+                </div>
+                <!-- <div class="card shadow p-3"> -->
+                <div class="row">
+                    <div class="col-6">
+                        <p class="label-lite p-2"><span style="color: red;font-size: 12px;">* &nbsp;</span>Pan Details
+                        </p>
+                        <input type="text" id="GSTNo" class="form-control" name="GSTNo" [(ngModel)]="saveCompany.PanNo"
+                            [disabled]="Id" placeholder="Enter Pan No" class="form-control label-dark"
+                            (input)="checkPanPattern()" maxlength="10" (keydown)="space($event)"
+                            (keypress)="alphaNumberOnly($event)" autocomplete="off" required
+                            pattern="[A-Z]{5}[0-9]{4}[A-Z]" #panInput="ngModel">
+                        <div class="text-danger">
+                            <div *ngIf="panInput.hasError('required') && submitted">PAN details are required.</div>
+                            <div *ngIf="panInput.hasError('pattern') && submitted">Invalid PAN format.</div>
+                        </div>
+                        <!-- <div class="text-danger" *ngIf="!saveCompany.PanNo && submitted">
+                <div style="color: red; font-size: 12px;">* Pan Details is required</div>
+              </div> -->
+                    </div>
+                    <div class="col-6" *ngIf="!saveCompany.PanURL &&   (!isBusinessPanURL|| (Id==0 || !Id))">
+                        <p class="label-lite p-2"> Pan Upload</p>
+                        <input #myInput2 type="file" accept="application/pdf,image/png, image/jpeg" [disabled]="Id"
+                            (change)="upload($event, 'PanURL',this.myInputVariable2)" id="PanURL"
+                            class="form-control back" name="PanURL" />
+                    </div>
+                    <div class="col-6" *ngIf="saveCompany.PanURL">
+                        <span style="color: red;font-size: 12px;">* &nbsp;</span><label> Pan Document Upload
+                        </label><br>
+                        <img src="{{defPanURL?defPanURL:saveCompany.PanURL}}" height="100vh" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('PanURL')" value="remove">
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+
+            </div>
+
+            <div class="card mt-2 p-3 business-card">
+                <!-- Added a specific class for Business Details card -->
+                <!-- {{this.saveCompany.PartnerList && this.saveCompany.PartnerList.length>0}} -->
+
+                <div class="label-dark p-2">
+                    <h4>Business Details</h4>
+                </div>
+                <div class="row mt-2 p-2">
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"> <span style="color: red;font-size: 12px;">*</span>
+                                Business Name
+                            </label> <br>
+                            <input type="text" class="form-control label-dark" [(ngModel)]="saveCompany.BusinessName"
+                                #BusinessName="ngModel" [disabled]="Id || disabledBusinessName" autocomplete="off"
+                                placeholder="Business  Name">
+                            <div *ngIf="!saveCompany.BusinessName && submitted">
+                                <div class="text-danger">* Business Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite">
+                                Short Name
+                            </label><br>
+                            <input type="text" class="form-control label-dark" [(ngModel)]="saveCompany.LandingName"
+                                [disabled]="Id" (keydown)="space($event)" autocomplete="off"
+                                (keypress)="NumberOnly($event)" (paste)="onPaste($event)" placeholder="Short Name ">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mt-2 p-2">
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"> <span style="color: red;font-size: 12px;">*</span>
+                                Business Email
+                            </label><br>
+                            <input type="text" id="businessEmail" name="businessEmail" class="form-control label-dark"
+                                #emailinput="ngModel" placeholder="Business Email"
+                                [(ngModel)]="saveCompany.BusinessContactEmail"
+                                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                            <div *ngIf="emailinput.invalid && (emailinput.dirty || emailinput.touched)"
+                                class="text-danger">
+                                <!-- <div *ngIf="emailinput.hasError('required')">Business Contact Email details are required.</div> -->
+                                <div *ngIf="emailinput.hasError('pattern') && submitted">Invalid format. Please follow
+                                    the specified
+                                    pattern.</div>
+                            </div>
+                            <div class="text-danger" *ngIf="!saveCompany.BusinessContactEmail && submitted">
+                                <div>* Business Email is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"> <span style="color: red;font-size: 12px;">*</span>
+                                Business Contact
+                            </label><br>
+                            <input type="text" id="businessContactNo" name="businessContactNo"
+                                placeholder="Business Contact No" class="form-control label-dark" autocomplete="off"
+                                (paste)="onPaste($event)" (keypress)="keyPress($event)" #businessContactNo="ngModel"
+                                [(ngModel)]="saveCompany.BusinessContactNo" [maxLength]="10" pattern="[0-9]{10}"
+                                required>
+                            <div *ngIf="businessContactNo.invalid && (businessContactNo.dirty || businessContactNo.touched)"
+                                class="text-danger">
+                                <!-- <div *ngIf="businessContactNo.hasError('required')">Business Contact No is required.</div> -->
+                                <div *ngIf="businessContactNo.hasError('pattern') && submitted">Enter 10 digit Contact
+                                    no.
+                                </div>
+                            </div>
+                            <div *ngIf="!saveCompany.BusinessContactNo && submitted">
+                                <div class="text-danger">* Business Contact is required</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2 p-2">
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"><span style="color: red;font-size: 12px;">*</span>
+                                HelpLine Number
+                            </label>
+                            <br>
+                            <input type="text" id="BusinessHelpline" class="form-control back" name="BusinessHelpline"
+                                class="form-control label-dark" [(ngModel)]="saveCompany.BusinessHelpline"
+                                (keydown)="space($event)" minlength="10" maxlength="10"
+                                placeholder="Enter HelpLine Number" #businessHelpline="ngModel" required="1"
+                                pattern="[0-9]{10}" (keypress)="keyPress($event)" autocomplete="off" />
+                            <div class="text-danger">
+                                <div *ngIf="businessHelpline.hasError('required') && submitted">Business Contact No is
+                                    required.</div>
+                                <div *ngIf="businessHelpline.hasError('pattern')&& submitted ">Enter Valid Business
+                                    Helpline of 10
+                                    digits
+                                </div>
+
+                            </div>
+                            <!-- <div *ngIf="!saveCompany.BusinessHelpline && submitted">
+                <div class="text-danger" style="color: red; font-size: 12px;">* Business Helpline is required</div>
+              </div> -->
+                        </div>
+
+                    </div>
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"> <span style="color: red;font-size: 12px;">*</span>
+                                Contact Person Name
+                            </label><br>
+
+                            <input type="text" class="form-control label-dark"
+                                [(ngModel)]="saveCompany.ContactPersonName" (keydown)="space($event)" autocomplete="off"
+                                (keypress)="NumberOnly($event)" (paste)="onPaste($event)"
+                                placeholder="Enter Contact Person Name ">
+                            <div *ngIf="!saveCompany.ContactPersonName && submitted">
+                                <div class="text-danger">* Contact Person Name is required</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mt-2 p-2">
+                    <div class="col-6">
+                        <div class="card shadow p-3">
+                            <label class="label-lite"><span style="color: red;font-size: 12px;">*</span>
+                                Business Type
+                            </label>
+                            <br>
+                            <!-- {{saveCompany.BusinessTypeId}} -->
+                            <p-dropdown [options]="businessTypeList" [(ngModel)]="saveCompany.BusinessTypeId"
+                                [disabled]="Id" (onChange)="getType(saveCompany.BusinessTypeId)" optionValue="id"
+                                optionLabel="name" placeholder="Select Business Type" [style]="{'width':'100%'}"
+                                name="selectedBusinessType"></p-dropdown>
+                            <div *ngIf="!saveCompany.BusinessTypeId && submitted ">
+                                <div style="color: red; ">* Business Type is required</div>
+
+                            </div>
+                            <div *ngIf="!partnerRow && submitted ">
+                                <div style="color: red; ">* Please Add Partners</div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <!-- {{saveCompany.PartnerList.length}} -->
+                    <!-- *ngIf="saveCompany.BusinessTypeId&&saveCompany.BusinessTypeId!=1" -->
+                    <!-- <div class="col-2 mt-5" [hidden]="(saveCompany.PartnerList.length && labelforBusiness == 'Proprietor')|| Id">
+            <i class="pi pi-plus-circle" style="font-size: 2rem;" (click)="addRow(); "></i>
+          </div> -->
+
+
+
+
+                </div>
+
+                <div class="row mt-2" *ngFor="let row of saveCompany.PartnerList; let i = index;">
+                    <div class="col-5 ">
+                        <p><span style="color: red;font-size: 12px;">*</span> &nbsp;{{labelforBusiness}} Name </p>
+                        <input type="text" class="form-control" [disabled]="Id" [(ngModel)]="row.partnerName"
+                            placeholder="Enter  Name" required>
+                        <div *ngIf="!row.partnerName && submitted">
+                            <div class="text-danger">Partner Name is required</div>
+                        </div>
+                    </div>
+                    <div class="col-5 ">
+                        <p><span style="color: red;font-size: 12px;">*</span> &nbsp;Mobile Number</p>
+                        <input type="text" class="form-control" [disabled]="Id" [(ngModel)]="row.mobileNo"
+                            [maxlength]="10" placeholder="Enter Mobile Number" required>
+                        <div *ngIf="!row.mobileNo && submitted">
+                            <div class="text-danger">Mobile No is required</div>
+                        </div>
+                    </div>
+                    <div class="col-2 mt-5" *ngIf="Id==null">
+                        <i class="pi pi-minus-circle" (click)="removeRow(i)"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-2 p-2"
+                *ngIf=" saveCompany.PartnerList.length>0 && Id==null && labelforBusiness!='Proprietor' ">
+                <button (click)="addRow();" class="btn btn-light mb-1">Add</button>
+
+            </div>
+
+            <div class="card mt-2 p-3">
+
+                <div class="label-dark p-2">
+                    <h4>Document Details</h4>
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite">Business logo</p>
+                    </div>
+                    <div class="col-8" *ngIf="!saveCompany.LogoURL && (!isLogoURL|| (Id==0 || !Id))">
+                        <input type="file" #myInput3 (change)="upload($event, 'LogoURL',this.myInputVariable3)"
+                            id="LogoURL" [disabled]="Id" class="form-control" name="LogoURL"
+                            accept="image/png, image/jpeg"
+                            (onDragStart)="upload($event, 'LogoURL',this.myInputVariable3)"
+                            (onDrag)="upload($event, 'LogoURL',this.myInputVariable3)"
+                            (onDragEnd)="upload($event, 'LogoURL',this.myInputVariable3)" />
+                    </div>
+                    <div class="col-8" *ngIf="saveCompany.LogoURL">
+                        <label>Business Logo</label><br>
+                        <img src="{{defLogoURL?defLogoURL:saveCompany.LogoURL}}" height="100vh"
+                            (click)="show(saveCompany.LogoURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('LogoURL')" value="remove">
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite"> Business Pan Upload</p>
+                    </div>
+                    <div class="col-8" *ngIf="!saveCompany.BusinessPanURL &&   (!isBusinessPanURL|| (Id==0 || !Id))">
+                        <input type="file" #myInput4 (change)="upload($event, 'BusinessPanURL',this.myInputVariable3)"
+                            id="BusinessPanURL" [disabled]="Id" class="form-control" name="BusinessPanURL"
+                            accept="application/pdf,image/png, image/jpeg"
+                            (onDragStart)="upload($event, 'BusinessPanURL',this.myInputVariable4)"
+                            (onDrag)="upload($event, 'BusinessPanURL',this.myInputVariable4)"
+                            (onDragEnd)="upload($event, 'BusinessPanURL',this.myInputVariable4)" />
+                    </div>
+                    <div class="col-8" *ngIf="saveCompany.BusinessPanURL">
+                        <label>Business Pan</label><br>
+                        <img src="{{defBusinessDocumentURL?defBusinessDocumentURL:saveCompany.BusinessPanURL}}"
+                            height="100vh" (click)="show(saveCompany.BusinessPanURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('BusinessPanURL')"
+                                value="remove">
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- <div class="row p-4">
+          <div class="col-4">
+            <p class="label-lite">Business Pan</p>
+          </div>
+          <div class="col-8">
+            <input type="file" #myInput4  (change)="upload($event, 'LogoURL',this.myInputVariable4)" id="LogoURL" class="form-control"
+            name="LogoURL" accept="image/png, image/jpeg" (onDragStart)="upload($event, 'LogoURL',this.myInputVariable4)"  
+            (onDrag)="upload($event, 'LogoURL',this.myInputVariable4)" 
+            (onDragEnd)="upload($event, 'LogoURL',this.myInputVariable4)"/>          </div>
+        </div> -->
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite"> Agreement</p>
+                    </div>
+                    <div class="col-8" *ngIf="!saveCompany.AgreementURL &&   (!isAgreementURL|| (Id==0 || !Id))">
+                        <input type="file" #myInput5 (change)="upload($event, 'AgreementURL',this.myInputVariable5)"
+                            id="AgreementURL" class="form-control" [disabled]="Id" name="AgreementURL"
+                            accept="application/pdf,image/png, image/jpeg"
+                            (onDragStart)="upload($event, 'AgreementURL',this.myInputVariable5)"
+                            (onDrag)="upload($event, 'AgreementURL',this.myInputVariable5)"
+                            (onDragEnd)="upload($event, 'AgreementURL',this.myInputVariable5)" />
+                    </div>
+                    <div class="col-8" *ngIf="saveCompany.AgreementURL">
+                        <label> Agreement Upload</label><br>
+                        <img src="{{defAgreementURL?defAgreementURL:saveCompany.AgreementURL}}" height="100vh"
+                            (click)="show(saveCompany.AgreementURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('AgreementURL')"
+                                value="remove">
+                        </div>
+                    </div>
+                </div>
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite">Customer Agreement</p>
+                    </div>
+                    <div class="col-8"
+                        *ngIf="!saveCompany.CustomerAgreementURL &&   (!isCustomerAgreementURL|| (Id==0 || !Id))">
+                        <input type="file" #myInput6
+                            (change)="upload($event, 'CustomerAgreementURL',this.myInputVariable6)"
+                            id="CustomerAgreementURL" class="form-control" [disabled]="Id" name="CustomerAgreementURL"
+                            accept="application/pdf,image/png, image/jpeg"
+                            (onDragStart)="upload($event, 'CustomerAgreementURL',this.myInputVariable6)"
+                            (onDrag)="upload($event, 'CustomerAgreementURL',this.myInputVariable6)"
+                            (onDragEnd)="upload($event, 'CustomerAgreementURL',this.myInputVariable6)" />
+                    </div>
+                    <div class="col-8" *ngIf="saveCompany.CustomerAgreementURL">
+                        <label>Customer Agreement Upload</label><br>
+                        <img src="{{defCustomerAgreementURL?defCustomerAgreementURL:saveCompany.CustomerAgreementURL}}"
+                            height="100vh" (click)="show(saveCompany.CustomerAgreementURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('CustomerAgreementURL')"
+                                value="remove">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite">MSME Certificate</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="radio" id="true" [value]="true" [(ngModel)]="isMSME">
+                        <label for="true"> &nbsp; Yes</label>
+                        &nbsp;
+                        <input type="radio" id="false" [value]="false" [(ngModel)]="isMSME">
+                        <label for="false"> &nbsp; No</label>
+                    </div>
+                </div>
+
+                <div class="row p-4" *ngIf="isMSME">
+                    <div class="col-4">
+                        <p class="label-lite">MSME Declarations</p>
+                    </div>
+                    <div class="col-8" *ngIf="!saveCompany.MSMEDocumentURL && (!isMSMEDocumentURL|| (Id==0 || !Id))">
+                        <input #myInput7 type="file" accept="application/pdf,image/png, image/jpeg" [disabled]="Id"
+                            (change)="upload($event, 'MSMEDocumentURL',this.myInputVariable7)" id="MSMEDocumentURL"
+                            class="form-control back" name="MSMEDocumentURL" />
+                    </div>
+
+                    <div class="col-8" *ngIf="saveCompany.MSMEDocumentURL">
+                        <span style="color: red;font-size: 12px;">* &nbsp;</span><label>MSME Document</label><br>
+                        <img src="{{defMSMEDocumentURL?defMSMEDocumentURL:saveCompany.MSMEDocumentURL}}" height="100vh"
+                            (click)="show(saveCompany.MSMEDocumentURL)" />
+                        <div *ngIf="!Id || Id==undefined">
+                            <input type="button" class="btn btn-blue" (click)="removeImage('MSMEDocumentURL')"
+                                value="remove">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card mt-2 p-3">
+                <div class="label-dark p-2">
+                    <h4>Status</h4>
+                </div>
+                <div class="row p-4">
+                    <div class="col-4">
+                        <p class="label-lite">Active/Inactive</p>
+                    </div>
+                    <div class="col-8">
+                        <p-inputSwitch [(ngModel)]="saveCompany.CompanyStatus"></p-inputSwitch>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- ==========================================================Symmetry DIVIDE=================================== -->
+
+        <div class="col-6">
+
+
+            <div class="row mt-2">
+                <div class="card p-2">
+                    <div class="label-dark p-2">
+                        <h4>Address Details</h4>
+                    </div>
+                    <!-- <div class="row m-3">
+            <div class="label-lite">
+              <h6>Addressline One</h6>
+            </div>
+            <div class="card shadow">
+              sssssssssssssssssssssss
+            </div>
+          </div>   -->
+
+
+                    <div class="row  m-1">
+                        <div class="col-12">
+                            <div class="card shadow p-3">
+                                <label class="label-lite"> <span style="color: red;font-size: 12px;">*</span>
+                                    Address Line one
+                                </label> <br>
+                                <input type="text" [(ngModel)]="companyAddress.AddressLineOne"
+                                    class="form-control label-dark" [disabled]="(disableAddressLineOne ||Id )"
+                                    #AddressLineOne="ngModel" required="1" placeholder="Enter Address">
+                                <div class="text-danger">
+
+
+                                    <div *ngIf="submitted && AddressLineOne.hasError('required')">Address details are
+                                        required.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row  m-1">
+                        <div class="col-12">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Address Line two
+                                </label> <br>
+                                <input type="text" [(ngModel)]="companyAddress.AddressLineTwo"
+                                    class="form-control label-dark" [disabled]="Id" #AddressLineTwo="ngModel"
+                                    placeholder="Enter Address">
+                                <!--            -->
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row m-1">
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+
+                                <div class="label-lite ">
+                                    <h6><span style="color: red;font-size: 12px;">*</span> State</h6>
+                                </div>
+                                <div class="col-6" style="width: 100%;">
+                                    <p-dropdown placeholder="Select State" [style]="{'width':'100%'}"
+                                        [options]="stateList" [filter]="true" appendTo="body"
+                                        [disabled]="(disableState ||Id )" selected="true"
+                                        [(ngModel)]="companyAddress.StateId"
+                                        (onChange)="getCitiesbyStateId(companyAddress.StateId)" optionLabel="name"
+                                        optionValue="id">
+                                    </p-dropdown>
+
+                                </div>
+                                <div *ngIf="!companyAddress.StateId && submitted">
+                                    <div class="text-danger">* State is required</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+
+                                <div class="label-lite ">
+                                    <h6><span style="color: red;font-size: 12px;">*</span> City</h6>
+                                </div>
+                                <div class="col-md-6" style="width: 100%;">
+                                    <p-dropdown placeholder="Select City" [style]="{'width':'100%'}"
+                                        [options]="citylist" [filter]="true" [disabled]="(disableCity ||Id )"
+                                        [(ngModel)]="companyAddress.CityId" optionLabel="name"
+                                        optionValue="id"></p-dropdown>
+
+                                    <div *ngIf="!companyAddress.CityId && submitted">
+                                        <div class="text-danger">* City is required</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row m-1">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+
+                                <div class="label-lite ">
+                                    <h6><span style="color: red;font-size: 12px;">*</span> &nbsp;Pin</h6>
+                                </div>
+                                <div class="col-6" style="width: 100%;">
+                                    <input type="number" class="form-control label-dark" placeholder="Enter Pin"
+                                        maxlength="6" [disabled]="(disableZipCodeField ||Id )"
+                                        [(ngModel)]="companyAddress.ZipCode">
+                                    <div *ngIf="!companyAddress.ZipCode && submitted">
+                                        <div class="text-danger">* Pincode is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row mt-2">
+
+                <!-- <div class="col-md-12"> -->
+                <div class="card p-3">
+
+                    <div class="label-dark p-2">
+                        <h4> API Key
+                        </h4>
+                    </div>
+                    <div class="row mt-2 p-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    API key
+                                </label> <br>
+                                <input type="text" id="APIKey" class="form-control back" name="APIKey"
+                                    [(ngModel)]="saveCompany.APIKey" #APIKey="ngModel" disabled="true"
+                                    (keydown)="space($event)" />
+
+
+                                <!-- <div *ngIf="!saveCompany.APIKey && submitted">
+                  <div class="text-danger">* API Key is required</div>
+                </div> -->
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    API Secret
+                                </label><br>
+                                <input type="text" id="APISecretKey" class="form-control back" name="APISecretKey"
+                                    [(ngModel)]="saveCompany.APISecretKey" #APISecretKey="ngModel" disabled="true"
+                                    (keydown)="space($event)" />
+
+                                <!-- <div *ngIf="APISecretKey.invalid && (APISecretKey.dirty || APISecretKey.touched)" class="text-danger">
+                  <div *ngIf="APIKey.hasError('required')">API Secret Key details is required.</div>
+                </div> -->
+                                <!-- <div *ngIf="!saveCompany.APISecretKey && submitted">
+                  <div class="text-danger">* API Secret Key is required</div>
+                </div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="col-2 mt-5">
+              <button type="button" style="border-radius:50%;background: rgb(74, 190, 50);"
+                (click)="generatingApiKey()"> <i class="pi pi-refresh"></i></button>
+            </div> -->
+                        <!-- <div class="col-1 mt-5">
+              <button type="button" style="border-radius:50%;background: rgb(74, 190, 50);"
+                (click)="generatingApiSecretKey()"> <i class="pi pi-refresh"></i></button>
+            </div> -->
+                    </div>
+                    <div class="row mt-2 p-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    <!-- <span style="color: red;font-size: 12px;">*</span> -->
+                                    URL
+                                </label><br>
+                                <input type="text" id="WhitelistURL" class="form-control back" placeholder="Enter url"
+                                    [(ngModel)]="saveCompany.WhitelistURL" class="form-control label-dark"
+                                    name="WhitelistURL" />
+
+                                <!-- <div *ngIf="!saveCompany.WhitelistURL && submitted">
+                  <div class="text-danger">* Url is required</div>
+                </div> -->
+                            </div>
+
+                        </div>
+                        <!-- <div class="col-6">
+              <div class="card shadow p-3">
+                <label class="label-lite">
+                  logo File
+                </label><br>
+                <input type="file" #userPhoto1 (change)="upload($event, 'LogoURL',this.myInputVariable4)" id="LogoURL"
+                  class="form-control" name="LogoURL" accept="image/png, image/jpeg"
+                  (onDragStart)="upload($event, 'LogoURL',this.myInputVariable4)"
+                  (onDrag)="upload($event, 'LogoURL',this.myInputVariable4)"
+                  (onDragEnd)="upload($event, 'LogoURL',this.myInputVariable4)" />
+
+              </div>
+            </div> -->
+                    </div>
+                    <div class="row mt-2 p-2">
+
+                        <!-- <div class="col-6">
+              <div class="card shadow p-3">
+                <label class="label-lite">
+                  Logo URL
+                </label>
+                <br>
+                <input type="text" class="form-control label-dark" placeholder="Logo File">
+
+              </div>
+            </div> -->
+
+                    </div>
+
+                </div>
+                <!-- </div> -->
+            </div>
+            <div class="row mt-2">
+
+                <div class="card p-2">
+
+                    <div class="label-dark p-2">
+                        <h4> Bank Details
+                        </h4>
+                    </div>
+
+                    <div class="row mt-2 p-2">
+                        <!-- <span style="color: red;font-size: 12px;">*</span> -->
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Bank Name
+                                </label><br>
+                                <input type="text" id="BankAccountNumber" class="form-control back"
+                                    placeholder="Enter Bank Name" name="BankAccountNumber"
+                                    [(ngModel)]="saveCompany.BankName" #BankName="ngModel" (keydown)="space($event)"
+                                    autocomplete="off" (keypress)="NumberOnly($event)" (paste)="onPaste($event)" />
+
+                                <!-- <div class="text-danger">
+                  <div *ngIf="BankName.hasError('required') && submitted">Bank Name is required.</div>
+
+                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Bank Account Number
+                                </label><br>
+                                <input type="text" id="BankAccountNumber" class="form-control back" minlength="0"
+                                    maxlength="24" placeholder="Enter Bank Account Number" name="BankAccountNumber"
+                                    (keypress)="keyPress($event)" [(ngModel)]="saveCompany.BankAccountNumber"
+                                    #BankAccountNumber="ngModel" pattern="^[0-9]{0,24}$" (keydown)="space($event)" />
+
+                                <div class="text-danger">
+                                    <!-- <div *ngIf="BankAccountNumber.hasError('required') && submitted">Bank Account Number is required.
+                  </div> -->
+                                    <div *ngIf="BankAccountNumber.hasError('pattern')  && submitted">Enter Valid Bank
+                                        Account Number
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2 p-2">
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Bank IFSC
+                                </label>
+                                <br>
+                                <input type="text" id="BankIFSC" class="form-control back" name="BankIFSC"
+                                    class="form-control label-dark" [(ngModel)]="saveCompany.BankIFSC" maxlength="11"
+                                    (input)="checkBankIFSCPattern(this)" required="pattern"
+                                    placeholder="Enter Bank IFSC" #BankIFSC="ngModel" pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
+                                    autocomplete="off" />
+                                <div class="text-danger">
+                                    <!-- <div *ngIf="BankIFSC.hasError('required') && submitted">Bank IFSC is required.</div> -->
+                                    <div *ngIf="BankIFSC.hasError('pattern')  && submitted">Enter Valid Bank IFSC
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Account Type </label>
+                                <br>
+                                <!-- <input type="text" id="AccountType" class="form-control back" name="AccountType"
+                  class="form-control label-dark" placeholder="Enter Bank Account Type" #AccountType="ngModel"
+                  required="1" autocomplete="off" /> -->
+
+                                <p-dropdown placeholder="Select Account Type" id="AccountType" name="AccountType"
+                                    [options]="accountTypelist" [(ngModel)]="saveCompany.AccountType"
+                                    [style]="{'width':'100%'}" optionLabel="label" optionValue="value"
+                                    #AccountType="ngModel"></p-dropdown>
+
+
+                                <!-- <div class="text-danger">
+                  <div *ngIf="AccountType.hasError('required') && submitted">Bank Account Type is required.</div>
+                </div> -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2 p-2">
+
+
+                        <div class="col-6"
+                            *ngIf="!saveCompany.CancelChequeURL &&   (!isCancelChequeURL|| (Id==0 || !Id))">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Upload Cancel Cheque
+                                </label>
+                                <br>
+                                <input #myInput3 type="file" accept="application/pdf,image/png, image/jpeg"
+                                    (change)="upload($event, 'CancelChequeURL',this.myInputVariable3)"
+                                    id="CancelChequeURL" class="form-control back" name="CancelChequeURL" />
+                            </div>
+                        </div>
+                        <div class="col-6" *ngIf="saveCompany.CancelChequeURL">
+                            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Cancel Document
+                                URL</label><br>
+                            <img src="{{defCancelChequeURL?defCancelChequeURL:saveCompany.CancelChequeURL}}"
+                                height="100vh" (click)="show(saveCompany.CancelChequeURL)" />
+                            <div *ngIf="!Id || Id==undefined">
+                                <input type="button" class="btn btn-blue" (click)="removeImage('CancelChequeURL')"
+                                    value="remove">
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Account Holder Name
+                                </label><br>
+                                <input type="text" id="AccountHolderName" class="form-control back"
+                                    placeholder="Enter Account Holder Name" name="AccountHolderName"
+                                    [(ngModel)]="saveCompany.AccountHolderName" #AccountHolderName="ngModel"
+                                    (keydown)="space($event)" autocomplete="off" (keypress)="NumberOnly($event)"
+                                    (paste)="onPaste($event)" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2 p-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Branch Name
+                                </label><br>
+                                <input type="text" id="BranchName" class="form-control back"
+                                    placeholder="Enter Branch Name" name="BranchName"
+                                    [(ngModel)]="saveCompany.BranchName" #BranchName="ngModel" (keydown)="space($event)"
+                                    autocomplete="off" (keypress)="NumberOnly($event)" (paste)="onPaste($event)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2" *ngIf="Id>0">
+                <!-- {{productList|json}} -->
+                <div class="card p-3">
+                    <div class="row p-2">
+                        <div class="col label-dark p-2">
+                            <h4> Product Details
+                            </h4>
+                        </div>
+                        <div class="col" style="text-align: end;">
+                            <button class="btn btn-blue" (click)="onClickAdd()">
+                                Add product
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p-table [value]="savedproductList" responsiveLayout="scroll" [rows]="25" [paginator]="true"
+                            styleClass="p-datatable-striped" [scrollable]="true">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Edit</th>
+                                    <!-- <th>View configuration</th> -->
+                                    <th>Status</th>
+                                    <th>History</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item>
+                                <tr>
+                                    <td>{{item.productName}}</td>
+                                    <td style="width:200px">
+                                        <img src="../../../../../assets/theme/icons/edit.svg"
+                                            (click)="onClickEdit(item)">
+                                    </td>
+                                    <!-- <td><button class="btn btn-secondary" (click)="viewDialog(item)">view</button></td> -->
+                                    <td>
+
+                                        <label class="switch">
+                                    <td>
+                                        <p-inputSwitch [(ngModel)]="item.isActive"
+                                            (onChange)="ActiveInactive(item,item.isActive)">
+                                        </p-inputSwitch>
+                                    </td>
+
+
+                                    </label>
+                                    </td>
+                                    <td (click)="onHistoryClick(item.id)"><button
+                                            class="btn btn-liteBlue">History</button></td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+
+
+
+
+                        <div>
+                            <p-dialog header="View configuration" [style]="{width: '50vw'}">
+
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Processing Fee Rate</label>
+                                        <input type="number" id="ProcessingFee" class="form-control"
+                                            name="ProcessingFee" disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>penalty Rate</label>
+                                        <input type="number" id="penaltyCharges" class="form-control"
+                                            name="penaltyCharges" disabled />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>min Loan Amount</label>
+                                        <input type="number" id="BounceCharges" class="form-control"
+                                            name="BounceCharges" disabled />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>max Loan Amount</label>
+                                        <input type="number" id="BounceCharges" class="form-control"
+                                            name="BounceCharges" disabled />
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label>Bounce Charges</label>
+                                        <input type="number" id="BounceCharges" class="form-control"
+                                            name="BounceCharges" disabled />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>max Tenure In Month</label>
+                                        <input type="number" id="BounceCharges" class="form-control"
+                                            name="BounceCharges" disabled />
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+
+                                </div>
+
+                            </p-dialog>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mt-2">
+
+                <div class="card p-2">
+
+                    <div class="label-dark p-2">
+                        <h4> Financial Liaison Details
+                        </h4>
+                    </div>
+
+                    <div class="row mt-2 p-2">
+                        <!-- <span style="color: red;font-size: 12px;">*</span> -->
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    First Name
+                                </label><br>
+                                <input type="text" id="FirstName" class="form-control back"
+                                    placeholder="Enter First Name" name="FirstName"
+                                    [(ngModel)]="saveCompany.FinancialLiaisonDetails.FinancialLiaisonFirstName" #FirstName="ngModel"
+                                    (keydown)="space($event)" autocomplete="off" (keypress)="NumberOnly($event)"
+                                    (paste)="onPaste($event)" />
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Last Name
+                                </label><br>
+                                <input type="text" id="LastName" class="form-control back" placeholder="Enter Last Name"
+                                    name="LastName" [(ngModel)]="saveCompany.FinancialLiaisonDetails.FinancialLiaisonLastName"
+                                    #LastName="ngModel" (keydown)="space($event)" autocomplete="off"
+                                    (keypress)="NumberOnly($event)" (paste)="onPaste($event)" />
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2 p-2">
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Contact No.
+                                </label>
+                                <br>
+                                <input type="text" id="ContactNo" class="form-control back" minlength="0" maxlength="10"
+                                    placeholder="Enter Contact No" name="ContactNo" (keypress)="keyPress($event)"
+                                    [(ngModel)]="saveCompany.FinancialLiaisonDetails.FinancialLiaisonContactNo" #ContactNo="ngModel"
+                                    pattern="^[0-9]{0,24}$" (keydown)="space($event)" />
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">
+                                    Email Address
+                                </label><br>
+                                <!-- <input type="text" id="businessEmail" name="businessEmail" class="form-control label-dark"
+                #emailinput="ngModel" placeholder="Business Email" [(ngModel)]="saveCompany.BusinessContactEmail"
+                pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required> -->
+                                <input type="text" id="EmailAddress" class="form-control back"
+                                    placeholder="Enter Email Address" name="EmailAddress"
+                                    #FinancialLiaisonEmailAddress="ngModel"
+                                    [(ngModel)]="saveCompany.FinancialLiaisonDetails.FinancialLiaisonEmailAddress" #EmailAddress="ngModel"
+                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                                <div *ngIf="FinancialLiaisonEmailAddress.invalid && (FinancialLiaisonEmailAddress.dirty || FinancialLiaisonEmailAddress.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="FinancialLiaisonEmailAddress.hasError('pattern') && submitted">Invalid
+                                        format. Please follow the specified
+                                        pattern.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row mt-3">
+        <div class="col mb-4">
+
+            <button class="btn btn-darkBlue" style="float: inline-end;" *ngIf="Id>0"
+                (click)="saveCompanyAndLocation()">Update</button>
+            <button class="btn btn-secondary" style="float: inline-end;margin-right: 5px;"
+                (click)="back()">Back</button>
+            <button class="btn btn-blue" style="float: inline-end;margin-right: 5px;" *ngIf="Id==null"
+                (click)="saveCompanyAndLocation()">Save</button>
+
+
+        </div>
+    </div>
+</div>
+<!-- ==============================================================Dailog -Section========================================================== -->
+<p-dialog header="Product" [(visible)]="productDisplay" appendTo="body" [modal]="true" [style]="{width: '70vw'}"
+    [blockScroll]="true" (onHide)="close()">
+
+
+
+    <p-dropdown *ngIf="!showCreditLine && !showBusinessLoan" [options]="productList" [(ngModel)]="selectedProduct"
+        value="id" (onChange)="onProductChange()"
+        [style]="{'width': '50%','height': '50px', 'background-color': 'rgb(228, 242, 247)'}" optionLabel="name"
+        appendTo="body" [showClear]="true" placeholder="Select a product"></p-dropdown>
+
+
+    <app-anchor-businessloan [product]="selectedProduct" [companyId]="Id" [companyType]="saveCompany.CompanyType"
+        [creditConfig]="isCreditConfig" [productId]="productId" [anchorProductId]="anchorProductId"
+        (onFormSubmit)="onbusinessloanSubmit()" *ngIf="(selectedProduct &&  selectedProduct.type=='BusinessLoan')">
+    </app-anchor-businessloan>
+
+    <app-anchor-creditline [companyId]="Id" [companyType]="saveCompany.CompanyType" [creditConfig]="isCreditConfig"
+        [productId]="productId" [anchorProductId]="anchorProductId" [product]="selectedProduct"
+        (onClFormSubmit)="onCreditLineSubmit()" *ngIf="(selectedProduct &&  selectedProduct.type=='CreditLine')">
+    </app-anchor-creditline>
+
+
+</p-dialog>
+
+
+
+
+
+<p-dialog header="View History" [(visible)]="isVisible" appendTo="body" [modal]="true">
+    <div *ngIf="entity && isVisible && databaseName && id">
+        <app-history [entity]="entity" [databaseName]="databaseName" [id]="id">
+        </app-history>
+    </div>
+</p-dialog>
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button" class="btn btn-danger" style="margin-right: 10px;" (click)="cd.reject()">No</button>
+        <button type="button" class="btn btn-sucesss" (click)="cd.accept()">Yes </button>
+    </p-footer>
+</p-confirmDialog>
+
+<p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '80vw',height:'80vh'}">
+    <div>
+        <img class="imgShow" src="{{showUrl}}" />
+    </div>
+
+    <br>
+    <div style="justify-content:space-between;">
+        <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+    </div>
+
+
+
+</p-dialog>
+
+<p-dialog header="View configuration" [(visible)]="visible" [modal]="true" appendTo="body" [style]="{width: '50vw'}">
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <label>Processing Fee Rate</label>
+            <input type="number" id="ProcessingFee" class="form-control" name="ProcessingFee"
+                [(ngModel)]="dialogData.processingFeeRate" disabled />
+        </div>
+        <div class="col-md-6">
+            <label>penalty Rate</label>
+            <input type="number" id="penaltyCharges" class="form-control" name="penaltyCharges"
+                [(ngModel)]="dialogData.delayPenaltyRate" disabled />
+        </div>
+    </div>
+    <div class="row mt-2" *ngIf="dialogData.productType!='CreditLine'">
+        <div class="col-md-6">
+            <label>min Loan Amount</label>
+            <input type="number" id="BounceCharges" class="form-control" name="BounceCharges"
+                [(ngModel)]="dialogData.minLoanAmount" disabled />
+        </div>
+        <div class="col-md-6">
+            <label>max Loan Amount</label>
+            <input type="number" id="BounceCharges" class="form-control" name="BounceCharges"
+                [(ngModel)]="dialogData.maxLoanAmount" disabled />
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-6">
+            <label>Bounce Charges</label>
+            <input type="number" id="BounceCharges" class="form-control" name="BounceCharges"
+                [(ngModel)]="dialogData.bounceCharge" disabled />
+        </div>
+
+        <div class="col-md-6" *ngIf="dialogData.productName!='CreditLine'">
+            <label>max Tenure In Month</label>
+            <input type="number" id="BounceCharges" class="form-control" name="BounceCharges"
+                [(ngModel)]="dialogData.maxTenureInMonth" disabled />
+        </div>
+    </div>
+    <div class="row mt-2">
+
+    </div>
+
+</p-dialog>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>
+<p-toast></p-toast>

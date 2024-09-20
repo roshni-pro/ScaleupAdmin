@@ -1,0 +1,97 @@
+<div class="card tp common-padding">
+<div *ngIf="bankStatementDetail != null && isComplete">
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Bank Name</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{bankStatementDetail?.borroBankName}}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Account No</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{bankStatementDetail?.borroBankAccNum}}</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">IFSC Code</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{bankStatementDetail?.borroBankIFSC}}</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Account Type</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{bankStatementDetail?.accType}}</div>
+        </div>
+    </div> 
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">UMRN</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{bankStatementDetail?.umrn}}</div>
+        </div>
+    </div> 
+
+
+    <div class="row">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp">Status</div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+            <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp"></div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+        <div class="ml cl" style="float: right;">
+            <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer" style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+            <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+        </div>
+    </div>
+    </div>
+    <div class="row" *ngIf="isVerified || isRejected">
+        <div class="col-md-3 col-sm-3 col-12">
+            <div class="ml cp"></div>
+        </div>
+        <div class="col-md-9 col-sm-9 col-12">
+        <!-- <div class="ml cl">
+            <i pTooltip="Rejected" class="pi pi-times fa fa-mouse-pointer" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+            <i pTooltip="Approved" class="pi pi-check fa fa-mouse-pointer" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>
+        </div> -->
+        <div class="ml cl">
+          <span  style="float: right;"  *ngIf="isRejected">Completed and Rejected<i  class="pi pi-times fa fa-mouse-pointer"  style="color:red;margin-left: 0.5em "></i></span>
+          <span style="float: right;" *ngIf="isVerified" >Approved<i  class="pi pi-check fa fa-mouse-pointer"  style="color:green;margin-left: 0.5em "></i></span>
+      </div>
+    </div>
+    </div>
+</div>
+</div>
+
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: 'auto', overflow: 'auto'}">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <input type="text" id="_selfiecomment" name="_selfiecomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject">
+    </div>
+    <p-footer>
+        <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+

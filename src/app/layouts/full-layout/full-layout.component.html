@@ -1,0 +1,30 @@
+<div #wrapper class="wrapper"
+    [ngClass]="{'nav-collapsed': iscollapsed, 'menu-collapsed': iscollapsed, 'sidebar-sm': isSidebar_sm, 'sidebar-lg': isSidebar_lg}"
+    [dir]="options.direction">
+
+    <div class="main-panel">
+
+
+        <app-navbar (toggleHideSidebar)="toggleHideSidebar($event)" (showNavOption)="showOptionMenu($event)"
+            [OpenShowNav]="showSquareOpenNav" class="nav-abs"></app-navbar>
+
+        <div *ngIf="showSideBarContent" #appSidebar appSidebar class="app-sidebar sidebar"
+            (toggleHideSidebar)="toggleHideSidebar($event)" [ngClass]="{'hide-sidebar': hideSidebar}"
+            data-active-color="white" [attr.data-background-color]="bgColor">
+            <app-sidebar></app-sidebar>
+            <div class="sidebar-background" #sidebarBgImage style="display: none;"></div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-wrapper mb-4">
+                <router-outlet></router-outlet>
+            </div>
+            <span class="text-center">
+                <app-footer></app-footer>
+            </span>
+        </div>
+    </div>
+
+    <app-notification-sidebar></app-notification-sidebar>
+    <!-- <app-toastr></app-toastr> -->
+</div>

@@ -1,0 +1,49 @@
+<div class="container-fluid mt-3">
+    <p-table [value]="dsaLeadData" responsiveLayout="scroll"[totalRecords]="totalcount" (onLazyLoad)="getUserList($event)"  [lazy]="true" [(first)]="first"
+    [paginator]="true" [rows]="10" [scrollable]="true" scrollHeight="130vh" 
+    styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr style="text-align: left;">
+                <th>S.no</th>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Mobile No.</th>
+                <th>Created Date</th>
+                <th>Email Id</th>
+                <th>Payout %</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user let-index="rowIndex">
+            <tr  >
+                <td style="text-align: left;">{{index+1}}</td>
+                <td style="text-align: left;">{{user.userId}}</td>
+                <td style="text-align: left;">{{user.fullName}}</td>
+                <td style="text-align: left;">{{user.mobileNo}}</td>
+                <td style="text-align: left;">{{user.createdDate|date   }}</td>
+                <td style="text-align: left;">{{user.emailId}}</td>
+                <td style="text-align: left;"><input type="text" [(ngModel)]="user.payoutPercenatge" class="form-control" style="border: 0px !important;">
+                    <!-- {{user.payoutPercenatge }} -->
+                </td>
+                <td style="text-align: left;">
+                    <p-inputSwitch [(ngModel)]="user.status" (ngModelChange)="editDsaUser(user)"></p-inputSwitch>
+                </td>
+                <td style="text-align: left;">
+              
+                <button (click)="SaveDSAPayoutPercentage(user)" class="btn btn-darkBlue" >Save</button>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+<p-toast></p-toast>
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

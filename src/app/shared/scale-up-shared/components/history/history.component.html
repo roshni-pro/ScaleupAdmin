@@ -1,0 +1,57 @@
+<section id="history">
+  <button type="button" class="btn btn-raised btn-primary d-flex float-right" style="margin-right: 10px;margin-bottom: 10px;" (click)="onExport()" *ngIf="exportBtnHide == false">Export</button>
+  <!-- <br/>
+    <br/> -->
+  <div>
+    <!-- <table  #table> -->
+    <p-table [value]="EntityHistory" [lazy]="true" (onLazyLoad)="load($event)" [showCurrentPageReport]="true"
+      [totalRecords]="totalRecords" [paginator]="true" #table [rows]="10">
+      <!-- <thead> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="text-align: center">
+            Username
+          </th>
+          <th style="text-align: center">
+            Date
+          </th>
+          <th style="text-align: center">
+            Action Type
+          </th>
+          <th >
+            Changes
+          </th>
+        </tr>
+        <!-- </thead> -->
+      </ng-template>
+      <!-- <tbody> -->
+      <ng-template pTemplate="body" let-data>
+        <tr >
+          <td >
+            {{data.modifiedBy}}
+          </td>
+          <td >
+            {{data.modifiedDate| date:'medium'}}
+          </td>
+          <td >
+            {{data.actionType}}
+          </td>
+          <td style="text-align: start!important;">
+            <span [innerHTML]="data.changes"></span>
+          </td>
+        </tr>
+      </ng-template>
+      <!-- </tbody> -->
+    </p-table>
+
+    <!-- </table> -->
+  </div>
+</section>
+<p-toast></p-toast>
+
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+</div>
+<!-- ds fsajjjk entity:{{entity}} companyId:{{id}} database{{databaseName}} -->
+<!-- <button (click)="getHistory()">getHistory</button> -->

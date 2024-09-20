@@ -1,0 +1,777 @@
+<div class="container-fluid">
+
+    <div class="row p-2 my-2">
+        <div class="col-3">
+            <code style="color: #2B3674;">Profile/Details/BL</code>
+            <h3 class="pageHeader">Lead Details</h3>
+        </div>
+        <div class="col-6 mt-4">
+            <h3 class="pageHeader" style="margin-left: 550px;">Business Loan</h3>
+        </div>
+    </div>
+
+    <div class="ui-fluid shadow mb-3 bg-white rounded p-2">
+
+        <div class="row p-2">
+            <div class="col-md">
+                <h6 class="text-primary">Customer Detail</h6>
+                <div><i class="fa fa-lg fa-angle-double-right"></i></div>
+            </div>
+
+
+
+
+            <!-- <div class="col-1">
+                
+            </div> -->
+            <!-- *ngIf="!IsOfferGeneratedFlag" -->
+            <!-- <div class="col-2">
+             
+            </div> -->
+            <!-- || this.userrole == 'sales manager' || this.userrole == 'operations manager' -->
+            <!-- this.userrole.includes('Sales Manager') || this.userrole.includes('Operations Manager') -->
+            <div class="col-md-4" style="text-align: end;">
+                <button
+                    *ngIf="( checkroleExistence('Sales Manager') || checkroleExistence('Operations Manager') || checkroleExistence('superadmin') ) && ((customerData?.leadGenerator == null || customerData?.leadGenerator == '') || (customerData?.leadConvertor == null || customerData?.leadConvertor ==''))"
+                    class="btn btn-blue" type="button" (click)="addLeadPopup()">Add LG & LC</button>
+                &nbsp;
+
+                <button class="btn btn-darkBlue" (click)="LeadActivityHistory()">History</button>&nbsp;
+
+                <button class="btn btn-secondary" (click)="OnBack()">Back</button>
+            </div>
+        </div>
+
+        <div id="search-content p-2" class="p-3">
+            <div class="row text-center">
+                <div class="col">
+                    <label class="label-lite"><b>Customer Name</b></label>
+                    <div class="vl label-dark">{{(customerData?.customerName) ? (customerData?.customerName) :
+                        customerName}}</div>
+                </div>
+                <div class="col">
+                    <label class="label-lite"><b>Phone Number</b></label>
+                    <div class="vl label-dark">{{customerData?.mobileNo}}</div>
+                </div>
+                <div class="col">
+                    <label class="label-lite"><b>Screen Name</b></label>
+                    <div class="vl label-dark">{{customerData?.screenName}}</div>
+                </div>
+                <div class="col">
+                    <label class="label-lite"><b>Lead Code</b></label>
+                    <div class="vl label-dark">{{customerData?.leadCode}}</div>
+                </div>
+                <div class="col">
+                    <label class="label-lite"><b>Credit Score</b></label>
+                    <div class="vl label-dark">{{customerData?.creditScore}}</div>
+                </div>
+                <div class="col">
+                    <label class="label-lite"><b>Lead Generator</b></label>
+                    <div class="vl label-dark">{{customerData?.leadGenerator}}</div>
+                </div>
+
+                <div class="col">
+                    <label class="label-lite"><b>Lead Convertor</b></label>
+                    <div class="vl label-dark">{{customerData?.leadConvertor}}</div>
+                </div>
+            </div>
+            <!-- <div class="row mt-2">
+                <div class="col"></div>
+                
+            </div> -->
+        </div>
+    </div>
+
+
+    <div class="ui-fluid shadow mb-2 bg-white rounded p-3 text-center d-flex">
+
+        <h6 class="text-primary">Legends</h6>
+        <div class="col" style="display: inline-block;">
+            <label class="mr-1 label-dark">In Completed </label><i class="pi pi-minus-circle"
+                style="color: grey;background-color: white;margin-left: 2%;"> &nbsp;</i>
+        </div>
+
+        <div class="col" style="display: inline-block;">
+            <label class="mr-1 label-dark">Completed</label><i class="pi pi-check-circle"
+                style="color: grey;background-color: white;margin-left: 2%;"> &nbsp;</i>
+        </div>
+
+        <div class="col" style="display: inline-block;">
+            <label class="mr-1 label-dark">Completed and Approved</label><i class="pi pi-check-circle"
+                style="color: green;background-color: white;margin-left: 2%;"> &nbsp;</i>
+        </div>
+
+        <div class="col" style="display: inline-block;">
+            <label class="mr-1 label-dark">Completed but Rejected</label><i class="pi pi-times"
+                style="color: red;background-color: white;margin-left: 2%;"> &nbsp;</i>
+        </div>
+
+    </div>
+
+    <div class="ui-fluid shadow mb-2 bg-white rounded p-3">
+        <!-- <p-accordion *ngFor="let tab of leadActivitiesList"  
+            (activeIndexChange)="activeIndexChange(tab.index,tab.subActivityName?tab.subActivityName:tab.activityName
+            )" 
+            [activeIndex]="activeIndex" >
+
+            <p-accordionTab header="{{tab.subActivityName?tab.subActivityName:tab.activityName}}" >
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                     <span class="batch" *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                     <span class="batch" *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i class="pi pi-check-circle"  style="color: grey;background-color: white;"></i></span>
+                     <span class="batch" *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i class="pi pi-times"  style="color: red;background-color: white;"></i></span>
+                     <span class="batch" *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                     <span class="batch" *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                     <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+               
+                <ng-template  [pTemplate]="">
+                    <div [ngSwitch]="currentPageName">
+                <div *ngSwitchCase="'Aadhar'"> 
+                    <app-aadhar-card-detail [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" 
+                      [isRejectDoc]="isRejectDoc" (onApproveAadharInfo)="onApproved($event, 'Aadhaar')" 
+                      (onRejectAadharInfo)="onReject($event, 'Aadhaar')"></app-aadhar-card-detail>
+                </div>
+                <div *ngSwitchCase="'Pan'">
+                    <app-pan-details [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApprovePANInfo)="onApproved($event, 'Pan')" (onRejectPANInfo)="onReject($event,'Pan')"></app-pan-details>
+                </div>
+                <div *ngSwitchCase="'Selfie'">
+                    <app-selfie [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveSelfieInfo)="onApproved($event,'selfie')" (onRejectSelfieInfo)="onReject($event,'selfie')"></app-selfie>
+                </div>
+                <div *ngSwitchCase="'PersonalInfo'">
+                    <app-personal-info [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApprovePersonalInfo)="onApproved($event, 'personal-info')" (onRejectPersonalInfo)="onReject($event, 'personal-info')"></app-personal-info>
+                </div>
+                <div *ngSwitchCase="'BusinessInfo'">
+                    <app-business-info [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveBusinessInfo)="onApproved($event, 'business-info')" (onRejectBusinessInfo)="onReject($event, 'business-info')"></app-business-info>
+                </div>
+                <div *ngSwitchCase="'MSME'">
+                    <app-msme-certification [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveMsmeInfo)="onApproved($event, 'msme-certificate')" (onRejectMsmeInfo)="onReject($event, 'msme-certificate')"></app-msme-certification>
+                </div>
+                <div *ngSwitchCase="'Bank Detail'">
+                    <app-bank-details [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveBankInfo)="onApproved($event, 'bank-statement')" (onRejectBankInfo)="onReject($event, 'bank-statement')"></app-bank-details>
+                </div>
+                <div *ngSwitchCase="'CreditBureau'" >
+                   <app-credit-bureau [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveCreditBureauInfo)="onApproved($event, 'CreditBureau')" (onRejectCreditBureauInfo)="onReject($event, 'CreditBureau')"></app-credit-bureau>
+                </div>
+                <div  *ngSwitchCase="'Inprogress'" >
+                    In Progress
+                </div>
+                <div *ngSwitchCase="'Show Offer'">
+                    <app-show-offer [IsEsignApproved]="IsEsignApproved" [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc">
+                    </app-show-offer>
+                </div>
+                <div *ngSwitchCase="'PrepareAgreement'">
+                    <app-prepare-agreement  [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc">
+                    </app-prepare-agreement>
+                </div>
+                <div *ngSwitchCase="'Emandate'">
+                    <app-emandate  [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc" (onApproveEmandateInfo)="onApproved($event, 'Emandate')" (onRejectEmandateInfo)="onReject($event, 'Emandate')"></app-emandate>
+                </div>
+                
+                <div *ngSwitchCase="'Agreement'" >
+                    <app-agreement [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-agreement>
+                </div>
+                <div *ngSwitchCase="'Disbursement'" >
+                    <app-loan-disbursement [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-loan-disbursement>
+                </div>
+                <div *ngSwitchCase="'Disbursement Completed'" >
+                    <app-disbursement-completed [isComplete]="tab.isCompleted"  [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-disbursement-completed>
+                </div>
+                <div *ngSwitchCase="'Rejected'" >
+                    Rejected
+                </div>
+                <div *ngSwitchCase="'Generate Offer'" >
+                    Generate Offer
+                </div>   
+            </div>
+        </ng-template>
+            </p-accordionTab> 
+        </p-accordion> -->
+
+
+
+        <p-accordion [multiple]="true" *ngFor="let tab of leadActivitiesList" (onOpen)="onAccordionTabOpen()"
+            (activeIndexChange)="activeIndexChange(tab.index,tab.subActivityName?tab.subActivityName:tab.activityName)">
+
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Pan'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-pan-details [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted"
+                        [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId"
+                        [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApprovePANInfo)="onApproved($event, 'Pan')"
+                        (onRejectPANInfo)="onReject($event,'Pan')"></app-pan-details>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Aadhar'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-aadhar-card-detail [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted"
+                        [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId"
+                        [isApproved]="tab.isApproved" [isRejectDoc]="isRejectDoc"
+                        (onApproveAadharInfo)="onApproved($event, 'Aadhaar')"
+                        (onRejectAadharInfo)="onReject($event, 'Aadhaar')"></app-aadhar-card-detail>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Selfie'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-selfie [IsOfferGeneratedFlag]="IsOfferGeneratedFlag" [isComplete]="tab.isCompleted"
+                        [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId"
+                        [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveSelfieInfo)="onApproved($event,'selfie')"
+                        (onRejectSelfieInfo)="onReject($event,'selfie')"></app-selfie>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='PersonalInfo'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-personal-info [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApprovePersonalInfo)="onApproved($event, 'personal-info')"
+                        (onRejectPersonalInfo)="onReject($event, 'personal-info')"></app-personal-info>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='BusinessInfo'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-business-info [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveBusinessInfo)="onApproved($event, 'business-info')"
+                        (onRejectBusinessInfo)="onReject($event, 'business-info')"></app-business-info>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='MSME'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-msme-certification [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveMsmeInfo)="onApproved($event, 'msme-certificate')"
+                        (onRejectMsmeInfo)="onReject($event, 'msme-certificate')"></app-msme-certification>
+                </ng-template>
+            </p-accordionTab>
+
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Bank Detail'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-bank-details [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveBankInfo)="onApproved($event, 'bank-statement')"
+                        (onRejectBankInfo)="onReject($event, 'bank-statement')"></app-bank-details>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='CreditBureau'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-credit-bureau [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveCreditBureauInfo)="onApproved($event, 'CreditBureau')"
+                        (onRejectCreditBureauInfo)="onReject($event, 'CreditBureau')"></app-credit-bureau>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Inprogress'" [disabled]="true">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    In Progress
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}"
+                *ngIf="(tab.activity)=='Show Offer' || (tab.activity)=='Arthmate Show Offer'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-show-offer [IsleadReject]="IsleadReject" [isComplete]="tab.isCompleted"
+                        [activityMasterId]="tab.activityMasterId" [subActivityMasterId]="tab.subActivityMasterId"
+                        [isApproved]="tab.isApproved" [isRejected]="isRejected" [isRejectDoc]="isRejectDoc">
+                    </app-show-offer>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='PrepareAgreement'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-prepare-agreement [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc">
+                    </app-prepare-agreement>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Emandate'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-emandate [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"
+                        (onApproveEmandateInfo)="onApproved($event, 'Emandate')"
+                        (onRejectEmandateInfo)="onReject($event, 'Emandate')"></app-emandate>
+                </ng-template>
+            </p-accordionTab>
+
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Agreement'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-agreement [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-agreement>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Disbursement'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-loan-disbursement [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-loan-disbursement>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Disbursement Completed'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    <app-disbursement-completed [isComplete]="tab.isCompleted" [activityMasterId]="tab.activityMasterId"
+                        [subActivityMasterId]="tab.subActivityMasterId" [isApproved]="tab.isApproved"
+                        [isRejected]="isRejected" [isRejectDoc]="isRejectDoc"></app-disbursement-completed>
+                </ng-template>
+            </p-accordionTab>
+            <p-accordionTab header="{{tab.activity}}" *ngIf="(tab.activity)=='Rejected'">
+                <ng-template pTemplate="header">
+                    <span class="flex align-items-center  w-full justify-content-between">
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==1 "><i
+                                class="pi pi-check-circle" style="color: green;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==0 "><i
+                                class="pi pi-check-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==true && tab.isApproved==2 "><i
+                                class="pi pi-times" style="color: red;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)!='Inprogress' && tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                        <span class="batch"
+                            *ngIf="(tab.activityName?tab.activityName:tab.subActivityName)=='Inprogress' && tab.isCompleted==false && tab.isApproved==0"></span>
+                        <span class="batch" *ngIf="tab.isCompleted==false && tab.isApproved==0"><i
+                                class="pi pi-minus-circle" style="color: grey;background-color: white;"></i></span>
+                    </span>
+                </ng-template>
+                <ng-template [pTemplate]="">
+                    Rejected
+                </ng-template>
+            </p-accordionTab>
+
+
+        </p-accordion>
+        <p-accordion>
+            <!-- Buying History -->
+            <p-accordionTab header="Purchase Invoices">
+                <p-table [value]="companyBuyingHistories" [paginator]="true" [rows]="10" [totalRecords]="totalrecord">
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="width: 200px;text-align: center;">Month</th>
+                            <th style="width: 200px;text-align: center;">Total Amount</th>
+                            <th style="width: 200px;text-align: center;">Total Month Invoices</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-Histories>
+                        <tr>
+                            <td style="width: 200px; text-align: center;">{{Histories.monthFirstBuyingDate| date: 'MMM
+                                yyyy' }}</td>
+                            <td style="width: 200px;text-align: center;">{{Histories.monthTotalAmount}}</td>
+                            <td style="width: 200px;text-align: center;">{{Histories.totalMonthInvoice}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="10" class="text-center" style="color: red;">Data Not Found.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-accordionTab>
+
+        </p-accordion>
+
+
+        <button class="btn btn-primary" style="margin-left: 10px;" *ngIf="isOfferGenerated"
+            (click)="onClickOffeGenerated()">Generate Offer</button>
+    </div>
+</div>
+
+
+
+<p-dialog header="View History" [(visible)]="isLeadActivityHistory" appendTo="body" [modal]="true"
+    [style]="{width: '100vw',height:'100vh'}">
+
+
+    <div class="col-12 mt-3">
+        <div class="card shadow">
+            <div class="card-content text-center">
+                <p-table #dt [value]="LeadActivityHistoryData" [scrollable]="true" styleClass="p-datatable-striped"
+                    [paginator]="true" [rows]="10">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>SNo.</th>
+                            <th>UserName</th>
+                            <th>Action</th>
+                            <th>ActivityMasterName</th>
+                            <th>SubActivityMasterName</th>
+                            <th>Date</th>
+                            <th>Changes</th>
+                            <!-- <th>Userid</th>                                                   -->
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-ir let-i="rowIndex">
+                        <tr style="cursor: pointer;">
+                            <td>{{i+1}}</td>
+                            <td>{{ir.userName}}</td>
+                            <td>{{ir.action}}</td>
+                            <td>{{ir.activityMasterName}}</td>
+                            <td>{{ir.subActivityMasterName}}</td>
+                            <td>{{ir.timeStamp | date: 'dd/MM/yyyy'}}</td>
+                            <!-- <td>{{ir.changes}}</td> -->
+                            <td style="text-align:center!important;">
+                                <span [innerHTML]="ir.changes"></span>
+                            </td>
+                            <!-- <td>{{ir.userId}}</td> -->
+
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <h5>* Data Not Found</h5>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+
+</p-dialog>
+
+
+
+<div class="overlay" *ngIf="loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>
+
+<p-dialog [(visible)]="isLeadGeneratorPopup" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: 'auto', height:'auto'}" (onHide)="cancelleadGeneratorpopup()">
+    <p-header>Add Lead Generator And Convertor</p-header>
+    <div class="ui-fluid">
+        <div>
+            <label>Lead Generator<span style="color: red;">*</span></label>
+            <input type="text" id="_LeadGenerator" name="_LeadGenerator" class="form-control"
+                placeholder="Enter Lead Generator"
+                [(ngModel)]="customerData?.leadGenerator?customerData?.leadGenerator:LeadGeneratorConvertorObj.LeadGenerator"
+                (keypress)="onkeypress($event)" [disabled]="isLeadGeneratorDisabled">
+        </div>
+        <div>
+            <label>Lead Convertor<span style="color: red;">*</span></label>
+            <input type="text" id="_LeadConvertor" name="_LeadConvertor" class="form-control"
+                placeholder="Enter Lead Convertor"
+                [(ngModel)]="customerData?.leadConvertor ? customerData?.leadConvertor : LeadGeneratorConvertorObj.LeadConvertor"
+                (keypress)="onkeypress($event)" [disabled]="isLeadConvertorDisabled">
+        </div>
+    </div>
+    <p-footer>
+        <button class="btn btn-darkBlue" (click)="addLeadGeneratorConvertor()"><i class="fa fa-search"></i>Save</button>
+    </p-footer>
+</p-dialog>
+
+
+<p-toast></p-toast>
+<!-- <p-confirmDialog></p-confirmDialog> -->
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button" class="btn btn-danger"  style="margin-right: 10px;"  (click)="cd.reject()">No</button>
+        <button type="button" class="btn btn-sucesss " (click)="cd.accept()">Yes</button>&nbsp;
+    </p-footer>
+</p-confirmDialog>

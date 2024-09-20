@@ -1,0 +1,95 @@
+<div class="container-fluid">
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="heading">NBFC Test</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card p-4">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p-dropdown [options]="listNBFC" [(ngModel)]="selectedNBFC" optionLabel="businessName"
+                            [showClear]="true" placeholder="NBFC List" (onChange)="search()"></p-dropdown>
+                    </div>
+                    <div class="col-2" style="text-align: end;">
+                        <button type="button" (click)="openPopupFn('add', null)" class="btn btn-blue" appMode="add"><i
+                                class="fa fa-plus-circle"></i>Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="card-content p-0 text-center">
+                <p-table [value]="dataList" responsiveLayout="scroll" [rows]="25" [paginator]="false"
+                    [scrollable]="true" styleClass="p-datatable-striped">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>apiUrl</th>
+                            <th>code</th>
+                            <th>nbfcCompanyApiId</th>
+                            <th>nbfcCompanyId</th>
+                            <th>action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-product>
+                        <tr>
+                            <td>{{product.apiUrl}}</td>
+                            <td>{{product.code}}</td>
+                            <td>{{product.nbfcCompanyApiId}}</td>
+                            <td>{{product.nbfcCompanyId}}</td>
+                            <td>
+                                <button class="btn-blue btn" type="button" (click)="openPopupFn('edit', product)">edit</button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog  [(visible)]="popupOpen" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
+    [resizable]="false">
+
+    <div class="row">
+        <div class="col-12 text-center" >
+            <H4 *ngIf="!isEditMode"><b>Add</b></H4>
+            <H4 *ngIf="isEditMode"><b>Edit</b></H4>
+        </div>
+    </div>
+    <div class="row p-2 mt-3">
+        <div class="col-12">
+            <label>Select NBFC</label> <br>
+            <p-dropdown [options]="listNBFC" [style]="{'width':'100%'}" [(ngModel)]="selectedNBFCNew" optionLabel="businessName" [showClear]="true"
+                placeholder="NBFC List" [disabled]="isEditMode" ></p-dropdown>
+        </div>
+        <div class="col-12">
+            <label>URL</label>
+            <input type="text" class="form-control" [(ngModel)]="payload.APIUrl">
+        </div>
+        <div class="col-12">
+            <label>Code</label>
+            <input type="text" class="form-control" [(ngModel)]="payload.Code">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-3" style="text-align: end;margin-right: 7px;">
+            <button *ngIf="!isEditMode" type="button" class="btn btn-blue" (click)="addURL()">save</button>
+            <button *ngIf="isEditMode" type="button" class="btn btn-blue" (click)="editURL()">edit</button>
+        </div>
+    </div>
+</p-dialog>
+<p-toast></p-toast>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+  </div>

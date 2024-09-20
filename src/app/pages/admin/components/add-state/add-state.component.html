@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+        <h3 class="heading">Add State</h3>
+    </div>
+  </div>
+<div class="card">
+    <form [formGroup]="stateForm" (ngSubmit)="onClickSaveBtn()">
+    <div class="row mr">
+            <div class="col-6">
+                <label>Name</label>
+                <input type="text" id="sname" class="form-control col-10" name="sname" formControlName="StateName" autocomplete="off"
+                placeholder="Enter Name" required="1" maxlength="50" minlength="2" (keydown)="space($event)" (keypress)="omit_special_char($event)"
+                [ngClass]="{ 'is-invalid': submitted && f['StateName']['errors'] }" />
+                <div *ngIf="submitted && f['StateName']['errors']" class="invalid-feedback">
+                    <div *ngIf="f['StateName']['errors']['required']">State Name is required</div>
+                </div>
+            </div>
+        <div class="col-6">
+            <label>Country</label><br>
+            <select formControlName="CountryId" class="form-control col-10" [ngClass]="{ 'is-invalid': submitted && f['CountryId']['errors'] }" >
+                <option value="">Select Country</option>
+                <option *ngFor="let country of countries"  [ngValue]="country.id">{{country.name}}</option>
+            </select>
+            <div *ngIf="submitted && f['CountryId']['errors']" class="invalid-feedback">
+                <div *ngIf="f['CountryId']['errors']['required']">Country is required</div>
+            </div>
+         </div>
+         <div class="col-6">
+            <label>State Code</label>
+            <input type="text" id="Ccode" class="form-control col-10" name="Ccode" formControlName="StateCode" 
+                placeholder="Enter State Code" required="1" maxlength="8" minlength="2" (keydown)="space($event)"
+                autocomplete="off" (keypress)="NumberOnly($event)" (paste)="onPaste($event)"
+
+                [ngClass]="{ 'is-invalid': submitted && f['StateCode']['errors'] }" />
+            <div *ngIf="submitted && f['StateCode']['errors']" class="invalid-feedback">
+                <div *ngIf="f['StateCode']['errors']['required']">State Code is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 mb-5">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+          <button type="button" class="btn btn-darkBlue" (click)="onClickSaveBtn()"><i class="fa fa-right"></i>&nbsp;Save</button>
+          <button type="button" class="btn btn-secondary" (click)="onClickBackBtn()" style="margin-left: 5px;"><i class="fa fa-right"></i>&nbsp;Back</button>
+
+      </div>
+  </div>
+    </form>
+</div>
+<p-toast></p-toast>
+<div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>

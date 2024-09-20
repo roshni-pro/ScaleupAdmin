@@ -1,0 +1,220 @@
+<div class="container-fluid">
+  <div class="row">
+    <h4 class="mt-2" class="heading">{{pageName}} User</h4>
+  </div>
+
+  <div class="row">
+    <div class="col-12 p-2">
+      <div class="card">
+        <div class="card-body">
+          <form class="form" [formGroup]="PostData" (ngSubmit)="onSave()">
+            <div class="form-group">
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="">UserName</label>
+                  <input #name type="text" class="form-control" formControlName="UserName" placeholder="Enter Name"
+                    [ngClass]="{ 'is-invalid': submitted && PostData.controls.UserName.errors }" />
+                  <span class="text-danger"
+                    *ngIf="(PostData.controls.UserName.touched && PostData.controls.UserName.status == 'INVALID') && !submitted">
+                    *UserName is required
+                  </span>
+                  <div *ngIf="(submitted && PostData.controls.UserName.errors) " class="invalid-feedback">
+                    <div>*UserName is required</div>
+                  </div>
+                </div>
+                <div class="col-md-6 ">
+                  <label for="">Email</label>
+                  <input type="text" class="form-control" placeholder="Email" formControlName="Email"
+                    [ngClass]="{ 'is-invalid': submitted && PostData.controls.Email.errors }">
+                  <!-- <span class="text-danger" *ngIf="(PostData.controls.Email.touched &&  PostData.controls.Email.status == 'INVALID' && !submitted)
+                                                     && PostData.controls.Email.errors.required  ">
+                    *Email is required
+                  </span> -->
+                  <span class="text-danger"
+                    *ngIf="( PostData.controls.Email.errors && PostData.controls.Email.errors.email) && !submitted  ">
+                    *Enter a valid email address
+                  </span>
+                  <div
+                    *ngIf="(submitted && PostData.controls.Email.errors) || (PostData.controls.Email.errors && PostData.controls.Email.errors.email ==true )"
+                    class="invalid-feedback">
+                    <div>*Email address required</div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row mt-2">
+                <div class="row">
+                  <div *ngIf="Id==0" class="col-md-5">
+                    <label for="">Password</label>
+                    <input [type]="show ? 'text' : 'password'" class="form-control co1-10" placeholder="Password"
+                      formControlName="PasswordHash" [minlength]="8"
+                      [ngClass]="{ 'is-invalid': submitted && PostData.controls.PasswordHash.errors }">
+
+
+                    <span class="text-danger"
+                      *ngIf="PostData.get('PasswordHash').hasError('minlength') && PostData.controls.PasswordHash.touched">
+                      Password must be at least 8 characters long.
+                    </span>
+                    <span class="text-danger"
+                      *ngIf="PostData.get('PasswordHash').hasError('passwordRequirements') && PostData.controls.PasswordHash.touched">
+                      Password must contain at least one capital letter, one numeral, and one special
+                      character.
+                    </span>
+                  </div>
+                  <div *ngIf="Id==0" class="col-md-1 mt-4 ">
+                    <button class=" btn btn-darkBlue" style="height: 2px; width: 5px;" type="button"
+                      (click)="password()"><i class="pi pi-eye"></i></button>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <label for="">Phone</label>
+                    <input type="tel" class="form-control" placeholder="Phone" formControlName="PhoneNumber"
+                      maxlength="10" minlength="10" (keypress)="keyPress($event)" (keydown)="space($event)"
+                      (keypress)="omit_special_char($event)"
+                      [ngClass]="{ 'is-invalid': submitted && PostData.controls.PhoneNumber.errors!=null }">
+                    <span class="text-danger"
+                      *ngIf="PostData.controls.PhoneNumber.touched && (PostData.controls.PhoneNumber.errors && PostData.controls.PhoneNumber.errors.required) ">
+                      *Please enter PhoneNumber
+                    </span>
+                    <span class="text-danger" *ngIf="PostData.controls.PhoneNumber.errors && !PostData.controls.PhoneNumber.errors.required &&
+                                                    (PostData.controls.PhoneNumber.errors && (PostData.controls.PhoneNumber.errors.maxlength
+                                                    > PostData.controls.PhoneNumber.errors.maxlength)) && !submitted ">
+                      *Enter a valid PhoneNumber
+                    </span>
+                    <div *ngIf="(submitted && PostData.controls.PhoneNumber.errors) " class="invalid-feedback">
+                      <div>*PhoneNumber is required</div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row mt-2">
+
+                  <div class="col-md-6">
+                    <!-- {{PostData.controls.UserType.value}} -->
+                    <label for="">User Type</label>
+                    <p-dropdown [options]="userTypeDropdown" formControlName="UserType" optionLabel="label"
+                      autoWidth="false" [style]="{'width':'100%'}" (onChange)="changeUserType()" optionValue="value"
+                      placeholder="User Type"
+                      [ngClass]="{ 'is-invalid': submitted && PostData.controls.UserType.errors }">
+                    </p-dropdown>
+                    <span class="text-danger"
+                      *ngIf="PostData.controls.UserType.touched && PostData.controls.UserType.status== 'INVALID'">
+                      *UserType is required
+                    </span>
+                    <div *ngIf="(submitted && PostData.controls.UserType.errors)" class="invalid-feedback">
+                      <div>*UserType is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="">Assign role</label> <br>
+                    <!-- <select class="form-control" formControlName="UserRoles"  [ngClass]="{ 'is-invalid': submitted && PostData.controls.UserRoles.errors }">
+                                                        <option value="">Select role</option>
+                                                        <option *ngFor="let role of Roles" value={{role.name}} >
+                                                            {{role.name}}
+                                                        </option>
+                                                    </select> -->
+                    <!-- {{PostData.controls.UserRoles.value}} -->
+                    <p-multiSelect [options]="Roles" formControlName="UserRoles"   autoWidth="false"optionLabel="name" optionValue="name"
+                      [style]="{'height':'100px'}" autoWidth="false"
+                      [ngClass]="{ 'is-invalid': submitted && PostData.controls.UserRoles.errors!=null }"
+                      [style]="{'width':'100%'}"></p-multiSelect>
+                    <!-- <span class="text-danger"
+                                        *ngIf="PostData.controls.UserRoles.touched && PostData.controls.UserRoles.status== 'INVALID'">
+                                        *Role is required
+                                    </span> -->
+                    <div *ngIf="( submitted && PostData.controls.UserRoles.errors) " class="invalid-feedback">
+                      <div>*Role required</div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row mt-2">
+
+
+                  <!-- {{PostData.controls.CompanyId.value}} -->
+                  <div class="col-md-6" *ngIf=" PostData.controls.UserType.value == 'CompanyUser'">
+                    <label for="">Company Name</label>
+
+                   
+
+                    <p-dropdown [options]="Companies" formControlName="CompanyId" optionLabel="businessName"
+                      autoWidth="false" [style]="{'width':'100%'}"
+                      [ngClass]="{ 'is-invalid': submitted && PostData.controls.CompanyId.errors!=null }"
+                      optionValue="id" placeholder="Company Name" [required]="true"> 
+                    </p-dropdown>
+                    <span class="text-danger"
+                      *ngIf="PostData.controls.CompanyId.touched && PostData.controls.CompanyId.status== 'INVALID'">
+                      *Company is required
+                    </span>
+                    <div *ngIf="(submitted && PostData.controls.CompanyId.errors) " class="invalid-feedback">
+                      <div>*Company required</div>
+                    </div>
+
+                    
+                  </div>
+
+                  <div class="col-md-6" *ngIf="PostData.controls.UserType.value == 'AdminUser'">
+                    <label for="">Company Name</label>
+                    <!-- <select class="form-control" formControlName="CompanyId"
+                                                    [ngClass]="{ 'is-invalid': submitted && PostData.controls.CompanyId.errors }">
+                                                    <option value="">Select Company</option>
+                                                    <option *ngFor="let company of Companies" value={{company.id}}>
+                                                        {{company.businessName}}
+                                                    </option>
+                                                </select> -->
+                    <!-- <span class="text-danger"
+                                                        *ngIf="PostData.controls.CompanyId.touched && PostData.controls.CompanyId.status== 'INVALID'">
+                                                           *Company Name is required
+                                                    </span> -->
+                    <p-multiSelect [options]="Companies" formControlName="CompanyId" optionLabel="businessName"
+                      autoWidth="false" [style]="{'width':'100%'}" optionValue="id" placeholder="company Name">
+                    </p-multiSelect>
+                    <span class="text-danger"
+                      *ngIf="PostData.controls.CompanyId.touched && PostData.controls.CompanyId.status== 'INVALID'">
+                      *Company is required
+                    </span>
+                    <div *ngIf="(submitted && PostData.controls.CompanyId.errors) " class="invalid-feedback">
+                      <div>*Company required</div>
+                    </div>
+                    <!-- <div *ngIf="(submitted && PostData.controls.CompanyId.errors)"
+                                        class="invalid-feedback">
+                                        <div>*Company required</div>
+                                    </div> -->
+
+                  </div>
+                </div>
+
+
+                <div class="row mt-2">
+                  <div class="col-md-9">
+                  </div>
+                  <div class="col-md-3" style="text-align: end;">
+                    <button *ngIf="Id==0" class="btn btn-darkBlue" type="submit">Save</button>&nbsp;
+                    <button *ngIf="Id!=0" class="btn btn-blue" type="submit">Edit</button>&nbsp;
+                    <button type="button" class="btn btn-secondary" (click)="onClickBackBtn()"><i
+                        class="fa fa-right"></i>&nbsp;Back</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+  </div>
+</div>

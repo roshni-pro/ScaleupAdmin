@@ -1,0 +1,245 @@
+    <p-toast position="top-right" appendTo="body"></p-toast>
+
+    <div class="container-fluid">
+      <div class="row p-2 my-2">
+        <div class="col">
+          <code style="color: #2B3674;">Pages/Invoice</code>
+          <h3>Invoice Generation</h3>
+        </div>
+      </div>
+
+      <div class="card shadow p-4">
+        <!--  Filters -->
+        <div class="row">
+          <div class="col-md-3">
+            <p-dropdown [style]="{'width':'100%'}" [options]="listNBFC" optionLabel="businessName"
+              placeholder="Select NBFC" [(ngModel)]="searchFilters.NBFCId" optionValue="id"></p-dropdown>
+          </div>
+          <div class="col-md-3">
+            <p-multiSelect [options]="AnchorList" [style]="{'width':'100%'}" [(ngModel)]="searchFilters.AnchorId"
+              optionLabel="businessName" placeholder="Select Anchor" optionValue="id"></p-multiSelect>
+          </div>
+          <!-- <div class="col-md-3">
+                    <p-dropdown  optionLabel="label" [(ngModel)]="searchFilters.day"
+                    [style]="{'width':'100%'}" placeholder="Select Days" optionValue="value"[options]="DayList"  (onChange)="getDate()" ></p-dropdown>
+
+                </div> -->
+          <!-- aa  {{this.rangedates}}   bb {{rangedatesa}} -->
+          <div class="col-md-2">
+            <p-calendar [(ngModel)]="rangedates" view="month" dateFormat="mm/yy"
+              [style]="{'width':'100%','border-radius':'20px'}" [readonlyInput]="true"
+              placeholder="Select Month/Year" />
+          </div>
+          <div class="col-md-2">
+            <p-dropdown [style]="{'width':'100%'}" [options]="statusList" placeholder="Select status" optionLabel="name"
+              [(ngModel)]="searchFilters.status" optionValue="value"></p-dropdown>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-liteBlue" (click)="onSearch();">Search</button>
+          </div>
+
+        </div>
+        <!--  Actions -->
+
+        <div class="row mt-2">
+          <div class="col-md-7"></div>
+
+          <!-- <div class="col-md-2">
+                    <button class="btn btn-liteBlue w-100" (click)="CreateInvoice()">Create Invoice</button>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-blue w-100" (click)="onExport()">Export <i class="pi pi-download"></i></button>
+                </div> -->
+        </div>
+      </div>
+
+      
+      <div class="card shadow mt-3 p-4">
+
+        <!-- </div> -->
+        <!-- <div class="row mt-3 p-3"> -->
+
+        <p-table [value]="InvoiceList" responsiveLayout="scroll" [rows]="10" [scrollable]="true"
+          styleClass="p-datatable-striped" (onLazyLoad)="load($event)" [showCurrentPageReport]="true" [(first)]="first"
+          [rows]="10" [totalRecords]="totalRecords" [lazy]="true">
+          <ng-template pTemplate="header" class="p-2">
+            <tr style="background-color: white;">
+              <th>Reference <br> No.</th>
+
+              <th>NBFC<br> Name</th>
+              <th>Invoice No.</th>
+              <th>Invoice Date</th>
+              <th>Payment <br> Ref No.</th>
+              <th>Payment Date</th>
+              <th>Status</th>
+              <th>Amount</th>
+              <th>Created Date</th>
+              <th>View Invoice</th>
+              <th>Send Mail</th>
+              <th>History</th>
+              <th *ngIf="invoiceUrl && showSettle"> Settle Invoice</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product>
+            <tr (click)="navigateTo(product,$event)" class="pointer">
+
+              <td class="Tfont-color" id="Cell"> {{product.referenceNo}}</td>
+              <td class="Tfont-color" id="Cell">{{product.nbfcName}}</td>
+              <td class="Tfont-color" id="Cell">{{product.invoiceNo}}</td>
+              <td class="Tfont-color" id="Cell">{{product.invoiceDate|date}}</td>
+              <td class="Tfont-color" id="Cell">{{product.paymentRefNo}}</td>
+              <td class="Tfont-color" id="Cell">{{product.paymentDate | date}}</td>
+              <td class="Tfont-color" id="Cell">{{product.statusName}}</td>
+              <td class="Tfont-color" id="Cell">{{product.amount | number: '1.2-2'}}</td>
+              <td class="Tfont-color" id="Cell">{{product.createdDate | date}}</td>
+              <td class="Tfont-color" id="Cell">
+                <button class="btn btn-liteBlue ">View</button>
+              </td>
+              <td class="Tfont-color" id="specificCell">
+                <button class="btn btn-blue">Send</button>
+              </td>
+              <td class="Tfont-color" id="specificCell">
+                <button class="btn btn-blue">History</button>
+
+              </td>
+              <!-- {{invoiceUrl}} -->
+              <td  *ngIf="invoiceUrl && showSettle" class="Tfont-color" id="specificCell">
+                <button class="btn btn-blue">Settle</button>
+
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="11" class="text-center" style="color: red;">Data Not Found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <p-dialog header="Send Mail" [(visible)]="isSendMail" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <input type="text" placeholder="emails here " class="form-control" [(ngModel)]="companyEmail"
+              style="background-color: rgb(240, 240, 240) !important;" disabled> <br>
+            <div *ngFor="let email of emails;let i=index">
+              <label style="background-color: lightgray;padding: 5px;margin-top: 2px;">{{email}} <i class="pi pi-times"
+                  *ngIf="email" (click)="removeEmail(email)"></i> </label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Add emails here "
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" #emailinput="ngModel" [(ngModel)]="addMail">
+            <!-- <label class="text-danger" ngIf="emailinput.hasError('pattern') && submit">  Invalid format. Please follow the email pattern.</label> -->
+
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-liteBlue" (click)="addEmail();">Add more emails</button>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-8">
+            <input type="text" placeholder="Subject here " class="form-control" [(ngModel)]="Subject">
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-8">
+            <!-- <input type="text" placeholder="Body here " class="form-control" [(ngModel)]="Body"  > -->
+            <textarea id="emailBody" [(ngModel)]="Body" class="form-control"
+              placeholder="Enter your email body or commands here..." style="min-height: 150px !important;"></textarea>
+
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-10"></div>
+          <div class="col-md-1">
+            <button class="btn btn-blue" (click)="sendEmails()">Send</button>
+            </div>
+        </div>
+      </p-dialog>
+
+
+
+      <p-dialog header="History" [(visible)]="isHistory" appendTo="body" [modal]="true">
+        <div *ngIf="entity && isHistory && databaseName && id">
+          <app-history [entity]="entity" [databaseName]="databaseName" [id]="id">
+          </app-history>
+        </div>
+      </p-dialog>
+    </div>
+
+
+
+    <!-- <p-dialog header="Settle Invoice" [visible]="isSettleinvoice"  appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+
+     
+
+    </p-dialog> -->
+
+    <!-- loader -->
+
+    <p-dialog header="Settle Invoice" [(visible)]="isSettleinvoice" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+      <div class="row">
+          <div class="col-3">
+            <h6>Total Invoice amt :{{invoiceAmt}}</h6>
+        </div>
+        <!-- <div class="col-9" style="text-align: end;"> -->
+          <!-- <button class="btn btn-darkBlue" >Add</button> -->
+
+          <!-- <i class="pi pi-plus-circle"  (click)="addSettleInvoices();">ADD </i> -->
+        <!-- </div> -->
+      </div>
+        <div class="row mt-2" *ngFor="let dynamic of dynamicArray; let i = index;">
+            <div class="col-2">
+                <input type="text" [(ngModel)]="dynamic.amount"  min="0"  (keypress)="restrictLeadingZero($event)"  [disabled]="dynamic.Id" (keypress)="omit_special_char($event)" min="0" (keypress)="keyPressAmount($event)"  placeholder="Amount" class="form-control">
+            </div>
+            <div class="col-2">
+                <input type="text" [(ngModel)]="dynamic.tdsAmount" (keypress)="restrictLeadingZero($event)"    [disabled]="dynamic.Id" (keypress)="omit_special_char($event)" min="0" (keypress)="keyPressAmount($event)"  placeholder="TDS amount" class="form-control">
+            </div>
+            <div class="col-4">
+              <p-calendar [(ngModel)]="dynamic.paymentDate" [maxDate]="maxDateValue" 
+
+                          [disabled]="dynamic.Id"
+                          appendTo="body"
+                          dateFormat="dd/mm/yy"
+                          [showIcon]="true"
+                          [style]="{'width':'100%'}"
+                          placeholder="Payment date">
+              </p-calendar>
+            </div>
+            
+            <div class="col-2">
+                <input type="text" placeholder="UTR number" class="form-control" (keypress)="preventSpace($event)"   [disabled]="dynamic.Id" [(ngModel)]="dynamic.utrNumber">
+            </div>
+            <!-- <div class="col-2">
+
+            </div> -->
+            <div class="col-2"  *ngIf="invoiceStatus!='Settled'">
+              <!-- <button class="btn btn-liteBlue"   (click)="addSettleInvoices();">Add</button> -->
+              <button class="btn btn-liteBlue"  [disabled]="dynamic.Id>0" (click)="deleteRow(i);">Remove</button>
+
+          </div>
+
+
+        </div>
+        <div class="row" *ngIf="getTotalAmount() > invoiceAmt">
+          <div class="col">
+            <code>Note:-Settle amt ({{getTotalAmount()}}) should not be Greater than  Invoice Amount({{invoiceAmt}}) </code>
+          </div>
+        </div>
+        <p-footer> 
+          <div class="row" *ngIf="invoiceStatus!='Settled'">
+
+            <div class="col" style="text-align: end;">
+              <button class="btn btn-darkBlue"   (click)="addSettleInvoices();">Add</button>
+                &nbsp;&nbsp;
+              <button class="btn btn-darkBlue" *ngIf="getTotalAmount() == invoiceAmt" (click)="onsaveInvoiceSttlement()" >Settle</button>
+
+            </div>
+          </div>
+        </p-footer>
+    </p-dialog>
+    <div class="overlay" *ngIf="Loader">
+      <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." /> </div>
+    </div>

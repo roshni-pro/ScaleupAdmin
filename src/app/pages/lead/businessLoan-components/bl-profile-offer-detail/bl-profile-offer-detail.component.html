@@ -1,0 +1,1209 @@
+<p-toast></p-toast>
+
+<div class="container-fluid heading px-4">
+    <div class="row mt-2" style="display: flex;">
+        <!-- <p-chart type="pie" [data]="data"></p-chart> -->
+        <div class="col-md-6">
+            <div class="card">
+                <h5 class="p-3"><b>CIBIL Score</b></h5> 
+                <div class="card-content text-center">
+                    <!-- <div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="950"
+                        style="--value: 0;margin-left: 20%;"></div> -->
+                    <div class="row mb-2 text-center d-flex justify-content-center align-items-center">
+                        <div class="col-3">
+                            <label class="label-lite ">CIBIL Score :</label>
+                        </div>
+                        <div class="col-3">
+                            <label class="label-data" *ngIf="!(!customerData?.creditScore)"> 
+                                <b>{{customerData?.creditScore}}</b>
+                            </label>
+                            <label class="label-dark" *ngIf="(!customerData?.creditScore)">
+                                No CIBIL Score
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img">
+                                <img *ngIf="customerData?.cibilReport" class="pointer pdf-icon float: right"
+                                    (click)="showImages(customerData?.cibilReport)"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row m-3">
+                    <div class="col-4">
+                        <button class="btn btnb btn-darkBlue"
+                            (click)="onOpenCibilPopup()">Update Cibil</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="card mt-3"
+                *ngIf="DisbursalProposalData != null && showOfferDetails[0].isCompleted">
+                <h5 class="p-3"><b>Loan Offer Details</b></h5> <br>
+                <div class=" p-3">
+                    <div class="row" *ngIf="DisbursalProposalData?.leadNo != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Lead No :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label
+                                class="ml cl label-dark label-padding"><b>{{DisbursalProposalData?.leadNo}}</b></label>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="DisbursalProposalData?.appliedDate != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Applied Date :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-dark label-padding"> <b>{{DisbursalProposalData?.appliedDate |
+                                    date: 'dd/MM/yyyy'}}</b> </label>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="DisbursalProposalData?.creditLimit != null">
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Credit Limit :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-dark label-padding"> <b>{{DisbursalProposalData?.creditLimit}}</b>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button *ngIf="!showOfferDetails[0].isCompleted && showOfferDetails[0].isApproved != 1"
+                    class="btn btn-primary" style="margin-left: 10px;" (click)="onClickApproved()">Approve</button>
+
+
+            </div> -->
+            <div class="card mt-3">
+                <div class="row" >
+                    <div class="col-md-8" style="margin-bottom: -38px;">
+                        <h5 class="p-3"><b>Loan Offer Details</b></h5> <br>
+                    </div>
+                    <div class="col-md-4" style="text-align: center;" *ngIf="ArthmateLoanOffer == null || !ArthmateLoanOffer">
+                        <label class=" p-2" style="color: red;">No Details Found.</label>
+                    </div>
+                    <div class="col-md-4" *ngIf="(userTypeRole)" style="text-align: center;" >
+                        <label class="label-dark p-3"> <b>{{ArthmateLoanOffer?.companyIdentificationCode}}</b></label>
+                    </div>
+                </div>
+                <div class=" p-3" *ngIf="(userTypeRole || ArthmateLoanOffer?.nbfcCompanyId == this.id)">
+                    <div class="row" >
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Id :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"><b>{{ArthmateLoanOffer?.loanId}}</b></label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loanId != null)"><b>No Loan Id Available</b></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Amount :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label
+                                class="ml cl label-data label-padding"><b>{{ArthmateLoanOffer?.sanctionAmount}}</b></label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.sanctionAmount != null)"><b>No Loan Amt.
+                                    Available</b></label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Rate of Interest :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.loan_int_rate ?
+                                    ArthmateLoanOffer?.loan_int_rate + '%' : '' }}&nbsp;</b> </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loan_int_rate != null)"> <b>No Interest Available</b>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Tenure :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.tenure ?
+                                    ArthmateLoanOffer?.tenure + ' months' :''}}&nbsp;</b> </label>
+                            <label class="ml cl label-dark label-padding" *ngIf="!(ArthmateLoanOffer?.tenure != null)">
+                                <b>No Loan Tenure Available</b> </label>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Monthly EMI :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.emi_amount}}</b>
+                            </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.emi_amount != null)"> <b>No EMI Available</b> </label>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Interest Amount :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.loan_int_amt}}</b>
+                            </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loan_int_amt != null)"> <b>No Interest Amt. Available</b>
+                            </label>
+
+                        </div>
+                    </div>
+
+                    <!-- <div class="row" >
+                        <div class="col-md-3 col-sm-3 col-12">
+                            <label class="ml cp label-lite label-padding">Sanction Amount :</label>
+                        </div>
+                        <div class="col-md-9 col-sm-9 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.sanctionAmount}}</b>
+                            </label>
+                            <label class="ml cl label-dark label-padding"*ngIf="!(ArthmateLoanOffer?.sanctionAmount != null)"> <b>No Sanction Amt. Available</b> </label>
+
+                        </div>
+                    </div> -->
+                    <div class="row m-2" style="border: 1px solid #A3AED0; border-radius: 10px;">
+                        <div class="col-md-6">
+                            <label class="ml cp label-lite m-2">Current Status :</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label-data m-2"> <b>{{ArthmateLoanOffer?.loanStatus}}</b>
+                            </label>
+                            <label class="label-dark m-2" *ngIf="!(ArthmateLoanOffer?.loanStatus != null)"> <b>No Loan
+                                    Status Available</b> </label>
+
+                        </div>
+                    </div>
+
+                        <div  class="row p-4" *ngIf="ArthmateLoanOffer != null || ArthmateLoanOffer">
+                            <div class="box"> 
+                                Offer_Updated  offer amount - {{ArthmateLoanOffer.sanctionAmount}}, ROI- {{ArthmateLoanOffer.loan_int_rate}}, PF- {{(ArthmateLoanOffer.processingfee)| number: "1.2-2"}}, 
+                                Insurance- 0 convience fee - 0  etc, date and time {{ArthmateLoanOffer.lastModified | date : 'medium'}}
+                            </div>
+                        </div>
+
+                </div>
+
+
+                <div class="row  p-2" *ngIf="ArthmateLoanOffer?.loanStatus != 'kyc_data_approved' && userTypeRole && isArthmateCompany && ArthmateLoanOffer?.companyIdentificationCode == 'ArthMate'">
+                    <div class="col-6">
+                        <p-dropdown [options]="LoanStatus" [(ngModel)]="selectedLoanStatus" optionLabel="label"
+                            optionValue="value" placeholder="Select loan status" [style]="{'width':'100%'}"
+                            [disabled]="!(ArthmateLoanOffer != null)"></p-dropdown>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btnb btn-blue mt-2" (click)="LoanStatusUpdate(selectedLoanStatus)"
+                            [disabled]="!(ArthmateLoanOffer != null)">change loan
+                            status kyc approval</button>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- <div class="card mt-3" *ngIf="this.!userTypeRole && (this.AccenptOfferDetailsCompanyName == 'MASFIN'|| this.AccenptOfferDetailsCompanyName =='AYEFIN')">
+                <div class="row">
+                    <div class="col-md-8" style="margin-bottom: -38px;">
+                        <h5 class="p-3"><b>Loan Offer Details </b></h5>
+                    </div>
+                    <div class="col-md-4" style="text-align: center;" *ngIf="ArthmateLoanOffer == null || !ArthmateLoanOffer">
+                        <label class=" p-2" style="color: red;">No Details Found.</label>
+                    </div>
+                </div>
+                <div class="p-3">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">NBFC Name :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"><b>{{ArthmateLoanOffer?.companyIdentificationCode}}</b></label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.companyIdentificationCode != null)"><b>No NBFC Name Available</b></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Id :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"><b>{{ArthmateLoanOffer?.loanId}}</b></label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loanId != null)"><b>No Loan Id Available</b></label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Amount :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label
+                                class="ml cl label-data label-padding"><b>{{ArthmateLoanOffer?.loanAmount}}</b></label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loanAmount != null)"><b>No Loan Amt.
+                                    Available</b></label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Rate of Interest :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.interestRate ?
+                                    ArthmateLoanOffer?.interestRate + '%' : '' }}&nbsp;</b> </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.interestRate != null)"> <b>No Interest Available</b>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Tenure :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.tenure ?
+                                    ArthmateLoanOffer?.tenure + ' months' :''}}&nbsp;</b> </label>
+                            <label class="ml cl label-dark label-padding" *ngIf="!(ArthmateLoanOffer?.tenure != null)">
+                                <b>No Loan Tenure Available</b> </label>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Monthly EMI :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.monthlyEMI}}</b>
+                            </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.monthlyEMI != null)"> <b>No EMI Available</b> </label>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 col-12">
+                            <label class="ml cp label-lite label-padding">Loan Interest Amount :</label>
+                        </div>
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <label class="ml cl label-data label-padding"> <b>{{ArthmateLoanOffer?.loanInterestAmount}}</b>
+                            </label>
+                            <label class="ml cl label-dark label-padding"
+                                *ngIf="!(ArthmateLoanOffer?.loanInterestAmount != null)"> <b>No Interest Amt. Available</b>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row  p-2" *ngIf="ArthmateLoanOffer?.loanStatus != 'kyc_data_approved' && userTypeRole">
+                    <div class="col-6">
+                        <p-dropdown [options]="LoanStatus" [(ngModel)]="selectedLoanStatus" optionLabel="label"
+                            optionValue="value" placeholder="Select loan status" [style]="{'width':'100%'}"
+                            [disabled]="!(ArthmateLoanOffer != null)"></p-dropdown>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btnb btn-blue mt-2" (click)="LoanStatusUpdate(selectedLoanStatus)"
+                            [disabled]="!(ArthmateLoanOffer != null)">change loan
+                            status kyc approval</button>
+                    </div>
+                </div>
+
+
+            </div> -->
+        </div>
+
+        <!-- #region  divider -->
+        <div class="col-md-6" *ngIf="!generateOfferStatusData && userTypeRole">
+            <div class="card mt-3">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="p-3"><b>Offers</b></h5> <br>
+                    </div>
+                    <div class="col-md-4">
+                        <label class=" p-2" style="color: red;">No Offer Available.</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" *ngIf="userTypeRole">
+            <div *ngFor="let row of generateOfferStatusData; let index = index;">
+                <div class="card mt-3">
+                    <div class="row m-2">
+                        <div class="col-md-6">
+                            <label class="label-dark label-padding">
+                                <label class="label-dark ml-2" style="padding-left: 45px;"> <b>{{row.comapanyName}}</b></label>
+                                <label></label>
+                            </label>
+                        </div>
+                        <div class="col-md-3 mt-2" *ngIf="userTypeRole && row.leadOfferStatus != 'OfferRejected' && (row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0)">
+                            <!-- [disabled]="!(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0) " -->
+                            <button class="btn btnb btn-blue mr-2"
+                                (click)="openApproveOfferBox(row.leadOfferId,row.minInterestRate,row.maxInterestRate,row.sanctonAmount,row.comapanyName,row.interestRate)"
+                                style="width: 100% !important;">Approved </button>
+                        </div>
+                        <!-- [disabled]="!(IsleadReject || !isOfferAccepted)" -->
+                        <div class="col-md-3 mt-2" *ngIf="userTypeRole && row.leadOfferStatus != 'OfferRejected' && (IsleadReject || !isOfferAccepted)">
+                            <button class="btn btnb btn-danger" (click)="OnReject(row)" style="width: 100% !important;">Reject</button>
+                        </div>
+                    </div>
+    
+    
+                    <div class="row m-2">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding">Loan Id </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding" >: <b>{{row.loanId}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding">Status </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding" [ngClass]="[ row.leadOfferStatus == 'OfferRejected' ? 'showReject' : row.offerApprove && row.leadOfferStatus == 'OfferGenerated' ? 'showApproved' : 'showDefault']">: <b>{{row.offerApprove && row.leadOfferStatus == 'OfferGenerated' ? 'OfferApproved' : row.leadOfferStatus}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding">Credit Limit </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding">: <b>{{row.sanctonAmount}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Sancton Amount </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">: <b>{{row.sanctonAmount}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Loan Interest Amount </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">: <b>{{row.loanInterestAmount}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Interest Rate </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">: <b>{{row.interestRate}}%</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Monthly EMI </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">: <b>{{row.monthlyEMI}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Tenure </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">: <b>{{row.tenure}} Months</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Processing Fee (including GST)</label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{row.processingfee+row.processingfeeTax}} </b></label>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Processing Fee </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{( row.processingfee)| number: "1.2-2"}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">Processing Fee Tax</label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{row.processingfeeTax}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="row.comapanyName != 'ArthMate'">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding">PF Discount </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <!-- <div class="row mt-1 p-2" style="display:flex;"> -->
+    
+                                        <div class="label-padding2" *ngIf="(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0 && !(row.pfDiscountSaved > 0))">
+                                                <input type="number" class="form-control" style="border-radius: 3px;" placeholder="Enter PF Discount Here"
+                                                [(ngModel)]="row.pfDiscount" (change)="onpfChange($event,row.comapanyName)" [disabled]="inputDisabled">
+                                                
+                                        </div>
+                                        <div  *ngIf="(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0 && !(row.pfDiscountSaved > 0))">
+                                            <label class="label-data label-padding2">:
+                                                <b>{{row.pfDiscount ? row.pfDiscount :0}}</b></label>
+                                        </div>
+                                        <div  *ngIf="!(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0  && !(row.pfDiscountSaved > 0))">
+                                            <label class="label-data label-padding2">:
+                                                <b>{{row.pfDiscount ? row.pfDiscount :0}}</b></label>
+                                        </div>
+                                        <!-- <div class="col-md-9" style="display: contents">
+                                            <button *ngIf="row.pfDiscount > 0" class="btn btnb btn-blue" (click)="calculatePfDiscount(row.comapanyName)">Calculate</button>&nbsp;&nbsp;
+                                            <button *ngIf="row.pfDiscount > 0" class="btn btnb btn-blue" (click)="clearPfDiscount(row.comapanyName)">Clear</button>&nbsp;&nbsp;
+                                            <button *ngIf="row.pfDiscount > 0 && inputDisabled" class="btn btnb btn-blue" (click)="onSaveNbfcConfiguration(row)" [disabled]="!(isPfDiscountOnSave)">Save</button>
+                                        </div> -->
+                                    <!-- </div> -->
+                                </div> 
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-7 label-padding2" style="display: contents" *ngIf="(row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0  && !(row.pfDiscountSaved > 0))">
+                                    <button *ngIf="row.pfDiscount > 0" class="btn btnb btn-blue" (click)="calculatePfDiscount(row.comapanyName)">Calculate</button>&nbsp;&nbsp;
+                                    <button *ngIf="row.pfDiscount > 0" class="btn btnb btn-blue" (click)="clearPfDiscount(row.comapanyName)">Clear</button>&nbsp;&nbsp;
+                                    <button *ngIf="row.pfDiscount > 0 && inputDisabled && (row.leadOfferStatus == 'OfferGenerated' && LeadOfferData?.creditLimit == 0)" class="btn btnb btn-blue" (click)="onSaveNbfcConfiguration(row)" [disabled]="!(isPfDiscountOnSave)">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="!(row.pfDiscountSaved > 0)">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">PF After Discount </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{row.pfAfterDiscountCal}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="row.pfDiscountSaved > 0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">PF After Discount </label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{(row.pfDiscountSaved > 0 ? row.pfAfterDiscount : row.processingfee)| number: "1.2-2"}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12" *ngIf="row.pfDiscountSaved > 0">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="label-lite label-padding2">PF Tax After Discount</label>
+                                </div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <label class="label-data label-padding2">:
+                                        <b>{{row.pfDiscountSaved > 0 ? row.pfRevisedTax : row.processingfeeTax}}</b></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div *ngFor="let data of row.subactivityList; let index1 = index;">
+                        <div class="row m-2" style="border: 1px solid #A3AED0;border-radius: 10px;">
+                            <div class="col-md-2 p-2">
+                                <button type="button" (click)="data.expanded=!data.expanded" pButton pRipple
+                                    class="p-button-text p-button-rounded p-button-plain"><i
+                                        [ngClass]="data.expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-lite label-padding">{{data.subActivityName}} </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="label-data label-padding"><b>{{data.status}}</b> </label>
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <button *ngIf="data.status != 'Completed'" class="btn btnb btn-darkBlue"
+                                    (click)="Retry(data, row)">Retry</button>
+                            </div>
+                        </div>
+                        <div *ngIf="data.expanded">
+                            <div class="row m-2" *ngFor="let i of data.apiList; let index1 = index;">
+                                <div class="col-md-4">
+                                    <label class="label-lite label-padding2">{{i.code}} </label>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="label-dark label-padding2">{{i.apiStatus}} </label>
+                                </div>
+                                <div class="col-md-3 mt-1" style="margin-left: 15px;">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.request)">Request</button>
+                                </div>
+                                <div class="col-md-3 mt-1" style="margin-right: -15px;">
+                                    <button class="btn btnb btn-darkBlue" (click)="show(i.response)">Response</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div  class="p-4" *ngIf="row.comapanyName != 'ArthMate' && row.sanctonAmount > 0">
+                        <div class="box"> 
+                            Offer_added  offer amount - {{row.sanctonAmount}}, ROI- {{row.interestRate}}, PF- {{row.processingfee| number: "1.2-2"}}, 
+                            Insurance- 0 convience fee - 0  etc, date and time {{row.nbfcCreatedDate | date : 'medium'}} by {{row.userName}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-3" *ngIf="UMRNforNBFCDisbursement==false">
+                <div class="row m-2" style="border: 1px solid #A3AED0;
+                border-radius: 10px;
+                ">
+                    <div class="col-md-8">
+                        <label class="label-lite m-2">UMRN </label>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-data m-2"><b>{{ArthmateLoanOffer?.umrn ? ArthmateLoanOffer?.umrn : 'NotUpdated'}}</b> </label>
+                    </div>
+                </div>
+
+                <div class="row mt-1 p-2" *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)">
+
+                    <div class="col-md-6 mt-3">
+                        <input class="form-control" style="border-radius: 3px;" placeholder="Enter UMRN Here"
+                            [(ngModel)]="UMRN" (keyup)="UMRNLength($event)"
+                            (keydown)="onKeyDown($event)">
+                        <code *ngIf="falseUMRN" style="font-size: 50%;
+                        color: #e83e8c;
+                        word-break: break-word;">*length Should be Greater than 10 </code>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <button *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)"
+                            style="width: 100%;" class="btn btn-blue" (click)="OnsaveEmandate()">Save</button>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3" *ngIf="UMRNforNBFCDisbursement && isShowUMRN && !(isDisbursed.length > 0)">
+                <div class="row col-md-6">
+                    <label class="label-dark label-padding">
+                        <label class="label-dark"> <b>{{CompanyName}} DISBURSEMENT </b></label>
+                    </label>
+                </div>
+                <div class="row mt-1 p-2" *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)">
+                    <div class="col-md-4 mt-3">
+                        <input class="form-control" style="border-radius: 3px;" placeholder="Enter UMRN Here"
+                            [(ngModel)]="UMRN" 
+                            (keydown)="onKeyDown($event)">
+                        <!-- <code *ngIf="falseUMRN" style="font-size: 50%;
+                        color: #e83e8c;
+                        word-break: break-word;">*length Should be Greater than 10 </code> -->
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <p-calendar 
+                            [(ngModel)]="date1"   [maxDate]="today" [minDate]="endday" 
+                            [showIcon]="true" 
+                            [showOnFocus]="false" 
+                            inputId="buttondisplay" placeholder="Disbursement Date" />
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <p-calendar 
+                            [(ngModel)]="FirstEMIdate" [minDate]="endday" 
+                            [showIcon]="true" 
+                            [showOnFocus]="false" 
+                            inputId="buttondisplay" placeholder="First EMI Date" />
+                    </div>
+                </div>
+                <div class="row mt-1 p-2" >
+                    <div class="col-md-5 mt-3">
+                        <input class="form-control" style="border-radius: 3px;" placeholder="Insurance amount"
+                            [(ngModel)]="insuranceAmount"  type="number"
+                           >
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <input class="form-control" style="border-radius: 3px;" placeholder="Other charge"
+                            [(ngModel)]="otherCharges"   type="number"
+                           >
+                    </div>
+                    <div class="col-md-3 mt-3">
+                        <button *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)"
+                            style="width: 100%;" class="btn btn-blue" (click)="OnsaveEmandate()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MAS/AYE -->
+        <!-- *ngIf="!isLoading && !(GetGenerateOfferByFinanceData?.loanAmount > 0) && !userTypeRole" -->
+        <div class="col-md-6"  *ngIf="!isLoading && !(GetGenerateOfferByFinanceData?.loanAmount > 0) && !userTypeRole">
+            <div class="card mt-2">
+                <div class="row m-2">
+                    <div class="col-md-6">
+                        <label class="label-dark label-padding">
+                            <label class="label-dark"> <b>{{this.role ? this.role + ' Finance' : ''}}</b></label>
+                            <label></label>
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <button  class="btn btnb btn-danger mt-2 pt-2"  *ngIf="!GetGenerateOfferByFinanceData?.rejectionReason"
+                        style="margin-left: .5em; margin-right: .5em; float: right;" (click)="OnReject('')">Reject
+                    </button>
+                    </div>
+                </div>
+
+
+                <div class="row m-2">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding">Loan Id </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <!-- <label class="label-data label-padding">: <b>{{row.sanctonAmount}}</b></label> -->
+                                <div class="row mt-1 p-2">
+                                    <div class="col-md-7"  *ngIf="!GetGenerateOfferByFinanceData?.rejectionReason">
+                                        <!-- <input type="number" class="form-control" style="border-radius: 3px;" placeholder="Enter Credit Limit Here"
+                                            [(ngModel)]="creditLimit" > -->
+                                            <input type="text" class="form-control" style="border-radius: 3px;" placeholder="Enter Loan Id Here"
+                                            [(ngModel)]="LoanId" >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding">Loan Amount </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <div class="row mt-1 p-2">
+                                    <div class="col-md-7"  *ngIf="!GetGenerateOfferByFinanceData?.rejectionReason">
+                                        <input type="text" class="form-control" style="border-radius: 3px;" placeholder="Enter Credit Limit Here"
+                                        [(ngModel)]="creditLimit" (change)="handleChange($event)" [disabled]="inputDisabled">
+                                    </div>
+                                    <!-- <div class="col-md-5">
+                                            <input type="text" class="form-control" style="border-radius: 3px;" placeholder="Enter Credit Limit Here"
+                                            [(ngModel)]="creditLimit" (change)="handleChange($event)" [disabled]="inputDisabled">
+                                    </div>
+                                    <div class="col-md-7" style="display: contents;margin-top: 10px;">
+                                        <button class="btn btnb btn-blue" (click)="calculateConfiguration()">Calculate</button>&nbsp;&nbsp;
+                                        <button class="btn btnb btn-blue" (click)="clear()">Clear</button>&nbsp;&nbsp;
+                                        <button class="btn btnb btn-blue" (click)="onSaveNbfcConfiguration('blank')" [disabled]="!isSave">Save</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row" *ngIf="creditLimit > 0">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-8" style="display:flex;">
+                                <div class="row mt-1 p-2"  style="display:flex;">
+                                    <div class="col-md-7" style="display:flex;">
+                                        <button class="btn btnb btn-blue" (click)="calculateConfiguration()">Calculate</button>&nbsp;&nbsp;
+                                        <button class="btn btnb btn-blue" (click)="clear()">Clear</button>&nbsp;&nbsp;
+                                        <button class="btn btnb btn-blue" (click)="onSaveNbfcConfiguration('blank')" [disabled]="!isSave">Submit Offer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Loan Amount </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.loanAmount}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Loan Interest Amount </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.loanIntAmt}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Interest Rate </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.rateOfInterest}}%</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Monthly EMI </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.monthlyPayment}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Tenure </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.tenure}} Months</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Processing Fee</label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">:
+                                    <b>{{(generateOfferByFinanceData.processing_fee + generateOfferByFinanceData.processingfeeTax)| number: "1.2-2"}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">Processing Fee Rate </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.processingFeeRate}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label class="label-lite label-padding2">GST </label>
+                            </div>
+                            <div class="col-md-7" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{generateOfferByFinanceData.gst}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div  class="p-4" *ngIf="GetGenerateOfferByFinanceData?.rejectionReason">
+                        <div class="box"> 
+                            Offer_rejected  reason {{GetGenerateOfferByFinanceData?.rejectionReason}} date and time {{GetGenerateOfferByFinanceData?.createdDate | date : 'medium'}} by {{GetGenerateOfferByFinanceData?.userName}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="GetGenerateOfferByFinanceData && GetGenerateOfferByFinanceData?.loanAmount > 0 && !userTypeRole" >
+            <div class="card mt-2">
+                <div class="row m-2">
+                    <div class="col-md-6">
+                        <label class="label-dark label-padding">
+                            <label class="label-dark"> <b>{{this.role ? this.role + ' Finance' : ''}}</b></label>
+                            <label></label>
+                        </label>
+                    </div>
+                </div>
+                <div class="row m-2">                   
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Loan Amount </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{GetGenerateOfferByFinanceData.loanAmount}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Tenure </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{GetGenerateOfferByFinanceData.tenure}} Months</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Interest Rate </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{GetGenerateOfferByFinanceData.rateOfInterest}}%</b></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Loan Interest Amount </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{GetGenerateOfferByFinanceData.loanIntAmt}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Monthly EMI </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">: <b>{{GetGenerateOfferByFinanceData.monthlyPayment}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="label-lite label-padding2">Processing Fee (Including Tax) </label>
+                            </div>
+                            <div class="col-md-6" style="text-align: left;">
+                                <label class="label-data label-padding2">:
+                                    <b>{{(GetGenerateOfferByFinanceData.processing_fee + GetGenerateOfferByFinanceData.processingfeeTax)| number: "1.2-2"}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div  class="p-4">
+                        <div class="box"> 
+                            Offer_added  offer amount - {{GetGenerateOfferByFinanceData?.loanAmount}}, ROI- {{GetGenerateOfferByFinanceData?.rateOfInterest}}, PF- {{(GetGenerateOfferByFinanceData?.processing_fee + GetGenerateOfferByFinanceData.processingfeeTax)| number: "1.2-2"}}, 
+                            Insurance- 0 convience fee - 0  etc, date and time {{GetGenerateOfferByFinanceData?.createdDate | date : 'medium'}} by {{GetGenerateOfferByFinanceData?.userName}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ArthmateLoanOffer?.nbfcCompanyId}} {{id}} {{isDisbursed.length}} {{isNbfcOfferAccepted}}
+                    <div class="card mt-3" *ngIf="ArthmateLoanOffer?.nbfcCompanyId == id && !(isDisbursed.length > 0) && isNbfcOfferAccepted">
+                        <div class="row col-md-6">
+                            <label class="label-dark label-padding">
+                                <label class="label-dark" style="margin-left: 15px;"> <b>{{ArthmateLoanOffer.companyIdentificationCode}} DISBURSEMENT</b></label>
+                            </label>
+                        </div>
+                        <div class="row mt-1 p-2" *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)">
+                            <div class="col-md-4 mt-3">
+                                <input class="form-control" style="border-radius: 3px;" placeholder="Enter UMRN Here"
+                                    [(ngModel)]="UMRN" 
+                                    (keydown)="onKeyDown($event)">
+                                <!-- <code *ngIf="falseUMRN" style="font-size: 50%;
+                                color: #e83e8c;
+                                word-break: break-word;">*length Should be Greater than 10 </code> -->
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <p-calendar 
+                                    [(ngModel)]="date1"  [maxDate]="today" [minDate]="endday" 
+                                    [showIcon]="true" 
+                                    [showOnFocus]="false" 
+                                    inputId="buttondisplay" placeholder="Disbursement Date" />
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <p-calendar 
+                                    [(ngModel)]="FirstEMIdate"  [minDate]="endday" 
+                                    [showIcon]="true" 
+                                    [showOnFocus]="false" 
+                                    inputId="buttondisplay" placeholder="First EMI Date" />
+                            </div>
+                        </div>
+                        <div class="row mt-1 p-2" >
+                            <div class="col-md-5 mt-3">
+                                <input class="form-control" style="border-radius: 3px;" placeholder="Insurance amount"
+                                    [(ngModel)]="insuranceAmount"  type="number" 
+                                >
+                            </div>
+                            <div class="col-md-4 mt-3">
+                                <input class="form-control" style="border-radius: 3px;" placeholder="Other charge"
+                                    [(ngModel)]="otherCharges"   type="number"
+                                >
+                            </div>
+                            <div class="col-md-3 mt-3">
+                                <button *ngIf="(ArthmateLoanOffer?.umrn == '' || ArthmateLoanOffer?.umrn == null)"
+                                    style="width: 100%;" class="btn btn-blue" (click)="OnsaveEmandate()">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+        </div>
+        
+
+        <!-- <div *ngIf="userTypeRole" class="col-md-12" >
+            <div class="card mt-3 col-12">
+                <h5 class="p-3"><b>Repayment Schedule</b></h5> <br>
+                <div class="card-content text-center">
+                    <p-table [value]="repaymentScheduleData" [paginator]="true" [rows]="10"
+                        styleClass="p-datatable-striped">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>EMI NO</th>
+                                <th>Due Date</th>
+                                <th>EMI Amount</th>
+                                <th>Principle</th>
+                                <th>Interest Amount</th>
+                                <th>Principal Balance</th>
+                                <th>Principal Outstanding</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data>
+                            <tr>
+                                <td>{{data.emi_no}}</td>
+                                <td>{{data.due_date | date: 'dd MMM yyyy'}}</td>
+                                <td>{{data.emi_amount}}</td>
+                                <td>{{data.prin}}</td>
+                                <td>{{data.int_amount}}</td>
+                                <td>{{data.principal_bal}}</td>
+                                <td>{{data.principal_outstanding}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center" style="color: red;">Data Not Found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div> -->
+        <div  class="col-md-12" *ngIf="userTypeRole" >
+            <div class="card mt-3 col-12">
+                <h5 class="p-3"><b>Repayment Schedule</b></h5> <br>
+                <div class="card-content text-center">
+                    <p-table [value]="repaymentScheduleData" [paginator]="true" [rows]="10"
+                        styleClass="p-datatable-striped">
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>S. NO</th>
+                                <th>Due Date</th>
+                                <th>EMI Amount</th>
+                                <th>Principle</th>
+                                <th>Interest Amount</th>
+                                <th>Principal Balance</th>
+                                <th>Principal Outstanding</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{data.dueDate | date: 'dd MMM yyyy'}}</td>
+                                <td>{{data.emiAmount}}</td>
+                                <td>{{data.prin}}</td>
+                                <td>{{data.interestAmount}}</td>
+                                <td>{{data.principalAmount}}</td>
+                                <td>{{data.outStandingAmount}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="10" class="text-center" style="color: red;">Data Not Found.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="showRequest" appendTo="body" [modal]="true" [style]="{width: '100vw',height:'100vh'}">
+    <br>
+    <!-- <div style="justify-content:space-between;">
+        {{requestResponseMessage}}
+     </div> -->
+    <div *ngIf="requestResponseMessage">
+        <pre><div *ngIf="typecheck == 'object'">{{requestResponseMessage | json}}</div>
+            <div *ngIf="typecheck == 'string'">{{requestResponseMessage}}</div>
+        </pre>
+    </div>
+</p-dialog>
+<p-dialog [(visible)]="isConfirmUpdateOffer" header="Interest Rate Approval" appendTo="body" [modal]="true"
+    [style]="{width: '50vw', height: '50vh', overflow: 'hidden'}" (onHide)="onOfferPopupClose()">
+    <br>
+    <div class="row" *ngIf="!isOfferDisabled">
+        <div class="col-md-6">
+            <label class="text-center p-2">Offer Amount</label>
+            <input type="number" id="offerAmount" name="offerAmount" class="form-control"
+                placeholder="Enter Offer Amount" [(ngModel)]="newOfferAmount" required>
+        </div>
+    </div>
+    <div class="row">
+        <!-- *ngIf="!(NbfcCompanyName == 'MASFIN' || NbfcCompanyName == 'AYEFIN')" -->
+        <div class="col-md-6" *ngIf="(NbfcCompanyName == 'ArthMate')">
+            <label class="text-center p-2">Interest Rate</label>
+            <input type="number" disabled id="interestRate" name="interestRate" class="form-control"
+                placeholder="Enter Interest Rate" [(ngModel)]="interestRate" min="minInterestRate" max="maxInterestRate"
+                required>
+            <div *ngIf="!(this.minInterestRate <= this.interestRate && this.maxInterestRate >= this.interestRate)">
+                <code
+                    style="color: red;">Interest Rate Should be Between {{this.minInterestRate}} and {{this.maxInterestRate}}</code>
+            </div>
+        </div>
+        <div class="col-md-6" *ngIf="userTypeRole">
+            <label class="text-center p-2">Interest Rate</label>
+            <input type="number" id="interestRate" name="interestRate" class="form-control"
+                placeholder="Enter Interest Rate" [(ngModel)]="interestRate" min="minInterestRate" max="maxInterestRate"
+                required>
+                <div *ngIf="!(interestRate <= 50)">
+                    <code
+                        style="color: red;">Interest Rate Should be Between {{this.minInterestRate}} and 50</code>
+                </div>
+        </div>
+        <div class="col-md-4" style="margin-top: 41px;">
+            <button class="btn btnb btn-blue" (click)="InterestRateApprove()">Approve</button>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-3" style="text-align: left;"><label><b>Min</b></label></div>
+        <div class="col-3" style="text-align: right;"><label><b>Max</b></label></div>
+
+    </div>
+    <div class="row" *ngIf="(NbfcCompanyName == 'ArthMate')">
+        <div class="col-6">
+            <input type="range" [(ngModel)]="interestRate" style="width: 100%;" [min]="this.minInterestRate"
+                [max]="this.maxInterestRate">
+        </div>
+    </div>
+    <div class="row" *ngIf="!(NbfcCompanyName == 'ArthMate')">
+        <div class="col-6">
+            <input type="range" [(ngModel)]="interestRate" style="width: 100%;" [min]="this.minInterestRate"
+                [max]="50">
+        </div>
+    </div>
+
+</p-dialog>
+
+
+<p-dialog [(visible)]="IsReject" [resizable]="false" [modal]="true" appendTo="body"
+    [style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+        <textarea type="text" id="_selfiecomment" name="_selfiecomment" class="form-control"
+            [(ngModel)]="MessageForReject" placeholder="Enter Reason For Reject">
+     </textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+            (click)="Reject()">Reject</button>
+    </p-footer>
+</p-dialog>
+<p-dialog [(visible)]="isCibilUpload" header="Upload Cibil Score Document" appendTo="body" [modal]="true" (onHide)="cancel()">
+    <!-- <div class="row">
+        <div class="col-md-12">
+            <h5 class="p-3">Upload Cibil Score Document</h5>
+        </div>
+    </div> -->
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <input type="number" class="form-control" placeholder="Enter CIBIL Score" [(ngModel)]="cibilScore"
+                max="800">
+            <div *ngIf="cibilScore > 900">
+                <label class="text-center p-2" style="color: red;">CIBIL Score must less than 900.</label>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- <input type="file" class="form-control" style="line-height: 2.5 !important;"> -->
+            <input type="file" id="fileupload" #myInput2 type="file" accept="application/pdf,image/png, image/jpeg"
+                (change)="documentUpload($event,'DocumentURL',this.myInputVariable2)"
+                style="line-height: 2.5 !important;" class="form-control" name="DocumentURL">
+        </div>
+        <div class="col-md-4">
+            <button class="btn btnb btn-darkBlue" (click)="cibilUpdate()">Update Cibil</button>  
+        </div>
+    </div>
+
+</p-dialog>
+<p-dialog [draggable]="false" [(visible)]="showImage" appendTo="body" [modal]="true"
+    [style]="{ 'width': '50vw', 'height': '50vh' }">
+    <div class="row" style="text-align: justify;">
+
+        <div class="col-md-12">
+            <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+            <button class="btn btn-primary" style="margin-left: 16px;"
+                (click)="downloadImage(showUrl)">Download</button>
+        </div>
+    </div>
+</p-dialog>
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button" class="btn btn-danger" style="margin-right: 10px;" (click)="cd.reject()">No</button>
+        <button type="button" class="btn btn-sucesss" (click)="cd.accept()">Yes
+        </button>
+    </p-footer>
+</p-confirmDialog>
+
+<!-- <p-dialog [(visible)]="IsReject" [resizable]="false" [modal]="true" appendTo="body"
+                    [style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+                    <p-header>Reason For Reject</p-header>
+                    <div class="ui-fluid">
+                        <textarea type="text" id="_selfiecomment" name="_selfiecomment" class="form-control"
+                            [(ngModel)]="MessageForReject" placeholder="Enter Reason For Reject">
+                    </textarea>
+                    </div>
+                    <p-footer>
+                        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+                            (click)="Reject()">Reject</button>
+                    </p-footer>
+                </p-dialog> -->
+
+
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

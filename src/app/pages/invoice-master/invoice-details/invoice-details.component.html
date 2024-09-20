@@ -1,0 +1,120 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12 p-3">
+            <h4>Invoice Details</h4>
+        </div>
+    </div>
+
+    <div class="row mt-2 p-2 text-center">
+        <div class="col-12 ">
+            <div class="card shadow">
+                <div class="row">
+                    <div class="col">
+                        <label class="label-lite">Order No.</label> &nbsp;
+                        <label class="label-dark">{{basicDetails.orderNo}}</label>
+                    </div>
+                    <div class="col">
+                        <label class="label-lite">invoice No.</label> &nbsp;
+                        <label class="label-dark">{{basicDetails.invoiceNo}}</label>
+                    </div>
+                    <div class="col">
+                        <label class="label-lite">Payable Amount</label> &nbsp;
+                        <label class="label-dark">{{basicDetails.payableAmount}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12 ">
+            <div class="card p-2 text-center">
+                <p-table [value]="invoiceDetailList" [paginator]="true" [rows]="10" [totalRecords]="totalrecord"
+                    [paginator]="true">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <!-- <th>Account Transaction Id</th>
+                            <th>Invoice Id</th> -->
+                            <th>Reference Id</th>
+                            <!-- <th>Transaction Date</th> -->
+                            <th>Transaction Type</th>
+                            <th>Transaction Amount</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-transaction let-columns="columns" let-expanded="expanded">
+                        <tr class="pointer" (click)="openDetailsPopup(transaction)">
+                            <!-- <td>{{transaction.accountTransactionId}}</td>
+                            <td>{{transaction.invoiceId}}</td> -->
+                            <td>{{transaction.referenceId}}</td>
+                            <!-- <td>{{transaction.transactionDate | date}}</td> -->
+                            <td>{{transaction.transactionType}}</td>
+                            <td>{{transaction.txnAmount}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" class="text-center">
+                        <tr>
+                            <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="detailsPopup">
+    <p-dialog header='Details' appendTo="body" [(visible)]="detailsPopup" [modal]="true"
+        [style]="{width: '60vw', height:'60%', overflow: 'auto','box-shadow': 'none'}" [draggable]="false"
+        [resizable]="false">
+
+        <div class="container">
+            <div class="row mt-2 text-center">
+                <p-table [value]="invoiceDetails">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Amount</th>
+                            <th>Transaction Type</th>
+                            <th>Reference Id</th>
+                            <th>Transaction Date</th>
+                            <th *ngIf="basicDetails.status =='Initiate'">Action</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-transaction let-columns="columns" let-expanded="expanded">
+                        <tr>
+                            <td>{{transaction.amount}}</td>
+                            <td>{{transaction.head}}</td>
+                            <td>{{transaction.referenceId}}</td>
+                            <td>{{transaction.transactionDate | date}}</td>
+                            <td *ngIf="basicDetails.status =='Initiate'"> 
+                                <button type="button" class="btn btn-blue" (click)="ClearInitiateLimit(transaction)">
+                                    Clear Initiate Limit
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage" class="text-center">
+                        <tr>
+                            <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+
+        <!-- <div class="row mt-2">
+            <div class="col"></div>
+            <div class="col-2">
+                <button class="btn btn-darkBlue" type="button" (click)="saveManualTnx()">Save</button>
+            </div>
+        </div> -->
+
+    </p-dialog>
+</div>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

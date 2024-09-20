@@ -1,0 +1,162 @@
+<div class="container-fluid px-4">
+
+  <div class="row heading">
+    <div class="col-md-md-3">
+      <code style="col-mdor: grey;">Pages/dsa</code>
+      <h3>DSA Detail</h3>
+    </div>
+  </div>
+
+  <div class="row mt-2" style="display: flex;">
+    <div class="card">
+      <div class="card-content p-3">
+
+        <div class="row">
+
+          <div class="col-md-2">
+            <img class="selfieimg shadow" *ngIf="this.selfieDetail.frontImageUrl"
+              src="{{this.selfieDetail.frontImageUrl}}">
+            <img class="selfieimg shadow" *ngIf="!this.selfieDetail.frontImageUrl"
+              src="../../../../../assets/theme/icons/DummyProfilePic.jpg">
+          </div>
+
+          <div class="col-md-5">
+
+            <div class="row">
+              <div class="col-md-12">
+                <label class="label-dark mt-3">{{leadData.leadCode}} &nbsp;</label>
+                <label class="label-dark mt-3" *ngIf="leadData.businessName">
+                  | {{leadData.businessName}}&nbsp;</label>
+                <label class="label-lite mt-3" *ngIf="aadharDetail.name">| {{aadharDetail.name}}&nbsp;</label>
+                <label class="label-lite mt-3" *ngIf="leadData.mobileNo">
+                  | {{leadData.mobileNo}}&nbsp;</label>
+                <label class="label-lite mt-3" *ngIf="dsaProfileInfo">
+                  | {{dsaProfileInfo}}&nbsp;</label>
+                <label class="label-lite mt-3">| {{leadData.status}} &nbsp;</label>
+              </div>
+            </div>
+
+            <div class="row mt-2">
+              <div class="col-md-4">
+
+                <button class="btn btnb " [ngClass]="IsProfile=='Profile'? 'btn-darkBlue':'btn-blue'"
+                  (click)="IsProfile='Profile';" style="width: 100%;white-space: nowrap;">Basic Details</button>
+              </div>
+              <div class="col-md-3" *ngIf="dsaProfileInfo=='DSA'">
+                <button class="btn btnb" [ngClass]="IsProfile=='Users'?'btn-darkBlue':'btn-blue'"
+                  [disabled]="!isUsersAvailable" (click)="IsProfile='Users';"
+                  style="width: 100%;white-space: nowrap;">Users</button>
+              </div>
+              <!-- <div class="col-md-5" *ngIf="!isDsaAgreement && leadData.status=='Submitted' && IsProfile!='Users'">
+                  <button  class="btn btn-blue btnb"  style="width: 100% !important;white-space: nowrap;" (click)="PrepareAggr()" 
+                  >Prepare Agreement</button>
+                </div> -->
+              <div class="col-md-5">
+                <button type="button" class="btn btn-blue btnb" (click)="addLeadPopup()">
+                  <i></i>Add LG LC</button> &nbsp;
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5" *ngIf="IsProfile!='Users'">
+            <!--  [disabled]="leadData.status!='AgreementSigned'" -->
+
+            <button type="button" class="btn btn-blue btnb" (click)="isApprovelead=true;"
+              *ngIf="leadData.status=='AgreementSigned'">
+              <i></i>Approve</button> &nbsp;
+            <button type="button" class="btn btn-blue btnb" (click)="isLeadReject=true;"
+              *ngIf="(leadData.status!='Activated') && (leadData.status!='Rejected') && (leadData.status!='Deleted') && (leadData.status!='DeActivated')   ">
+              <i></i>Reject</button> &nbsp;
+            <!-- <button type="button" class="btn btn-danger btnb" ><i></i>Reject</button> &nbsp; -->
+            <button class="btn btn-danger btnb " *ngIf="(leadData.status=='Activated')&& !dsaProfileInfo.isDeleted "
+              type="button" (click)="DeactivateActivate(false,true,true)">Delete DSA</button> &nbsp;&nbsp;
+            <button class="btn btn-danger btnb " *ngIf="leadData.status=='Activated' && leadData.isActive" type="button"
+              (click)="DeactivateActivate(false,false,false)">Deactivate</button>
+            <button class="btn btn-blue btnb "
+              *ngIf="(leadData.status=='Activated' || leadData.status=='DeActivated') && !leadData.isActive"
+              type="button" (click)="DeactivateActivate(true,false,false)">Activate</button>
+
+          </div>
+        </div>
+        <p-dialog [(visible)]="isApprovelead" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+          <div class="row">
+            <div class="col-md-5" *ngIf="dsaProfileInfo=='DSA'">
+              <!-- <p-dropdown [options]="productList" appendTo="body"   [(ngModel)]="selectedProduct" optionLabel="name"   [style]="{'border':'none'}"
+                placeholder="Select a product" ></p-dropdown> -->
+              <p-multiSelect [options]="productList" optionLabel="name" appendTo="body" [(ngModel)]="selectedProduct"
+                [style]="{'border':'none'}" [maxSelectedLabels]="5" [selectedItemsLabel]="'{0} products selected'"
+                defaultLabel="Select a product"></p-multiSelect>
+
+            </div>
+            <div class="col-md-5" *ngIf="dsaProfileInfo=='Connector'">
+              <input type="text" placeholder="Product Type" [(ngModel)]="this.defSelectedPro" class="form-control"
+                disabled>
+            </div>
+            <!-- <div class="col-md-md-4">
+                <input type="text" placeholder="payoutpercentage" [(ngModel)]="leadData.payoutPercentage" class="form-control">
+              </div> -->
+            <div class="col-md-3">
+              <button class="btn btn-blue" (click)="ApproveDSALeadRequest()">Approve</button>
+            </div>
+          </div>
+
+        </p-dialog>
+        <div *ngIf="isLeadReject">
+          <p-dialog [(visible)]="isLeadReject" appendTo="body" [modal]="true" [style]="{width: '50vw'}">
+            <div class="row">
+              <div class="col-md-4">
+                <input type="text" placeholder="Comment" [(ngModel)]="Message" class="form-control">
+              </div>
+              <div class="col-md-3">
+                <button class="btn btn-blue" (click)="LeadReject()">Reject</button>
+              </div>
+            </div>
+          </p-dialog>
+        </div>
+        <!-- <div class="row mt-1" style="text-align: center;">
+          </div> -->
+
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [(visible)]="isLeadGeneratorPopup" [resizable]="false" [modal]="true" appendTo="body"
+  [style]="{width: 'auto', height:'auto'}" (onHide)="cancelleadGeneratorpopup()">
+  <p-header>Add Lead Generator And Convertor</p-header>
+  <div class="ui-fluid">
+    <div>
+      <label>Lead Generator<span style="color: red;">*</span></label>
+      <input type="text" id="_LeadGenerator" name="_LeadGenerator" class="form-control"
+        placeholder="Enter Lead Generator" [(ngModel)]="LeadGeneratorConvertorObj.LeadGenerator"
+        (keypress)="onkeypress($event)">
+      <!-- [disabled]="isLeadGeneratorDisabled" -->
+    </div>
+    <div>
+      <label>Lead Convertor<span style="color: red;">*</span></label>
+      <input type="text" id="_LeadConvertor" name="_LeadConvertor" class="form-control"
+        placeholder="Enter Lead Convertor" [(ngModel)]="LeadGeneratorConvertorObj.LeadConvertor"
+        (keypress)="onkeypress($event)">
+      <!-- [disabled]="isLeadConvertorDisabled" -->
+    </div>
+  </div>
+  <p-footer>
+    <button class="btn btn-blue" (click)="addLeadGeneratorConvertor()"><i class="fa fa-search"></i>Save</button>
+  </p-footer>
+</p-dialog>
+<div class="overlay" *ngIf="Loader">
+  <div class="loader">
+    <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+  </div>
+</div>
+
+
+<ng-container *ngIf="IsProfile">
+
+  <ng-container *ngIf="IsProfile=='Profile'">
+    <app-dsa-profile [status]="leadData.status" (refreshParentPage)="reloadDeatilPage($event)"></app-dsa-profile>
+  </ng-container>
+
+  <ng-container *ngIf="IsProfile=='Users'">
+    <app-dsa-users></app-dsa-users>
+  </ng-container>
+</ng-container>

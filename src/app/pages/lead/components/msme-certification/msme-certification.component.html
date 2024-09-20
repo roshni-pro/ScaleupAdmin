@@ -1,0 +1,107 @@
+<div class="card tp common-padding">
+    <div *ngIf="msmeData != null && isComplete">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Document Number</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">
+                    {{msmeData?.msmeRegNum}}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Document Name</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{msmeData?.businessName}}</div>
+            </div>
+        </div>
+        <!-- <div class="row" *ngIf="!isVerified  && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Front Image</div>
+            </div>
+        </div> -->
+        <div class="row" *ngIf="msmeData && msmeData?.msmeCertificateUrl">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">View MSME Certificate PDF</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">
+                    <div>
+                        <div class="p-img" >
+                            <i class="pi pi-file-pdf" style="font-size:48px;color:blue" (click)="OpenPdf()"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Status</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+            </div>
+        </div>
+
+
+        
+        <!-- *ngIf="!isVerified  && !isRejected && rowData?.SequenceNo == 7" -->
+        <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl" style="float: right;">
+                <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer" style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+                <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+            </div> -->
+            <div class="ml cl" style="float: right;">
+                <button class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+            </div>
+        </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl">
+                <i pTooltip="Rejected" class="pi pi-times fa fa-mouse-pointer" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+                <i pTooltip="Approved" class="pi pi-check fa fa-mouse-pointer" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>
+            </div> -->
+            <div class="ml cl">
+              <span  style="float: right;"  *ngIf="isRejected">Completed and Rejected<i  class="pi pi-times fa fa-mouse-pointer"  style="color:red;margin-left: 0.5em "></i></span>
+              <span style="float: right;" *ngIf="isVerified" >Approved<i  class="pi pi-check fa fa-mouse-pointer"  style="color:green;margin-left: 0.5em "></i></span>
+          </div>
+        </div>
+        </div>
+    </div>
+</div>
+    <!-- <div class="no-Txt" *ngIf="msmeData == null">* No Record Found</div> -->
+
+<!-- <div class="no-Txt" *ngIf="msmeData == null || msmeData?.DocumentName == null">* No Record Found</div>
+</div> -->
+
+
+<!-- positionTop="100" -->
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <textarea type="text" id="_msmecomment" name="_msmecomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+
+<!-- <p-blockUI [blocked]="blocked"></p-blockUI>
+<p-progressSpinner *ngIf="blocked"
+  [style]="{width: '50px', height: '50px', position: 'absolute', left: '48%', top: '48%'}" strokeWidth="8"
+  fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner> -->

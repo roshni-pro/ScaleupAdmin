@@ -1,0 +1,126 @@
+// p-chart {
+//     display: inline-flex;
+//     height: 400px;
+//     width: 100%;
+// }
+
+.div-box-blue {
+    background: rgba(240, 247, 246, 1);
+    border-radius: 10px;
+    /* padding: 30px; */
+    height: 80px;
+    margin: 0px;
+    width: 170px;
+    margin-left: 40px;
+}
+
+.div-row-blue {
+    background: rgba(240, 247, 246, 1);
+    border-radius: 10px;
+    /* padding: 30px; */
+    margin: 0px;
+}
+
+.perc_label {
+    position: absolute;
+    left: 111px;
+    top: 159px;
+}
+
+.perc_label_two {
+    position: absolute;
+    // left: 111px;
+    right: 365px;
+    top: 159px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    background-color: #f2f8f7;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pgrs_bar {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 20px;
+    border-radius: 0%;
+    background-color: none;
+    // margin: 0 10px;
+}
+
+.pgrs_bar::-webkit-progress-bar {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+
+.pgrs_bar::-webkit-progress-value {
+    background-color: #009eef;
+    /* Blue color */
+    border-radius: 5px;
+}
+
+.pgrs_bar::-moz-progress-bar {
+    background-color: #009eef;
+    /* Blue color */
+    border-radius: 5px;
+}
+
+.tat_block {
+    height: 22px;
+    // width:2px;
+    font-size: .1px;
+}
+
+
+.inl {
+    display: inline-block;
+    width: 50%;
+    .lbl {
+        font-size: .6em;
+        font-weight: 200;
+        text-align: left;
+    }
+
+    .inner {
+        text-align: center;
+        height: 28px;
+        width: 100%;
+        font-size: .8em;
+        padding-top: 4px;
+        font-weight: bold;
+        // background: aliceblue;
+        // border: solid 1px rgb(245, 243, 239);
+    }
+}
+
+// .progress-value {
+//     font-weight: bold;
+//     color: #333;
+//     font-size: 14px;
+// }
+
+
+// .custom-progressbar {
+//     height: 30px;
+//     background-color: #e0e0e0;
+// }
+
+// .custom-progressbar .ui-progressbar-value {
+//     background-color: #4caf50;
+//     /* Color of the progress bar */
+//     transition: width 0.5s ease-in-out;
+//     /* Smooth transition */
+// }
+
+// .custom-progressbar .ui-progressbar-label {
+//     color: #fff;
+//     /* Color of the label */
+//     font-weight: bold;
+// }

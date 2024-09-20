@@ -1,0 +1,256 @@
+<div class="container-fluid">
+    <div class="row heading">
+        <div class="row">
+
+            <div class="col">
+                <h3>Loan Detail</h3>
+            </div>
+            <div class="col-1"></div>
+        </div>
+    </div>
+
+    <div class="card my-3">
+        <div class="row p-3 d-flex align-items-center">
+            <!-- profile pic -->
+            <div class="col-2">
+                <img class="selfieimg shadow" *ngIf="LoanAccountDetailResponse && LoanAccountDetailResponse.loanImage"
+                    src="{{LoanAccountDetailResponse.loanImage}}">
+                <img class="selfieimg shadow" *ngIf="!LoanAccountDetailResponse || !LoanAccountDetailResponse.loanImage"
+                    src="../../../../../assets/theme/icons/DummyProfilePic.jpg">
+            </div>
+
+            <!-- profile details -->
+            <div class="col">
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.accountCode}} |
+                </label> &nbsp;
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.customerName}} </label>
+                &nbsp;
+                <label class="label-dark">{{LoanAccountDetailResponse && LoanAccountDetailResponse.productType}} |
+                </label> &nbsp;
+                <!-- <label>{{leadData?.screenName}} | </label>  -->
+                <br>
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.mobileNo}} |
+                </label> &nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.shopName}} |
+                </label>&nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.cityName}} </label>
+                <br>
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.nbfcIdentificationCode}} |
+                </label> &nbsp;
+                <label class="label-lite">{{LoanAccountDetailResponse && LoanAccountDetailResponse.thirdPartyLoanCode}} |
+                </label>
+            </div>
+
+            <!-- profile status -->
+            <!-- <div class="col-3 text-center p-0">
+                <div class="row p-0">
+                    <div class="col-3">
+                        <label class="label-dark">Inactive/Active</label>
+                    </div>
+                    <div class="col">
+                        <p-inputSwitch name="IsActive" [(ngModel)]="LoanAccountDetailResponse.isAccountActive"
+                            (ngModelChange)="ActiveInactive($event)" [disabled]="LoanAccountDetailResponse.isBlock" >
+                        </p-inputSwitch>
+                    </div>
+                </div>
+                <div class="row p-0">
+                    <div class="col-3">
+                        <label class="label-dark">Block</label>
+                    </div>
+                    <div class="col">
+                        <p-inputSwitch [(ngModel)]="LoanAccountDetailResponse.isBlock" (ngModelChange)="BlockUser()"
+                            [disabled]="LoanAccountDetailResponse.isAccountActive" >
+                        </p-inputSwitch>
+                    </div>
+                </div>
+            </div> -->
+
+            <!-- Notify/History -->
+            <div class="col-2">
+                <button class="btn btn-liteBlue" type="button" (click)="notifyAnchor($event)" disabled>Notify Anchor</button>
+                <br>
+                <button class="btn btn-blue mt-2" type="button" (click)="openLogs()" disabled>History</button> 
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <!-- Credit Line Info -->
+        <div class="col-12" >
+            <div class="card p-3" style="height: 100% !important;">
+                <div class="row">
+                    <div class="row">
+                        <h5 class="header-title">Business Loan Info</h5>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-2">
+                            <label class="label-lite">Loan Id</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">: {{LoanAccountDetailResponse.loan_id}}</label>
+                        </div>
+                        <div class="col-md-2" >
+                            <label class="label-lite word-wrap">Loan Interest Amount</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.loan_int_amt }} </label>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <label class="label-lite">Processing Fee</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.processing_fees_amt}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3">              
+                        <div class="col-2">
+                            <label class="label-lite">Sanction Amount</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.sanction_amount}}</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-lite word-wrap">Loan Interest Rate</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: {{LoanAccountDetailResponse.loan_int_rate}} %</label>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <label class="label-lite word-wrap">PF Discount</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.pfDiscount }} </label>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mt-2">
+                        <div class="col-2">
+                            <label class="label-lite word-wrap">Net Disbursement Amount</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.net_disbur_amt}}</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-lite">Monthly EMI Amount</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.emi_amount}}</label>
+                        </div>
+                        <div class="col-2" style="text-align: right;">
+                            <label class="label-lite word-wrap" >GST on Pf Amt</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: ₹ {{LoanAccountDetailResponse.gst_on_pf_amt}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mt-2">
+                        <div class="col-md-2">
+                            <label class="label-lite">Insurance Amount</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">:₹ {{LoanAccountDetailResponse.insuranceAmount}}</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-lite word-wrap">Tenure</label>
+                        </div>
+                        <div class="col-2">
+                            <label class="label-dark">: {{LoanAccountDetailResponse.tenure}} months</label>
+                        </div>
+                        <div class="col-md-2" style="text-align: right;">
+                            <label class="label-lite" >Other Charges</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">:₹ {{LoanAccountDetailResponse.othercharges}}</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mt-2">
+                        <div class="col-md-2">
+                            <label class="label-lite">Broken Period Interest Amount</label>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="label-dark">:₹ {{LoanAccountDetailResponse.broken_period_int_amt !=null ? LoanAccountDetailResponse.broken_period_int_amt :0}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-3 center-all">
+        <div class="col-2" *ngFor="let cardData of topFiveTranx">
+            <div [ngClass]="cardData.status == 'Paid'? 'card-outter-green' : 'card-outter-yellow'">
+                <div class="row m-1">
+                    <div class="inner-card" style="margin-top: 2px;">
+                        <div class="col-12 p-3">
+                            <label class="label-dark">{{cardData.orderNo}}<span *ngIf="cardData.invoiceNo">/</span> {{cardData.invoiceNo}}</label> <br>
+                            <label class="label-lite">{{cardData.invoiceDate != '1900-01-01T00:00:00'? (cardData.invoiceDate | date :
+                                'dd/MM/yyyy'):'-'}}</label>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 p-1 text-center">
+                        <label class="label-dark" style="color: white !important;">{{cardData.status}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 shadow text-center">
+        <p-table [value]="transactionList"  [paginator]="true" 
+        [rows]="10" [totalRecords]="totalrecord">
+            <ng-template pTemplate="header">
+                <tr>
+                <th>EMI No.</th>
+                <th>Due Date</th>
+                <th>Emi Amount</th>
+                <th>Principal</th>
+                <th>Interest Amount</th>
+                <th>Principal <br> Balance</th>
+                <!-- <th>Principal <br>Outstanding</th> -->
+                <!-- <th>Repay ScheduleId</th> -->
+        
+                
+              
+                <!-- <th>Details</th> -->
+                </tr>
+        
+            </ng-template>
+            <ng-template pTemplate="body" let-transaction let-i="rowIndex" >
+                <tr>
+                    <td>{{i+1}} </td>
+                    <td>{{transaction.due_date | date}}</td>
+                    <td [ngSwitch]="(LoanAccountDetailResponse.broken_period_int_amt != 0 && LoanAccountDetailResponse.broken_period_int_amt != null) && i === 0">
+                        <span *ngSwitchCase="true">{{ transaction.emi_amount | number: '0.2-2' }} *</span>
+                        <span *ngSwitchDefault>{{ transaction.emi_amount | number: '0.2-2' }}</span>
+                    </td>
+                    <td>{{transaction.prin  | number: '0.2-2'}}</td>
+                    <td [ngSwitch]="(LoanAccountDetailResponse.broken_period_int_amt != 0 && LoanAccountDetailResponse.broken_period_int_amt != null) && i === 0">
+                        <span *ngSwitchCase="true">{{ transaction.int_amount | number: '0.2-2' }} *</span>
+                        <span *ngSwitchDefault>{{ transaction.int_amount | number: '0.2-2' }}</span>
+                    </td>
+                    <td>{{transaction.principal_bal}}</td>
+                    <!-- <td>{{transaction.principal_outstanding}}</td> -->
+                    <!-- <td>{{transaction.repay_schedule_id}}</td> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" class="text-center">
+                <tr>
+                  <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                </tr>
+              </ng-template>
+        </p-table>
+    </div>
+</div>
+
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

@@ -1,0 +1,56 @@
+<!-- <h3 class="mt-5" style="font-weight: 600;">Add Country</h3> -->
+<div class="container-fluid">
+<div class="row">
+  <div class="col-md-9">
+      <h3 class="heading">Add Country</h3>
+  </div>
+</div>
+
+<p-card >
+    <form [formGroup]="countryForm" (ngSubmit)="onClickSaveBtn()">
+        <div class="row mr">
+            <div class="col-md-6">
+                <label class="mt-1">Name</label>
+                <input type="text" id="cname" class="form-control col-10" name="cname" formControlName="CountryName" autocomplete="off"
+                    placeholder="Enter Country Name" required="1" maxlength="50" minlength="2" (keydown)="space($event)" (keypress)="omit_special_char($event)"
+                    [ngClass]="{ 'is-invalid': submitted && this.countryForm.controls['CountryName'].errors }" />
+                <div *ngIf="submitted && this.countryForm.controls['CountryName'].errors" class="invalid-feedback">
+                    <!-- <div *ngIf="this.countryForm.controls['CountryName'].errors && this.countryForm.controls['CountryName'].errors.required">Name is required</div> -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="mt-1">Currency Code</label>
+                <input type="text" id="Cccode" class="form-control col-10" name="Cccode" formControlName="CurrencyCode"
+                    placeholder="Enter Currency Code" required="1" maxlength="3" minlength="3" (keydown)="space($event)" (keypress)="onKeyPress($event)"
+                    [ngClass]="{ 'is-invalid': submitted && this.countryForm.controls['CurrencyCode'].errors }" />
+                <div *ngIf="submitted && this.countryForm.controls['CurrencyCode'].errors" class="invalid-feedback">
+                    <!-- <div *ngIf="this.countryForm.controls['CurrencyCode'].errors.required">Currency Code is required</div> -->
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label class="mt-1">Country Code</label>
+                <input type="text" id="Ccode" class="form-control" name="Ccode" formControlName="CountryCode"
+                    placeholder="Enter Country Code" required="1" maxlength="8" minlength="2" (keydown)="space($event)"
+                    [ngClass]="{ 'is-invalid': submitted && this.countryForm.controls['CountryCode'].errors }" />
+                <div *ngIf="submitted && this.countryForm.controls['CountryCode'].errors" class="invalid-feedback">
+                    <!-- <div *ngIf="this.countryForm.controls['CountryCode'].errors.required">Country Code is required</div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9"></div>
+            <div class="col-md-3 justify-content-end">
+                <button type="button" class="btn btn-darkBlue" (click)="onClickSaveBtn()"><i class="fa fa-right"></i>&nbsp;Save</button>
+                <button type="button" class="btn btn-secondary" (click)="onClickBackBtn()" style="margin-left: 5px;"><i class="fa fa-right"></i>&nbsp;Back</button>
+
+            </div>
+        </div>
+
+    </form>
+</p-card>
+</div>
+
+<p-toast position="top-right" appendTo="body"></p-toast>
+<div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>

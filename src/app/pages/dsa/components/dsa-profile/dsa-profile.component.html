@@ -1,0 +1,1683 @@
+<div class="container-fluid">
+
+    <div class="row mt-3">
+
+        <!-- Business docs and details starts -->
+        <div class="col-6">
+
+            <div class="row m-1 my-2" *ngIf="dsaProfileInfo=='DSA'">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Business Details</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.DSAPersonalInfo == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.DSAPersonalInfo == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-1 pointer" *ngIf="status!='Deleted'"
+                        appMode="edit"  (click)="changeStatus('DSAPersonalInfo', activityApprovalStatus.DSAPersonalInfo)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Business Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.companyName}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Firm Type</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.firmType}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Gst Number</label>
+                                <label
+                                    class="label-dark">{{this.dsaBusinessDetail.gstNumber?this.dsaBusinessDetail.gstNumber:'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Gst Status</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.gstStatus}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Mobile No</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.mobileNo}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Alternate Contact No.</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.alternatePhoneNo}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Email ID</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.emailId }}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Languages Known</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.languagesKnown }}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Qualification</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.qualification}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Current Employment Years</label>
+                                <label
+                                    class="label-dark">{{this.dsaBusinessDetail.noOfYearsInCurrentEmployment}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">State</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.state}}</label>
+                            </div>
+                           
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">City</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.city}}</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite " style="white-space: nowrap;">Currently Working With Other
+                                    Party</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.workingWithOther }}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">present Occupation</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.presentOccupation}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Working Location</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.workingLocation}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Reference Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.referenceName}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Refernece Contact</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.referneceContact}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row m-1 my-2" *ngIf="dsaProfileInfo=='Connector'">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Business Details</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.BusinessInfo == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.BusinessInfo == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-1 pointer" *ngIf="status!='Deleted'"
+                        appMode="edit"  (click)="changeStatus('DSAPersonalInfo', activityApprovalStatus.DSAPersonalInfo)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+
+                    <!-- <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Full Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.fullName}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Father Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.fatherName}}</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Email</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.emailId}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Mobile No.</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.mobileNo}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Father Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.fatherName}}</label>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row mt-2">
+
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Alternate Contact No.</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.alternateContactNo}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Languages Known</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.languagesKnown}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Dob</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.dob}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Age</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.age}}</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row mt-2">
+
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Present Employment</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.presentEmployment}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite" style="white-space:nowrap ;">Working With Other Party</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.workingWithOther}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-2">
+
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Reference Name</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.referenceName}}</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Refernece Contact</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.referneceContact}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2"> -->
+                    <!-- <div class="col-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Refernece Location</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.referneceLocation}}</label>
+                            </div>
+                        </div> -->
+
+                    <!-- </div> -->
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Address</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.address}}</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">Working Location</label>
+                                <label class="label-dark">{{this.dsaBusinessDetail.workingLocation}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>Business Address</b>
+
+                    <div class="row my-2">
+                        <div class="col-10 label-lite"
+                            *ngIf="this.businessDetail && this.businessDetail.CurrentAddress">
+                            {{this.businessDetail.CurrentAddress.addressLineOne}},{{this.businessDetail.CurrentAddress.addressLineTwo}},{{this.businessDetail.CurrentAddress.addressLineThree}},{{this.businessDetail.CurrentAddress.cityName}},{{this.businessDetail.CurrentAddress.zipCode}}
+                        </div>
+                        <div class="col-2 text-right pointer" *ngIf="this.businessDetail.CurrentAddress.id">
+                            <img src="../../../../../assets/theme/icons/edit.svg" style="float: right;"
+                                (click)="updateAddressDetailsPopup('BuisnessDetail')">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="label-dark">State:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.stateName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark">City:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.cityName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark">Pin:</label> &nbsp;
+                            <label class="label-lite">{{this.businessDetail.CurrentAddress.zipCode}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Business Address</b>
+                    <div class="row my-2">
+                        <div class="col-10 label-lite">
+                            {{this.dsaBusinessDetail.address}},{{this.dsaBusinessDetail.city}},{{this.dsaBusinessDetail.pinCode}}
+                        </div>
+                        <div class="col-2 text-right" *ngIf="this.personalDetail.CurrentAddress.id">
+                            <img src="../../../../../assets/theme/icons/edit.svg" style="float: right;"
+                            appMode="edit"   (click)="updateAddressDetailsPopup('PersonalDetail')">
+                        </div>
+
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <label class="label-dark ">State:</label> &nbsp;
+                            <label class="label-lite">{{this.dsaBusinessDetail.state}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">City:</label>&nbsp;<label
+                                class="label-lite">{{this.dsaBusinessDetail.city}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">Pin/zipcode:</label>&nbsp;<label
+                                class="label-lite">{{this.dsaBusinessDetail.pinCode}}</label>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="btn btnb btn-blue" style="width: max-content;">Current Personal
+                                Details</label>
+                        </div>
+
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>Profile Type</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.DSATypeSelection == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.DSATypeSelection == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-1 pointer" *ngIf="status!='Deleted'"
+                        appMode="edit"  (click)="changeStatus('DSATypeSelection', activityApprovalStatus.DSATypeSelection)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+                    <div class="row mt-2 p-2">
+                        <!-- dsaProfileInfocheck - {{dsaProfileInfocheck | json}} -->
+                        <div class="col-md-6">
+                            <p-checkbox label="DSA" name="dsaProfileInfocheck" name="groupname"
+                                [(ngModel)]="dsaProfileInfocheck" value="DSA" [disabled]="true">
+                            </p-checkbox>
+                        </div>
+                        <div class="col-md-6">
+                            <p-checkbox label="Connector" name="dsaProfileInfocheck" name="groupname"
+                                [(ngModel)]="dsaProfileInfocheck" value="Connector" [disabled]="true">
+                            </p-checkbox>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Documents</b>
+                    <!-- <div class="row mt-3">
+                       
+                        <h6>  Bank Statement</h6>
+                    </div> -->
+
+                    <div>
+                        <!-- {{items| json}} -->
+
+                        <div class="row my-2 d-flex justify-content-center align-items-center"
+                            *ngFor="let items of allDocs;">
+                            <!-- {{items.documentName}} -->
+                            <!-- <div class="col-3">
+                                <label class="label-lite">
+                                    {{items.documentName}}
+                                </label> <br>
+    
+                                <label class="label-dark" *ngIf="items.pdfPassword">
+                                    <i>File Password:</i> {{items.pdfPassword}}
+                                </label>
+                            </div> -->
+                            <div class="col-md-9">
+                                <label *ngIf="items.fileUrl" class="label-lite">
+                                    {{items.documentName}} :-
+                                </label> <br>
+                                <label class="label-dark" *ngIf="items.pdfPassword">
+                                    <i>File Password:</i> {{items.pdfPassword}}
+                                </label>
+                            </div>
+                            <div class="col-1">
+                                <div class="p-img">
+                                    <img *ngIf="items.fileUrl.length>0" class="pointer pdf-icon float: right"
+                                    appMode="edit"   (click)="showMultiImages(items.fileUrl)"
+                                        src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- multi image  show /download panel  -->
+            <p-dialog [(visible)]="showMultiImage" [draggable]="false" appendTo="body" [modal]="true"
+                [style]="{ 'width': '55vw', 'height': 'auto' }">
+                <div class="row" *ngFor="let items of showMultiImgList">
+                    <div class="col-md-12" style="text-align: justify;">
+                        <img class="imgShow" src="{{items.logo?items.logo:items.url}}" />
+                        <button class="btn btn-primary" style="margin-left: 16px;"
+                        appMode="edit"  (click)="downloadImage(items.url)">Download</button>
+                    </div>
+                </div>
+            </p-dialog>
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>Documents Upload</b>
+
+                    <div *ngIf="!IsOfferGeneratedFlag">
+                        <div class="row my-3">
+    
+                            <div class="col-6">
+                                <p-dropdown [options]="uploadDocumentList" [(ngModel)]="selectedDocumentName"
+                                    optionLabel="label" placeholder="Select upload Document" [style]="{'width':'100%'}"
+                                    (onChange)="onDocumentChange($event)"></p-dropdown>
+                            </div>
+                            <div class="col-6">
+                                <input #myInput2 type="file" accept="application/pdf,image/png, image/jpeg"
+                                    (change)="documentUpload($event, 'DocumentURL',this.myInputVariable2)"
+                                    style="height: 32px !important; margin-top: 8px;" id="DocumentURL"
+                                    class="form-control back" name="DocumentURL" />
+                            </div>
+                        </div>
+    
+                        <div class="row my-3">
+                            <div class="col-6" *ngIf="uploadDocument.DocumentName == 'Statement'">
+                                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                                    placeholder="Enter Pdf Password" [(ngModel)]="uploadDocument.PdfPassword"
+                                    minlength="11">
+                            </div>
+    
+    
+                        </div>
+                        <div class="row my-3">
+                            <div class="col">
+    
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btnbb btn-darkBlue" (click)="onUploadDocument()">Save Document</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="IsOfferGeneratedFlag">
+                        <code style="color: red;">Offer Generated So Documents Can not be Uploaded </code>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>Banking</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.BankDetail == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.BankDetail == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-md-1 pointer" *ngIf="status!='Deleted'"
+                        appMode="edit"  (click)="changeStatus('Bank Detail', activityApprovalStatus.BankDetail)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+                    <div *ngFor="let bankDetails of bankDetail; index as i">
+
+                        <div class="row my-1" *ngIf="bankDetails.Type">
+                            <!-- <label class="label-ddark">Bank Info {{i+1}} </label> -->
+                            <!-- <h6 class="mt-2">{{bankDetails.Type == "borrower" ? "Borrower Bank Detail" :
+                                bankDetails.Type == "beneficiary" ? 'E-Nach Bank Detail' : '' }}</h6> -->
+                            <!-- <h6 class="mt-2" *ngIf="bankDetails.isEnach">E-NACH Bank</h6> -->
+                            <!-- <h6 class="mt-2">Bank Details</h6> -->
+                            <b><label class="label-dark">Bank Details</label></b>
+                            <div class="col-md-6">
+                                <label
+                                    class="label-lite">{{bankDetails.Bankname?bankDetails.Bankname:'BankName'}}:</label>
+                                &nbsp;
+                                <label class="label-data">{{bankDetails.AccountNumber}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="label-lite">IFSC:</label>
+                                &nbsp;
+                                <label class="label-data">{{bankDetails.IFSCCode}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="label-lite">Account Holder Name:</label>
+                                &nbsp;
+                                <label class="label-data">{{bankDetails.Accountholdername}}</label>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="label-lite">AccType:</label>
+                                &nbsp;
+                                <label class="label-data">{{bankDetails.AccountType}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="row my-1">
+                                <div class="col-6">
+                                    <label
+                                        class="label-lite">{{bankDetails.borroBankName?bankDetails.borroBankName:'BankName'}}:</label>
+                                    &nbsp;
+                                    <label class="label-dark">{{bankDetails.borroBankAccNum}}</label>
+                                </div>
+                                <div class="col-6">
+                                    <label class="label-lite">IFSC:</label>
+                                    &nbsp;
+                                    <label class="label-dark">{{bankDetails.borroBankIFSC}}</label>
+                                </div>
+                                <div class="col-6">
+                                    <label class="label-lite">Account Holder Name:</label>
+                                    &nbsp;
+                                    <label class="label-dark">{{bankDetails.borroBankAccountholdername}}</label>
+                                </div>
+                                <div class="col-6">
+                                    <label class="label-lite">AccType:</label>
+                                    &nbsp;
+                                    <label class="label-dark">{{bankDetails.accType}}</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="btn btnb btn-blue" style="width: max-content;">{{bankDetails.accType}}
+                                        Account</label>
+                                </div>
+                            </div> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Photos</b>&nbsp;
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <!-- <div class="col-md-5 d-flex justify-content-end" *ngIf="!IsOfferGeneratedFlag">
+                            <button *ngIf="masterStatusCheck.selfieApproveStatus" class="btn btn-blue" 
+                                (click)="changeActivity(1)" [disabled]="!userTypeRole">Approve
+                            </button>
+
+                            <button *ngIf="masterStatusCheck.selfieRejectStatus" class="btn btn-danger" style="float: right;"
+                                (click)="changeActivity(2)" [disabled]="!userTypeRole">Reject
+                            </button>
+                        </div> -->
+                        <div class="col-1" *ngIf="!IsOfferGeneratedFlag"
+                        appMode="edit"   (click)="changeStatus('Selfie', activityApprovalStatus.Selfie)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+
+                        <div class="col-3">
+                            <label class="label-lite">Selfie :</label>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="p-img">
+                                <img class="shadow pointer" *ngIf="this.selfieDetail.frontImageUrl"
+                                    src="{{this.selfieDetail.frontImageUrl}}" height="200px" width="200px"
+                                    appMode="edit"   style="border-radius: 10px;" (click)="showImages(this.selfieDetail.frontImageUrl);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Purchase Invoices</b>
+                </div>
+            </div> -->
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>Payout</b>
+                            &nbsp;
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-md-7"></div>
+                        <div class="col-md-5">
+                            <button class="btn btn-darkBlue " [disabled]=" (leadData.status!='Submitted')"
+                            appMode="edit"  (click)="addProductPayout()">Add Product</button>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngFor="let row of dsaMultiplePayout; let i = index">
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <p-dropdown [options]="copiedProductList" 
+                                    placeholder="--Select product--" optionLabel="name" optionValue="id"
+                                    [(ngModel)]="row.productId"
+                                    [disabled]="row.productId  "></p-dropdown>
+                            </div>
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button class="btn btn-liteBlue" type="button" (click)="addPayoutRows(row.productId)"
+                                appMode="edit" [disabled]="leadData.status!='Submitted'"><i
+                                        class="pi pi-plus-circle"></i> Add</button>
+                            </div>
+                        </div>
+                        <div class="row mt-3 p-2">
+                            <div class="col-md-4" >
+                                <label class="label-lite" style="padding-left: 25px;">Min Disbursement Amount</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="label-lite" style="padding-left: 25px;">Max Disbursement Amount</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-lite"  style="padding-left: 25px;">Payout %</label> <br>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row mt-3 p-2" *ngFor="let rows of row.slabs; let it = index"
+                            style="background-color: #effaff;margin-left: 0.25rem !important;">
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" [(ngModel)]="rows.MinAmount"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" [(ngModel)]="rows.MaxAmount"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" [(ngModel)]="rows.payoutPerc"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-1" *ngIf="leadData.status=='Submitted' ">
+                                <i class="pi pi-minus-circle" style="margin-top: 15px !important;"
+                                appMode="edit"   (click)="removeDsaPayoutRows(it,row.productId)"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3" *ngIf="payoutRows && payoutRows.length>0">
+                        <div class="col-md-4">
+                            <label class="label-lite" style="white-space: nowrap;">Product</label>
+                            <p-dropdown [options]="productList" [style]="{ 'width': '103%'}"
+                                placeholder="--Select product--" optionLabel="name" optionValue="id"
+                                [(ngModel)]="DsaProductId" [disabled]=" (leadData.status!='Submitted')"></p-dropdown>
+
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 mt-2">
+                            <button class="btn btn-liteBlue" type="button" (click)="addPayoutRows()"
+                            appMode="edit"   [disabled]="leadData.status!='Submitted'"><i class="pi pi-plus-circle"></i> Add</button>
+                        </div>
+                    </div>
+                    <div class="row p-2" *ngIf="payoutRows && payoutRows.length>0">
+                            <div class="col-md-4">
+                                <label class="label-lite" style="padding-left: 25px;">Min Disbursement Amount</label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="label-lite" style="padding-left: 25px;">Max Disbursement Amount</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-lite" style="padding-left: 25px;">Payout %</label> <br>
+                            </div>
+                    </div>
+                    <div class="row mt-1" *ngFor="let row of payoutRows; let i = index" style="background-color: #effaff;margin-left: 0.25rem !important;">
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" [(ngModel)]="row.MinAmount"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-4">
+                                <input type="number" class="form-control" [(ngModel)]="row.MaxAmount"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" class="form-control" [(ngModel)]="row.payoutPerc"
+                                    (keypress)="omit_special_char($event)" (keypress)="keyPressAmount($event)"
+                                    [disabled]=" (leadData.status!='Submitted')" />
+                            </div>
+                            <div class="col-md-1" *ngIf="leadData.status=='Submitted' ">
+                                <i class="pi pi-minus-circle" style="margin-top: 15px !important;"
+                                appMode="edit"   (click)="removePayoutRows(i)"></i>
+                            </div>
+                    </div>
+
+
+
+                    <div class="row mt-5"
+                        *ngIf="(payoutRows && payoutRows.length>0) || (dsaMultiplePayout && dsaMultiplePayout.length>0) ">
+
+                        <div class="col-md-4">
+                            <!-- <button class="btn btn-blue" style="width: 100%;white-space: nowrap;" type="button"
+                                (click)="addPayoutRows()" [disabled]="leadData.status!='Submitted'" >Add Row</button> -->
+                        </div>
+                        <!-- <div class="col-md-1"></div>
+                         [disabled]="(leadData.status!='Submitted')" -->
+                        <div class="col-md-2">
+                            <button class="btn btn-darkBlue " (click)="SaveDSAPayouts()"
+                            appMode="edit"    [disabled]="leadData.status!='Submitted'">Save</button>
+
+                        </div>
+                        <div class="col-md-5">
+                            <button class="btn btn-darkBlue" [disabled]=" (leadData.status!='Submitted')"
+                            appMode="edit"  style="width: 100% !important;white-space: nowrap;" (click)="PrepareAggr()">Prepare
+                                Agreement</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2" *ngIf="isDsaAgreement">
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <b>Prepared Agreement</b>
+                            &nbsp;
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-2" *ngIf="preparedAgg.docSignedUrl">
+                            <label class="label-lite mt-3">Doc Signed &nbsp;</label>
+                            <img class="pointer pdf-icon float: right" src="./../../../../../assets/theme/icons/PDF.svg"
+                            appMode="edit"    height="50px" width="50px" (click)="showImages(preparedAgg.docSignedUrl)">
+                            <!-- <label class="label-blue">: {{preparedAgg.docSignedUrl}}  </label>  -->
+
+                        </div>
+                        <div class="col-md-12 mt-2" *ngIf="preparedAgg.docUnSignedUrl">
+                            <label class="label-lite mt-3">Doc UnSigned &nbsp;</label>
+                            <!-- <label class="label-blue" >: {{preparedAgg.docUnSignedUrl}}  </label>  -->
+
+                            <img class="pointer pdf-icon float: right" src="./../../../../../assets/theme/icons/PDF.svg"
+                            appMode="edit"   height="50px" width="50px" (click)="showImages(preparedAgg.docUnSignedUrl)">
+                            <!-- <input type="text" [(ngModel)]="preparedAgg.docUnSignedUrl" disabled class="form-control"> -->
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="label-lite" style="text-align: left;">Started On &nbsp;</label>
+                            <label class="label-blue">: {{preparedAgg.startedOn|date}} </label>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="label-lite" style="text-align: left;">Expired On &nbsp; </label>
+                            <label class="label-blue">: {{preparedAgg.expiredOn|date}} </label>
+                        </div>
+                        <div class="col-md-4 mt-2">
+                            <label class="label-lite" style="text-align: left;">Status &nbsp; </label>
+                            <label class="label-blue">: {{preparedAgg.status}} </label>
+                        </div>
+
+                        <div class="col-md-12 mt-2" *ngIf="preparedAgg.eSignedUrl">
+                            <label class="label-lite mt-2">E Signed &nbsp;</label>
+                            <!-- <img class="pointer pdf-icon float: right"
+                            src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                            (click)="showImages(preparedAgg.eSignedUrl)"> -->
+                            <!-- <label class="label-blue">: {{preparedAgg.eSignedUrl}} </label> -->
+                            <a href="{{preparedAgg.eSignedUrl}}" target="_blank"><label
+                                    class="label-blue">{{preparedAgg.eSignedUrl}}</label></a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Photos</b>&nbsp;
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.Selfie == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-1 pointer" *ngIf="!IsOfferGeneratedFlag"
+                            (click)="changeStatus('Selfie', activityApprovalStatus.Selfie)">
+                            <i class="pi pi-ellipsis-v pi-size"></i>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-3">
+                            <label class="label-lite">Selfie :</label>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="p-img">
+                                <img class="shadow pointer" *ngIf="this.selfieDetail.frontImageUrl"
+                                    src="{{this.selfieDetail.frontImageUrl}}" height="200px" width="200px"
+                                    style="border-radius: 10px;" (click)="showImages(this.selfieDetail.frontImageUrl);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+        </div>
+        <!-- Business docs and details ends -->
+
+        <!-- personal docs and details starts -->
+        <div class="col-6">
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <div class="row">
+                        <div class="col">
+                            <b>Sourcing Partner Details</b>
+                            &nbsp;
+                            <span *ngIf="activityApprovalStatus.PersonalInfo == 'Accepted'">
+                                <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                            </span>
+                            <span *ngIf="activityApprovalStatus.PersonalInfo == 'Rejected'">
+                                <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                            </span>
+                        </div>
+                        <div class="col-1 pointer">
+                            <!-- (click)="changeStatus('PersonalInfo', activityApprovalStatus.PersonalInfo)" -->
+                            <!-- <i class="pi pi-ellipsis-v pi-size"></i> -->
+                        </div>
+                        <label class="label-lite mt-2 mb-2">Full Name(As per Aadhaar)</label>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 my-2">
+                            <!-- <div class="card shadow p-3">
+                                <label class="label-lite">First Name</label>
+                                <label class="label-dark">{{this.borrowerDetail.firstName? this.borrowerDetail.firstName
+                                    : '-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Middle Name</label>
+                                <label
+                                    class="label-dark">{{this.borrowerDetail.middleName?this.borrowerDetail.middleName:'-'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Last Name</label>
+                                <label class="label-dark">{{this.borrowerDetail.lastName ? this.borrowerDetail.lastName
+                                    : '-'}}</label>
+                            </div> -->
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Full Name</label>
+                                <label
+                                    class="label-dark">{{this.dsaBusinessDetail.fullName?this.dsaBusinessDetail.fullName
+                                    : '-'}}</label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite ">DOB</label>
+                                <label class="label-dark">{{this.borrowerDetail.dob | date: 'dd/MM/yyyy'}}</label>
+                            </div>
+                        </div>
+                        <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Gender</label>
+                                <!-- <label class="label-dark">{{this.borrowerDetail.gender?this.borrowerDetail.gender=='M'?'Male':'Female':'-'}}</label> -->
+                                <label class="label-dark">
+                                    {{dsaBusinessDetail.gender?(dsaBusinessDetail.gender=='M'
+                                    || dsaBusinessDetail.gender=='Male')?'Male':'Female':'-'}}</label>
+                            </div>
+                        </div>
+                        <!-- <div class="col-4 my-2">
+                            <div class="card shadow p-3">
+                                <label class="label-lite">Designation</label>
+                                <label class="label-dark">-</label>
+                            </div>
+                        </div> -->
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Father/Spouse</b>
+
+                    <div class="row my-2">
+                        <div class="col-6">
+                            <label class="label-dark">{{this.panDetail.fatherName}}</label>
+                        </div>
+                        <div class="col-6">
+                            <label class="label-lite right">Father</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+
+                    <b>KYC Documents</b>
+
+                    <div class="row mt-2 p-2">
+
+                        <div class="col">
+                            <div class="row">
+                                <label class="label-lite">PAN
+                                    &nbsp;
+                                    <span *ngIf="activityApprovalStatus.Pan == 'Accepted'">
+                                        <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                                    </span>
+                                    <span *ngIf="activityApprovalStatus.Pan == 'Rejected'">
+                                        <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="label-dark">{{panDetail.uniqueId}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="p-img">
+                                <img class="shadow pointer" *ngIf="this.panDetail.frontImageUrl"
+                                    src="{{this.panDetail.frontImageUrl}}" height="50px" width="100px"
+                                    appMode="edit"   style="border-radius: 4px;" (click)="showImages(this.panDetail.frontImageUrl)">
+                            </div>
+                        </div>
+
+                        <div class="col-1 pointer" *ngIf="!IsOfferGeneratedFlag && status!='Deleted'"
+                        appMode="edit"   (click)="changeStatus('Pan', activityApprovalStatus.Pan)">
+                            <i class="pi pi-ellipsis-v pi-size mt-3"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2 p-2">
+
+                        <div class="col">
+                            <div class="row">
+                                <label class="label-lite">Aadhar
+                                    &nbsp;
+                                    <span *ngIf="activityApprovalStatus.Aadhar == 'Accepted'">
+                                        <i class="pi pi-check" aria-hidden="true" style="color: green;"></i>
+                                    </span>
+                                    <span *ngIf="activityApprovalStatus.Aadhar == 'Rejected'">
+                                        <i class="pi pi-times" aria-hidden="true" style="color: red;"></i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="row">
+                                <label class="label-dark">{{aadharDetail.maskedAadhaarNumber}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="p-img">
+                                        <img *ngIf="this.aadharDetail.frontImageUrl" class="shadow pointer"
+                                            style="border-radius: 4px;" src="{{this.aadharDetail.frontImageUrl}}"
+                                            height="50px" width="100px"
+                                            appMode="edit"  (click)="showImages(this.aadharDetail.frontImageUrl)">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-img">
+                                        <img *ngIf="this.aadharDetail.backImageUrl" class="shadow pointer"
+                                            style="border-radius: 4px;" src="{{this.aadharDetail.backImageUrl}}"
+                                            height="50px" width="100px"
+                                            appMode="edit"   (click)="showImages(this.aadharDetail.backImageUrl)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-1 pointer" *ngIf="!IsOfferGeneratedFlag && status!='Deleted'"
+                        appMode="edit"   (click)="changeStatus('Aadhar', activityApprovalStatus.Aadhar)">
+                            <i class="pi pi-ellipsis-v pi-size mt-3"></i>
+                        </div>
+
+
+                    </div>
+
+                    <!-- <div class="row mt-2 p-2">
+                        <div class="col-9">
+                            <div class="row">
+                                <label class="label-lite">Electricity</label>
+                            </div>
+
+                            <div class="row">
+                                <label class="label-dark">-</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="p-img pointer">
+                                <img *ngIf="this.personalDetail.ElectricityBillImage" style="border-radius: 4px;"
+                                    class="shadow" src="{{this.personalDetail.ElectricityBillImage}}" height="50px"
+                                    width="100px" (click)="showImages(this.personalDetail.ElectricityBillImage)">
+                                <img class="pointer pdf-icon float: right"
+                                    *ngIf="this.personalDetail.ElectricityBillImage"
+                                    src="./../../../../../assets/theme/icons/PDF.svg" height="50px" width="50px"
+                                    (click)="showImages(this.personalDetail.ElectricityBillImage)">
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+
+            <div class="row my-2">
+                <div class="col-6">
+                    <div class="card p-3">
+                        <b style="margin-left: 10px;">PAN</b>
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <div class="card shadow p-3">
+                                    <label class="label-lite">Number</label>
+                                    <label class="label-dark">{{this.panDetail.uniqueId}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="card p-3">
+                        <b style="margin-left: 10px;">Aadhaar</b>
+                        <div class="row my-2">
+                            <div class="col-12">
+                                <div class="card shadow p-3">
+                                    <label class="label-lite ">Number</label>
+                                    <label class="label-dark">{{this.aadharDetail.maskedAadhaarNumber}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>KYC Details</b>
+                    <div class="row my-2">
+
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Person PAN Parsed Data</label></b>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Date:</label>
+                                    <label class="right label-data p-2">{{panDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Father:</label>
+                                    <label class="right label-data p-2">{{panDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Name:</label>
+                                    <label class="right label-data p-2">{{panDetail.nameOnCard}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Panno:</label>
+                                    <label class="right label-data p-2">{{panDetail.uniqueId}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-6">
+
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Aadhar Parsed Data</label></b>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row" class="alterColor">
+                                <div class="col-12 p-2">
+                                    <label class="label-lite">BankName:</label>
+                                    <label class="right label-dark">AccNo</label>
+                                </div>
+                            </div> -->
+
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="label-lite p-2">Address:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label
+                                                class="right label-data p-2">{{aadharDetail.locationAddress.addressLineOne}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Father:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Pin:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.pinCode}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Aadhar:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.maskedAadhaarNumber}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">DOB:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Gender:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.gender?aadharDetail.gender
+                                        == 'M'?'Male':'Female':''}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Name:</label>
+                                    <label class="right label-data p-2">{{aadharDetail.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>KYC Details</b>
+                    <div class="row my-2">
+
+                        <div class="col-6">
+                            <div class="row">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Person PAN Parsed Data</label></b>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite  p-2">Date:</label>
+                                    <label class="right label-dark  p-2">{{panDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite  p-2">Father:</label>
+                                    <label class="right label-dark p-2">{{panDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite  p-2">Name:</label>
+                                    <label class="right label-dark p-2">{{panDetail.nameOnCard}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Panno:</label>
+                                    <label class="right label-dark p-2">{{panDetail.uniqueId}}</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-6">
+
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <b><label class="label-dark">Aadhar Parsed Data</label></b>
+                                </div>
+                            </div>
+
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="label-lite p-2">Address:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label
+                                                class="right label-dark p-2">{{aadharDetail.locationAddress.addressLineOne}}</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Father:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.fatherName}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Pin:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.pinCode}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Aadhar:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.maskedAadhaarNumber}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">DOB:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.dob| date:
+                                        'dd/MM/yyyy'}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor2">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Gender:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.gender?aadharDetail.gender
+                                        == 'M'?'Male':'Female':''}}</label>
+                                </div>
+                            </div>
+                            <div class="row" class="alterColor">
+                                <div class="col-12">
+                                    <label class="label-lite p-2">Name:</label>
+                                    <label class="right label-dark p-2">{{aadharDetail.name}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+
+
+            <div class="row m-1 my-2">
+                <div class="card p-3">
+                    <b>Personal Address</b>
+                    <div class="row my-2">
+                        <div class="col-10 label-lite">
+                            {{this.aadharDetail.combinedAddress}},{{this.aadharDetail.cityName}},{{this.aadharDetail.pinCode}}
+                        </div>
+                        <div class="col-2 text-right" *ngIf="this.personalDetail.CurrentAddress.id">
+                            <img src="../../../../../assets/theme/icons/edit.svg" style="float: right;"
+                            appMode="edit"   (click)="updateAddressDetailsPopup('PersonalDetail')">
+                        </div>
+
+                    </div>
+
+                    <div class="row my-2">
+                        <div class="col-4">
+                            <label class="label-dark ">State:</label> &nbsp;
+                            <label class="label-lite">{{this.aadharDetail.state}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">City:</label>&nbsp;<label
+                                class="label-lite">{{this.aadharDetail.cityName}}</label>
+                        </div>
+                        <div class="col-4">
+                            <label class="label-dark ">Pin/zipcode:</label>&nbsp;<label
+                                class="label-lite">{{this.aadharDetail.pinCode}}</label>
+                        </div>
+                    </div>
+                    <!-- <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label class="btn btnb btn-blue" style="width: max-content;">Current Personal
+                                Details</label>
+                        </div>
+
+                    </div> -->
+                </div>
+            </div>
+
+
+
+
+        </div>
+        <!-- personal ends and details starts -->
+    </div>
+
+</div>
+
+<div *ngIf="CommentBlock">
+    <p-dialog header="Status" [(visible)]="CommentBlock" [modal]="true" appendTo="body" [closable]="false"
+        [style]="{width: '40vw', overflow: 'auto'}" [draggable]="false" [resizable]="false">
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-12">
+                <div style="margin-top: 1em;">
+                    <label>Comment For Block</label>
+                    <textarea class="col-md-8" rows="1" type="text" placeholder="Comment" class="form-control"
+                        [(ngModel)]="Comment" name="Comment"></textarea>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-12 mt-4">
+                <div style="margin-top: 1em;">
+                    <!-- <button class="btn btn-raised btn-primary" (click)="OnBlock()">Submit <i
+                            class="pi pi-check"></i></button> -->
+                    <!-- <button class="btn btn-raised btn-danger ml-1" (click)="CancelButton()">Cancel <i
+                            class="pi pi-cross"></i></button> -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <input type="radio" [(ngModel)]="this.loanAccount.IsBlockHideLimit" [value]="'HideLimit'">
+                  <label>Hide Limit</label>
+            </div>
+            <div class="col-md-4">
+                <input type="radio" [(ngModel)]="this.loanAccount.IsBlockHideLimit" [value]="'ShowLimit'">
+                  <label>Show Limit</label><br>
+            </div>
+        </div>
+    </p-dialog>
+</div>
+
+
+<!-- image show /download panel  -->
+
+<p-dialog [(visible)]="showImage" [draggable]="false" appendTo="body" [modal]="true"
+    [style]="{ 'width': '55vw', 'height': 'auto' }">
+    <div class="row">
+        <div class="col-md-12" style="text-align: justify;">
+            <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+            <button class="btn btn-primary" style="margin-left: 16px;"
+            appMode="edit"   (click)="downloadImage(showUrl)">Download</button>
+
+        </div>
+    </div>
+    <!-- <br>
+    <div style="justify-content:space-between;">
+    </div> -->
+</p-dialog>
+
+
+
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>
+
+<div *ngIf="this.selectedActionStatus">
+    <p-dialog [(visible)]="isRejectDoc" [draggable]="false" [resizable]="false" [modal]="true" appendTo="body"
+        [style]="{width: '40vw'}">
+
+        <!-- {{this.selectedActionStatus| json}} -->
+        <p-header>Perform an Action</p-header>
+
+        <div class="row">
+            <div class="col">
+                <label class="label-dark"><b>{{this.selectedActionStatus.activity}}</b></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label class="label-lite"><b>Completion Status</b> - </label> <label
+                    [ngStyle]="this.selectedActionStatus.isCompleted ==true?{'color':'green'}:{'color':'red'}"><b>
+                        {{this.selectedActionStatus.isCompleted ==true?"Document Completed": "Document
+                        In-Complete"}}</b></label>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="ui-fluid"
+            *ngIf="checkButtonReject() || checkButtonApprove()">
+            <textarea type="text" id="_commoncomment" name="_commoncomment" class="form-control" [(ngModel)]="Comment"
+                placeholder="Comment here...">
+            </textarea>
+        </div> -->
+
+        <p-footer>
+            <button *ngIf="checkButtonApprove()" class="btn btn-success mt-2 pt-2"
+            appMode="edit"  style="margin-left: .5em; margin-right: .5em;" (click)="changeActivity(1)">Approve
+            </button>
+
+            <button *ngIf="checkButtonReject()" class="btn btn-danger mt-2 pt-2"
+            appMode="edit"   style="margin-left: .5em; margin-right: .5em;" (click)="changeActivity(2)">Reject
+            </button>
+        </p-footer>
+
+    </p-dialog>
+</div>
+
+
+
+<p-dialog [(visible)]="isAddressEditPopup" header="Edit Address" appendTo="body" [modal]="true" [draggable]="false"
+    [style]="{width: '60vw',height:'90vw'}">
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 1</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{updateAddressDetails.updateAddress.addressLineOne}} -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 1" [(ngModel)]="updatedAddress.addressLineOne">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 2</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{updateAddressDetails.updateAddress.addressLineTwo}} -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 2" [(ngModel)]="updatedAddress.addressLineTwo">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Address Line 3</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{updateAddressDetails.updateAddress.addressLineTwo}} -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Address Line 2" [(ngModel)]="updatedAddress.addressLineThree">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Pin Code</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{updateAddressDetails.updateAddress.zipCode}} -->
+                <input type="text" class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter PinCode" [(ngModel)]="updatedAddress.zipCode" (keypress)="decimalFilter($event)"
+                    (keydown)="onKeydown($event)" maxlength="6" minlength="6">
+                <div *ngIf=" (updatedAddress.zipCode.length < 6)">
+                    <code style="color: red;">Pincode length should be 6</code>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">State</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <!-- <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter State Name" [(ngModel)]="updatedAddress.stateName" minlength="11">
+            </div> -->
+            <div class="ml cl">
+                <p-dropdown [options]="stateList" [style]="{ 'width': '103%'}" placeholder="--Select type--"
+                    optionLabel="name" optionValue="id" [(ngModel)]="updatedAddress.stateId"
+                    (onChange)="onchangeState($event)"></p-dropdown>&nbsp;&nbsp;
+                &nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">City</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <!-- <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter City Name" [(ngModel)]="updatedAddress.cityName" minlength="11">
+            </div> -->
+            <div class="ml cl">
+                <p-dropdown [options]="cityList" [style]="{ 'width': '103%'}" placeholder="--Select type--"
+                    optionLabel="name" optionValue="id" [(ngModel)]="updatedAddress.cityId"
+                    (onChange)="onchangeCity($event)"></p-dropdown>&nbsp;&nbsp;
+                &nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Country</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- {{updateAddressDetails.updateAddress.countryName}} -->
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Country Name" [(ngModel)]="updatedAddress.countryName" minlength="11">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-darkBlue" appMode="edit" (click)="updateAddressFn()">Update</button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="isBusinessDetailEditPopup" header="Edit Business Detail" appendTo="body" [modal]="true"
+    [draggable]="false" [style]="{width: '60vw',height:'90vw'}">
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Gst Number</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input type="text" id="GSTNo" class="form-control" name="GSTNo"
+                    [(ngModel)]="editBusinessDetail.GstNumber" placeholder="Enter GST No"
+                    class="form-control label-dark" (input)="checkGstPattern(editBusinessDetail.GstNumber) "
+                    maxlength="15" (keydown)="space($event)" (keypress)="alphaNumberOnly($event)" autocomplete="off"
+                    required #gstInput="ngModel"
+                    pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[A-Z]{1}[0-9A-Z]{1}">
+                <code>Note:- {{this.isGstVerified == true? "Verified" : "Not-Verified"}}</code>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Name</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <input class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter Business Name" [(ngModel)]="editBusinessDetail.businessName"
+                    (keypress)="AlphabetNumberOnly($event)" [disabled]="isGstVerified">
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Type</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <div class="ml cl">
+                    <p-dropdown [options]="buisnesTypeList" [style]="{ 'width': '102%'}"
+                        placeholder="--Select Business type--" optionLabel="label" optionValue="value"
+                        [(ngModel)]="editBusinessDetail.BusinessType"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Business Turn Over</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <p-dropdown [options]="incomeSlabList" [style]="{ 'width': '102%'}" placeholder="--Select Income Slab--"
+                    optionLabel="label" optionValue="value" [(ngModel)]="editBusinessDetail.IncomeSlab"></p-dropdown>
+                <!-- editBusinessDetail.BusinessTurnOver -->
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1 p-2">
+        <div class="col-md-5 col-sm-5 col-12">
+            <div class="ml cp">Incorporation Date</div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-12">
+            <div class="ml cl">
+                <!-- it must be calender -->
+                <!-- <input type="text" class="form-control" style="width: 103%; border-radius: 8px;height: 44px;"
+                    placeholder="Enter PinCode" [(ngModel)]="editBusinessDetail.IncorporationDate" > -->
+                <input [(ngModel)]="editBusinessDetail.IncorporationDate" type="date" [disabled]="isGstVerified"
+                    [style]="{'width':'100%','border-radius':'25%'}" class="form-control" placeholder="Select Date">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mt-1 p-2">
+        <div class="col-md-5">
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-darkBlue" appMode="edit" (click)="updateBusinessDetailFun()">Update</button>
+        </div>
+    </div>
+</p-dialog>

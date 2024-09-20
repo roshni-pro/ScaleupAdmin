@@ -1,0 +1,159 @@
+<div class="card tp common-padding">
+    <div *ngIf="aadharDataDc != null && isComplete">
+        <div class="row">
+            <div class="col-6" style="display: inline-block;">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp"></div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12 text-right">
+                        <div class="ml cl">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Aadhar Card</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">
+                            {{aadharDataDc?.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Aadhar Card</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">
+                            {{aadharDataDc?.maskedAadhaarNumber}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Document Name</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">Aadhar</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-12">
+                        <div class="ml cp">Status</div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12">
+                        <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6" style="display: inline-block;">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- <div class="row"> -->
+                        <div class="col-md-7 col-sm-7 col-12">
+                            <div class="ml cp">Front Image</div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="ml cl">
+                                <div class="p-img">
+                                    <img *ngIf="aadharDataDc?.frontImageUrl" src="{{aadharDataDc?.frontImageUrl}}"
+                                        (click)="show(aadharDataDc.frontImageUrl)" height="100px" width="100px">
+                                    <!-- <img *ngIf="aadharDataDc.frontImageUrl == null" src="../../../../../assets/img/photos/userImage.png" height="100px" width="100px"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                    <div class="col-6">
+                        <!-- <div class="row"> -->
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="ml cp">Back Image</div>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <div class="ml cl">
+                                <div class="p-img">
+                                    <img *ngIf="aadharDataDc?.backImageUrl" src="{{aadharDataDc?.backImageUrl}}"
+                                        (click)="show(aadharDataDc.backImageUrl)" height="100px" width="100px">
+                                    <!-- <img *ngIf="aadharDataDc.backImageUrl == null" src="../../../../../assets/img/photos/userImage.png" height="100px" width="100px"> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div> -->
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- *ngIf="(isVerified && !isBackUpload) || (!isVerified && !isBackUpload)" -->
+        <!-- *ngIf="aadharDataDc?.IsComplete && !isVerified && !isRejected" -->
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <!-- <div class="ml cl" style="float: right;">
+                    <i *ngIf="!isRejected && !IsOfferGeneratedFlag" pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer"
+                        style="font-size:30px;color:red!important;float: right;margin-left: .5em;"
+                        (click)="onRejectDoc()"></i>
+                    <i *ngIf="isComplete && !isVerified && !isRejected" pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer"
+                        style="font-size:30px;color:green!important;float: right;" (click)="onApproved()"></i>
+                </div> -->
+                <div class="ml cl" style="float: right;">
+                    <button *ngIf="isComplete && !isVerified && !isRejected" class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                    <button *ngIf="!isRejected && !IsOfferGeneratedFlag" class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">
+                    <span style="float: right;" *ngIf="isRejected">Completed and Rejected<i
+                            class="pi pi-times fa fa-mouse-pointer" style="color:red;margin-left: 0.5em "></i></span>
+                    <span style="float: right;" *ngIf="isVerified">Approved<i class="pi pi-check fa fa-mouse-pointer"
+                            style="color:green;margin-left: 0.5em "></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- *ngIf="(isVerified && !isFrontUpload) || (!isVerified && !isFrontUpload)" -->
+
+
+    </div>
+    <!-- <div class="no-Txt" *ngIf="aadharDataDc == null || aadharDataDc?.DocumentName == null">* No Record Found</div> -->
+
+</div>
+
+<!-- positionTop="100" -->
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+        <textarea type="text" id="_aadharcomment" name="_aadharcomment" class="form-control" [(ngModel)]="Comment"
+            placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;"
+            (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+<p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '70vw',height:'70vh'}">
+    <div>
+        <img class="imgShow" src="{{showUrl}}" />
+    </div>
+    <br>
+    <div style="justify-content:space-between;">
+        <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+    </div>
+</p-dialog>

@@ -1,0 +1,120 @@
+<div *ngIf="responseData != null " class="col-12 mt-3">
+    <div class="card shadow">
+        <div class="card-content text-center">
+            <p-table [value]="responseData" dataKey="nbfcCompanyId"
+                rowExpandMode="single" expandableRows="true">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 100px;"></th>
+                        <th>Company Name</th>
+                        <th>Offer Status</th>
+                        <th>Credit Limit</th>
+                        <th>Error</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-responseData let-expanded="expanded">
+                    <tr [pSelectableRow]="responseData">
+                        <td style="width: 100px;">
+                            <button type="button" pButton pRipple [pRowToggler]="responseData"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td>{{ responseData.comapanyName }}</td>
+                        <td>{{ responseData.leadOfferStatus }}</td>
+                        <td>{{ responseData.creditLimit }}</td>
+                        <td>{{responseData.leadOfferErrorMessage}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-responseData>
+                    <tr>
+                        <td colspan="4">
+                            <ng-container *ngFor="let subactivity of responseData.subactivityList">
+                                <p-table [value]="[subactivity]" dataKey="subActivityMasterId">
+                                    <!-- <ng-template pTemplate="header">
+                        <tr>
+                            <th>Activitys Name</th>
+                            <th>Subactivity Name</th>
+                            <th>Status</th>
+                        </tr>
+                    </ng-template> -->
+                                    <ng-template pTemplate="body" let-subactivity let-expanded="expanded">
+                    <tr [pSelectableRow]="subactivity">
+                        <td style="width:10%;">
+                            <button type="button" pButton pRipple [pRowToggler]="subactivity"
+                                class="p-button-text p-button-rounded p-button-plain"
+                                [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td style="width:35%; text-align: left;">{{ subactivity.subActivityName }}</td>
+                        <td style="width:35%;">{{ subactivity.status }}</td>
+                        <td >
+                            <button *ngIf="subactivity.status != 'Completed'" class="btn btn-blue" (click)="Retry(responseData)">Retry</button>
+                        </td>
+                        <!-- <td>{{ subactivity.subActivityName }}</td>
+                            <td>{{ subactivity.status }}</td> -->
+                    </tr>
+                </ng-template>
+
+
+                <ng-template pTemplate="rowexpansion" let-subactivity let-i="rowIndex">
+                    <tr>
+                        <td colspan="3">
+                            <ng-container *ngFor="let apiList of subactivity.apiList">
+                                <p-table [value]="[apiList]" dataKey="apiUrl">
+                                    <!-- <ng-template pTemplate="header">
+                                            <tr>
+                                                <th>apiId</th>
+                                                <th>apiStatus</th>
+                                                <th>apiUrl</th>
+                                                <th>code</th>
+                                                <th>sequence</th>
+                                            </tr>
+                                        </ng-template> -->
+                                    <ng-template pTemplate="body" let-apiList>
+                    <tr>
+                        <td style=" width: 35%;">{{ apiList.code }}</td>
+                        <td style=" width: 35%;">{{ apiList.apiStatus }}</td>
+                        <td style=" width: 10%;">
+                            <button class="btn btn-darkBlue" (click)="show(apiList.request)">Request</button>
+                        </td>
+                        <td style=" width: 10%;">
+                            <button class="btn btn-darkBlue" (click)="show(apiList.response)">Response</button>
+                        </td>
+                        <!-- <td style=" width: 10%;">
+                            <button class="btn btn-blue">Retry</button>
+                        </td> -->
+                        <!-- <td>{{ apiList.apiUrl }}</td>
+                                                <td>{{ apiList.code }}</td>
+                                                <td>{{ apiList.sequence }}</td> -->
+                    </tr>
+                </ng-template>
+            </p-table>
+            </ng-container>
+            </td>
+            </tr>
+            </ng-template>
+
+
+
+            </p-table>
+            </ng-container>
+            </td>
+            </tr>
+            </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="showRequest" appendTo="body" [modal]="true" [style]="{width: '100%',height:'100%'}">
+   <br>
+   <div *ngIf="requestResponseMessage">
+    <pre><div *ngIf="typecheck == 'object'">{{requestResponseMessage | json}}</div>
+        <div *ngIf="typecheck == 'string'">{{requestResponseMessage}}</div>
+    </pre>
+</div>
+  </p-dialog>
+
+  <div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif"  alt="Loading..."/>  </div>
+  </div>

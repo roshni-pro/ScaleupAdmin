@@ -1,0 +1,24 @@
+.selfieimg {
+    // width: 100%;
+    // margin: auto;
+    // max-height: 15vh;
+    // display: block;
+    // aspect-ratio: auto;
+    // min-height: 12vh;
+    // border-radius: 40px;
+
+    width: 120px;
+    border-radius: 50%;
+    height: 120px;
+}
+.btnb{
+    // height: 30px !important;
+      font-size: 14px !important;
+    //   border-radius: 7px !important
+  }
+
+  :host ::ng-deep button:not(:disabled) {
+    cursor: pointer;
+    margin-left: 17px !important;
+}
+  

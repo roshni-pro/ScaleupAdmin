@@ -1,0 +1,241 @@
+<div class="card tp common-padding">
+    <div *ngIf="businessDataDc != null && isComplete">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Buisness Name</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.businessName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Buisness Entity Type</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.busEntityType}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">GST No.</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.busGSTNO}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Business Incorporation Date</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.doi | date: 'dd/MM/yyyy'}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Monthly Sales TurnOver</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.incomeSlab}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Inquiry Amount</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.inquiryAmount}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Buisness DocumentNo</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.buisnessDocumentNo}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Buisness Proof</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.buisnessProof}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">buisness Proof document</div>
+            </div>
+            <!-- <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.buisnessProofUrl}}</div>
+            </div> -->
+            <!-- <div class="col-md-7 col-sm-7 col-12">
+                <div class="ml cl">
+                    <div>
+                    </div>
+                    <div class="p-img">
+                        <img *ngIf="businessDataDc?.buisnessProofUrl" src="{{businessDataDc?.buisnessProofUrl}}" height="100px" width="100px" (click)="show(businessDataDc?.buisnessProofUrl)">
+                    </div>
+
+                </div>
+            </div> -->
+
+            <div class="col-md-5 col-sm-3 col-12">
+                <div class="ml cl">
+                    <div>
+                        <div class="p-img" *ngIf="businessDataDc?.buisnessProofUrl != null">
+                            <i class="pi pi-file-pdf" style="font-size:48px;color:blue"
+                                (click)="OpenPdf(businessDataDc?.buisnessProofUrl)"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Surrogate Type</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.surrogateType}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Current Address 1</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.addressLineOne}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Current Address 2</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.addressLineTwo}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Current Address 3</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.addressLineThree}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Pin Code</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.zipCode}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">City</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.cityName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">State</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.stateName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Country</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{businessDataDc?.currentAddress?.countryName}}</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp">Status</div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+                <div class="ml cl">{{isApproved == 1? 'Verified':(isApproved == 2)?'Rejected':'Unverified'}}</div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="isComplete && !isVerified && !isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl" style="float: right;">
+                <i pTooltip="Reject" class="pi pi-times fa fa-mouse-pointer" style="font-size:30px;color:red;float: right;margin-left: .5em;" (click)="onRejectDoc()"></i>
+                <i pTooltip="Approve" class="pi pi-check fa fa-mouse-pointer" style="font-size:30px;color:green;float: right;" (click)="onApproved()"></i>
+            </div> -->
+
+            <div class="ml cl" style="float: right;">
+                <button class="btn btn-success" style="margin-left: .5em; margin-right: .5em;" (click)="onApproved()">Approve</button>&nbsp;
+                <button class="btn btn-danger" style="margin-left: .5em; margin-right: .5em;" (click)="onRejectDoc()">Reject</button>
+            </div>
+        </div>
+        </div>
+        <div class="row" *ngIf="isVerified || isRejected">
+            <div class="col-md-3 col-sm-3 col-12">
+                <div class="ml cp"></div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-12">
+            <!-- <div class="ml cl">
+                <i pTooltip="Rejected" class="pi pi-times fa fa-mouse-pointer" *ngIf="isRejected" style="font-size:30px;color:red;float: right;margin-left: .5em;"></i>
+                <i pTooltip="Approved" class="pi pi-check fa fa-mouse-pointer" *ngIf="isVerified" style="font-size:30px;color:green;float: right;"></i>
+            </div> -->
+            <div class="ml cl">
+              <span  style="float: right;"  *ngIf="isRejected">Completed and Rejected<i  class="pi pi-times fa fa-mouse-pointer"  style="color:red;margin-left: 0.5em "></i></span>
+              <span style="float: right;" *ngIf="isVerified" >Approved<i  class="pi pi-check fa fa-mouse-pointer"  style="color:green;margin-left: 0.5em "></i></span>
+          </div>
+        </div>
+        </div>
+
+    </div>
+</div>
+    <!-- <div class="no-Txt" *ngIf="businessDataDc == null || businessDataDc?.DocumentName == null">* No Record Found</div> -->
+
+<!-- positionTop="100" -->
+<p-dialog [(visible)]="isRejectDoc" [resizable]="false" [modal]="true" appendTo="body"
+[style]="{width: '40vw', height:'38vh'}" (onHide)="cancel()">
+    <p-header>Reason For Reject</p-header>
+    <div class="ui-fluid">
+      <textarea type="text" id="_businesscomment" name="_businesscomment" class="form-control" [(ngModel)]="Comment" placeholder="Enter Reason For Reject"></textarea>
+    </div>
+    <p-footer>
+        <button class="btn btn-danger mt-2 pt-2" style="margin-left: .5em; margin-right: .5em;" (click)="onReject()">Reject</button>
+    </p-footer>
+</p-dialog>
+
+<!-- <p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '70vw',height:'70vh'}">
+    <div >
+        <img class="imgShow" src="{{showUrl}}"/>
+    </div>
+   <br>
+    <div style="justify-content:space-between;">
+        <button class="btn btn-primary"  (click)="download(showUrl)">Download</button>
+    </div>
+  </p-dialog> -->

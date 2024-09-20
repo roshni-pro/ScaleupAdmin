@@ -1,0 +1,46 @@
+<!-- <h3 class="mt-4" style="font-weight: 600;">Add City</h3> -->
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-9">
+        <h3 class="heading">Add City</h3>
+    </div>
+  </div>
+
+<div class="card">
+    <form [formGroup]="cityForm" (ngSubmit)="onClickSaveBtn()">
+    <div class="row mr">
+
+        <div class="col-6">
+            <label>State</label><br>
+            <!-- <p-dropdown [options]="states" formControlName="stateId" placeholder="Select a State" [ngClass]="{ 'is-invalid': submitted && f.stateId.errors }" optionLabel="name" [showClear]="true"></p-dropdown>         -->
+            <select formControlName="StateId" class="form-control col-10" [ngClass]="{ 'is-invalid': submitted && f['StateId']['errors'] }">
+                <option value="">Select State</option>
+                <option *ngFor="let state of states"  [ngValue]="state.id">{{state.name}}</option>
+            </select>
+            <div *ngIf="submitted && f['StateId']['errors']" class="invalid-feedback">
+                <div *ngIf="f['StateId']['errors']['required']">State is required</div>
+            </div>
+        </div>
+        <div class="col-6">
+            <label>Name</label>
+            <input type="text" id="cityname" class="form-control col-10" name="cityname" formControlName="CityName" (keydown)="space($event)" (keypress)="omit_special_char($event)" autocomplete="off"
+             placeholder="Enter Name" required="1" maxlength="50" minlength="2" [ngClass]="{ 'is-invalid': submitted && f['CityName']['errors'] }"
+             />
+             <div *ngIf="submitted && f['CityName']['errors']" class="invalid-feedback">
+                <div *ngIf="f['CityName']['errors']['required']">Name is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 mb-5">
+      <div class="col-md-9"></div>
+      <div class="col-md-3">
+          <button type="button" class="btn btn-darkBlue" (click)="onClickSaveBtn()"><i class="fa fa-right"></i>&nbsp;Save</button>
+          <button type="button" class="btn btn-secondary" (click)="onClickBackBtn()" style="margin-left: 5px;"><i class="fa fa-right"></i>&nbsp;Back</button>
+      </div>
+  </div>
+    </form>
+</div>
+<p-toast position="top-right" appendTo="body" ></p-toast>
+<div class="progress-spinner" *ngIf="Loader">
+    <p-progressSpinner></p-progressSpinner>
+  </div>

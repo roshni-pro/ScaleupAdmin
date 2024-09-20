@@ -1,0 +1,163 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="heading">Stamp Uploader </h3>
+        </div>
+    </div>
+    <div class="card shadow p-4">
+        <div class="row">
+            <div class="col-md-3">
+                <p-dropdown [options]="stampTypeList" [style]="{'width':'100%'}" [(ngModel)]="selectedStamp" optionLabel="name" 
+                    placeholder="Select Stamp" (onChange)="getStamp()"></p-dropdown>&nbsp;&nbsp;
+            </div>
+            <!-- <div class="col-3">
+            </div> -->
+            <div class="col-7">
+                <div class="text-right">
+                    <button class="btn btn-liteBlue" style="margin-left: 3%;" (click)="search()" appMode="view"><i class="fa fa-search"></i>Search</button>
+                    <button class="btn btn-blue" style="margin-left: 3%;" (click)="showAddStamp()" appMode="add">
+                        Add New Stamp </button>
+                    <button class="btn btn-darkBlue" style="margin-left: 3%;" type="button" (click)="Export()">
+                        Export </button>
+                </div>
+            </div>
+            <!-- <div class="col-2">
+
+            </div> -->
+
+        </div>
+    </div>
+
+    <div class="mt-3 text-center">
+        <p-table [value]="stampDetailList" [showCurrentPageReport]="true" [paginator]="true" [rows]="10"
+            [scrollable]="true" [lazy]="true" (onLazyLoad)="load($event)" [totalRecords]="totalRecords">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>User For</th>
+                    <th>Partner Name</th>
+                    <th>Stamp Amount</th>
+                    <th>Date Of Utilisation</th>
+                    <th>Stamp Paper No.</th>
+                    <th>Lead Name</th>
+                    <th>Mobile No.</th>
+                    <th>Sk Code</th>
+                    <th>Show Image</th>
+                    <th>Edit</th>
+                    <th>Action</th>
+                    <th>History</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data>
+                <tr>
+                    <td>{{data.usedFor}}</td>
+                    <td>{{data.partnerName}}</td>
+                    <td>{{data.stampAmount}}</td>
+                    <td>{{data.dateofUtilisation | date:'medium'}}</td>
+                    <td>{{data.stampPaperNo}}</td>
+                    <td>{{data.leadName}}</td>
+                    <td>{{data.mobileNo}}</td>
+                    <td>{{data.leadCode}}</td>
+                    <td><button class="btn btn-blue mr-1"  (click)="openLargeImage(data.stampUrl)">View</button></td>
+                    <td><img *ngIf="!data.isStampUsed" (click)="onEdit(data)" appMode="edit" src="../../../../../assets/theme/icons/edit.svg"></td>
+                    <td><i *ngIf="data.isShown" (click)="deleteRole(data)" appMode="edit" class="pi pi-trash" style="font-size: 22px;color: #0196CE ;"></i>
+                    </td>
+                    <td><button class="btn btn-blue mr-1" (click)="onHistoryClick(data)">History</button></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <h5 class="mt-2" style="font-weight: 600;">Data Not Found</h5>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-confirmDialog #cd appendTo="body" header="Confirmation" [style]="{width: '30vw'}">
+    <p-footer>
+        <button type="button"class="btn btn-danger"  style="margin-right: 10px;" (click)="cd.reject()">No</button>
+        <button type="button" class="btn btn-sucesss"   (click)="cd.accept()">Yes </button>
+    </p-footer>
+</p-confirmDialog>
+
+<p-toast></p-toast>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>
+
+
+<p-dialog header="View History" [(visible)]="visible" appendTo="body" [modal]="true">
+    <div *ngIf="entity && visible && databaseName && id">
+      <app-history [entity]="entity" [databaseName]="databaseName" [id]="id">
+      </app-history>
+    </div>
+</p-dialog>
+
+<p-dialog header="Add New Stamp" [(visible)]="newStamp" [modal]="true" (onHide)="editCancel()">
+    <div class="row m-1">
+        <div class="col-3">
+            <label class="mb-1">Used For:</label><span style="color: red;">*</span>
+            <input class="form-control" [(ngModel)]="SlaLbaStampAutoFilled.UsedFor" disabled>
+        </div>
+        <div class="col-2">
+            <label class="mb-1">Partner Name:</label><span style="color: red;">*</span>
+            <input class="form-control" [(ngModel)]="SlaLbaStampAutoFilled.PartnerName" disabled>
+        </div>
+        <div class="col-2">
+            <label class="mb-1">Stamp Amount:</label><span style="color: red;">*</span>
+            <input class="form-control" type="number" [(ngModel)]="SlaLbaStampAutoFilled.stampAmount" disabled>
+        </div>
+        <div class="col-2">
+            <label class="mb-1">Purpose:</label><span style="color: red;">*</span>
+            <input class="form-control" [(ngModel)]="SlaLbaStampAutoFilled.purpose" disabled>
+        </div>
+        <div class="col-2">
+            <label class="mb-1">Stamp Paper No.:</label><span style="color: red;">*</span>
+            <input class="form-control" type="number" [(ngModel)]="stampPaperNo">
+        </div>
+    </div>
+    <div class="row m-2"></div>
+    <div class="row m-1">
+        <div class="col-4">
+            <label class="mb-1">Upload Image</label><span style="color: red;">*</span><br>
+            <input type="file" #fileRef id="fileRef" accept="image/jpg, image/jpeg" class="form-control label-dark"
+                (change)="Upload($event)" />
+            <br>
+            <img *ngIf="uploadedImage" [src]="uploadedImage" id="uploadedImage" (click)="openLargeImage(uploadedImage)"
+                style="width:400px!important; height: 200px !important;" />
+        </div>
+        <div class="col mt-4">
+            <div class="text-right">
+                <button class="btn btn-blue" (click)="OnSave()">Save</button>&nbsp;
+                <button class="btn btn-blue" (click)="OnClear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+
+
+<p-dialog header="Edit" appendTo="body" [modal]="true" [draggable]="false" [(visible)]="editDisplay"
+    [style]="{ width: '60vw', height: '60%' }" [blockScroll]="true" (onHide)="editCancel()">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+                <label>Stamp Paper No.:</label><span style="color: red;">*</span>
+                <input class="form-control" type="number" [(ngModel)]="newstampPaperNo">
+            </div>
+            <div class="col-4">
+                <label class="mb-1">Upload Image</label><span style="color: red;">*</span><br>
+                <input type="file" #fileRef1 accept="image/*" class="form-control label-dark"
+                    (change)="Upload($event)" />
+                <br>
+                <img *ngIf="uploadedImage" [src]="uploadedImage" (click)="openLargeImage(uploadedImage)"
+                    style="width:400px!important; height: 200px !important;" />
+            </div>
+            <div class="col-4">
+                <label></label><br>
+                <button class="btn btn-primary" (click)="editRowData()">Edit</button>
+            </div>
+        </div>
+    </div>
+</p-dialog>

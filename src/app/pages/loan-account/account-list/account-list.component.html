@@ -1,0 +1,351 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <h3 class="heading">Account List (Supply Chain)</h3>
+        </div>
+        <div class="col-2 mt-4">
+        </div>
+    </div>
+
+    <div class="row" style="display: flex;">
+        <div class="col-12">
+            <!-- style="align-items: center;" -->
+            <div class="card shadow p-2" >
+                <p-selectButton class="my-slt-btn" [options]="StatusList" [unselectable]="true" [(ngModel)]="searchPayload.status"
+                    optionLabel="key" optionValue="value" (onChange)="getAccountTransaction('search')">
+                    <ng-template let-item pTemplate>
+                        <label><b>{{item.key}}</b></label>
+                    </ng-template>
+                </p-selectButton>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="card shadow p-2">
+                <div class="row mt-3">
+                    <div class="col-3">
+                        <p-dropdown [(ngModel)]="searchPayload.anchorId" [options]="anchorList" optionLabel="businessName"
+                            autoWidth="false" [style]="{'width':'100%'}" optionValue="id"
+                            placeholder="Select Anchor">
+                        </p-dropdown>
+                    </div>
+
+                    <div class="col-3">
+                        <p-dropdown [(ngModel)]="selectedCity" [options]="cityList" optionLabel="cityName"
+                            autoWidth="false" [style]="{'width':'100%'}" placeholder="Select City">
+                        </p-dropdown>
+                    </div>
+
+
+                    <div class="col-3">
+                        <input type="text" class="form-control" [(ngModel)]="searchPayload.keyword"
+                            placeholder="Name/Account no/Mob no/Txn no" min="3"
+                            (keyup.enter)="getAccountTransaction('search')">
+                    </div>
+
+                    <div class="col-3">
+                        <p-calendar #sellerOfferCalendar selectionMode="range" [style]="{'width':'97%'}" [readonlyInput]="true" inputId="range"
+                            [dateFormat]="dateFormat" [showIcon]="true" [(ngModel)]="rangeDates"
+                            placeholder="Select date range.">
+                        </p-calendar>
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col"></div>
+                    <div class="col-5" style="text-align: end;">
+                        <button class="btn btn-liteBlue" (click)="getAccountTransaction('search')"> Search</button>
+                        &nbsp;&nbsp;
+                        <button class="btn btn-darkBlue"(click)="GetAccountListExport()"> Export</button>&nbsp;&nbsp;
+                        <button class="btn btn-blue" (click)="onclear()"> Clear</button>&nbsp;&nbsp;
+                        <!-- <button class="btn btn-darkBlue" (click)="GetAccountTransactionExport()"> Export</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-3 shadow text-center">
+        <p-table [value]="transactionList" (onLazyLoad)="load($event)" [lazy]="true" [(first)]="first"
+            [paginator]="true" [rows]="10" [totalRecords]="totalrecord" [paginator]="true">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Lead Code</th>
+                    <!-- <th>Loan App ID</th> -->
+                    <!-- <th>Partner Loan App ID</th> -->
+                    <th>Applicant Name</th>
+                    <th>Mobile No</th>
+                    <!-- <th>Activity</th> -->
+                    <th>Anchor Name</th>
+                    <th>Status</th>
+                    <th>City Name</th>
+                    <th>Created Date</th>
+                    <th>Offer Amount</th>
+                    <th>Anchor Code</th>
+                    <th>View/Edit</th>
+                    <!-- <th> {{ searchPayload.status == 'Partially Paid' ? "Paid Amount" : "Payable Amount"}}</th> -->
+                    <!-- <th *ngIf="searchPayload.status == 'Paid'">Paid Date</th> -->
+                    <!-- <th>Action</th> -->
+                </tr>
+
+            </ng-template>
+            <ng-template pTemplate="body" let-transaction let-columns="columns" let-expanded="expanded">
+                <tr>
+                    <!-- [ngClass]="{'status-overduecl': transaction.code=='Overdue' ,'status-paidcl': transaction.code=='Paid' ,'status-pendingcl': transaction.code =='Pending'  }" -->
+                    <!-- <td>{{transaction.accountCode}}<br> <b (click)="navigateTo(transaction)"
+                            class="pointer"><u>{{transaction.thirdPartyLoanCode}}</u></b> </td> -->
+                    <!-- <td>{{transaction.customerName}} </td>
+                    <td>{{transaction.utilizationAnchor}}</td>
+                    <td>{{transaction.mobileNo}}</td>
+                    <td>{{transaction.referenceId}}</td>
+                    <td>{{transaction.orderId}} <br> {{transaction.invoiceNo }}</td>
+                    <td>{{transaction.transactionDate | date : 'dd/MM/yyyy'}}</td>
+                    <td>{{transaction.code}}</td>
+                    <td *ngIf="searchPayload.status == 'Overdue'">{{transaction.aging}}</td> -->
+                    <!-- <td>{{transaction.paymentMode}}</td> -->
+                    <!-- <td>{{transaction.actualOrderAmount | number: '1.2-2'}}</td> -->
+                    <!-- <td>
+                        {{transaction.disbursementDate != '1900-01-01T00:00:00'?( transaction.disbursementDate | date :
+                        'dd/MM/yyyy'): '-'}}
+                        <br>
+                        {{transaction.dueDate != '1900-01-01T00:00:00'?( transaction.dueDate | date : 'dd/MM/yyyy'):
+                        '-'}}
+                    </td> -->
+                    <!-- <td>{{transaction.payableAmount | number: '0.2-2'}}</td> -->
+                    <!-- <td *ngIf="searchPayload.status != 'Partially Paid'">{{transaction.payableAmount | number: '0.2-2'}}</td> -->
+                    <!-- <td *ngIf="searchPayload.status == 'Paid'">{{transaction.settlementDate | date : 'dd/MM/yyyy'}}</td> -->
+                    <!-- <td> <button type="button" pButton pRipple (click)="openTnxDetailPopup(transaction)"
+                            class="p-button-text p-button-rounded p-button-plain"
+                            [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td> -->
+
+                    <td>{{transaction.leadCode}}</td>
+                    <!-- <td>{{transaction.loanAppId}}</td> -->
+                    <!-- <td>{{transaction.partnerLoanAppId}}</td> -->
+                    <td>{{transaction.applicantName}}</td>
+                    <td>{{transaction.mobileNo}}</td>
+                    <!-- <td>{{transaction.activityDate}}</td> -->
+                    <td>{{transaction.anchorName}}</td>
+                    <td>{{transaction.status}}</td>
+                    <td>{{transaction.cityName}}</td>
+                    <td>{{transaction.createdDate | date :'dd/MM/yyyy'}}</td>
+                    <td>{{transaction.offerAmount}}</td>
+                    <td>{{transaction.anchorCode}}</td>
+                    <td><img src="../../../../../assets/theme/icons/edit.svg" (click)="navigate(transaction)" class="pointer" appMode="edit"></td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" class="text-center">
+                <tr>
+                    <td colspan="12" style="color: red;"> <b>No Data Found.</b></td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<!-- <p-dialog header='View Detail' appendTo="body" [(visible)]="transactionpoupdisplay" [modal]="true"
+    [style]="{width: '55vw', height:'60%', overflow: 'auto','box-shadow': 'none'}" [draggable]="false"
+    [resizable]="false">
+    <div class="container">
+
+        <div class="row" *ngIf="selectedTransaction">
+            <div class="col-12 text-center">
+                <label>Transaction ID : <b>{{selectedTransaction.referenceId}}</b> </label>
+            </div>
+        </div>
+
+        <div class="row mt-2 ">
+
+
+            <div class="col-md-4" *ngIf="selectedTransaction && selectedTransaction.code == 'Initiate'">
+                <button type="button" class="btn btn-blue" (click)="ClearInitiateLimit()">
+                    Clear Initiate Limit
+                </button>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-5">
+                <label class="label-lite">Total Outstanding Amt:</label> &nbsp;
+                <label class="label-dark">
+                    {{TotalOutstandingAmt}}
+                </label>
+            </div>
+        </div>
+
+        <div class="row mt-2 text-center">
+            <div class="col-md-12">
+                <p-table [value]="txnDetailList">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Type</th>
+                            <th>Transaction Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-payment>
+                        <tr>
+                            <td>{{payment.transactionType}}</td>
+                            <td>{{payment.transactionDate|date}}</td>\
+                            <td>{{payment.txnAmount | number: '0.2-2'}}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="6">There are no pending order for this product yet.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</p-dialog> -->
+
+<!-- <p-dialog header='Manual Transaction Settle' appendTo="body" [(visible)]="manualSettlepopup" [modal]="true"
+    [style]="{width: '55vw', height:'60%', overflow: 'auto','box-shadow': 'none'}" [draggable]="false"
+    [resizable]="false">
+    <div class="container">
+
+        <div class="row mt-2">
+            <div class="col-6 mt-2">
+                <input type="date" class="form-control" dateFormat="dateFormat" placeholder="Select Date"
+                    [(ngModel)]="manualSettlePayload.PaymentDate">
+            </div>
+            <div class="col-6 mt-2">
+                <p-dropdown [(ngModel)]="manualSettlePayload.ModeOfPaymentSourceType" [options]="modeOfPaymentList"
+                    optionLabel="label" autoWidth="false" [style]="{'width':'100%'}" optionValue="value"
+                    placeholder="Mode Of Payment"> </p-dropdown>
+             
+            </div>
+            <div class="col-6 mt-2">
+                <input type="text" class="form-control" placeholder="Payment Ref No"
+                    [(ngModel)]="manualSettlePayload.PaymentRefNo">
+            </div>
+            <div class="col-6 mt-2">
+                <input type="number" class="form-control" placeholder="Settle Amount"
+                    [(ngModel)]="manualSettlePayload.SettleAmount">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col"></div>
+        <div class="col-2">
+            <button class="btn btn-darkBlue" type="button" (click)="saveManualTnx()">Save</button>
+        </div>
+    </div>
+</p-dialog> -->
+
+<!-- <p-dialog header='Waive Off Confirmation' [(visible)]="showWaivePop" [modal]="true" appendTo="body"
+    [style]="{width: '60%',height: 'auto' , overflow: 'none','box-shadow': 'none'}" [draggable]="false"
+    [resizable]="true">
+
+    <div class="popupForm">
+        <div class="p-1 row mt-2">
+            <div class="col-md-3 col-12 p-1">
+                <label>Status</label>
+                <br>
+                <select class="searchInput" (change)="getPenaltyBounceCharges()" placeholder="Select Status"
+                    [(ngModel)]="selectPanaltyBounceCharge">
+                    <option value='BounceCharges'>Bounce Charge</option>
+                    <option value='PenaltyCharges'>Penalty Charges</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 col-12 p-1">
+                <label>Discount Type</label>
+                <br>
+                <select [(ngModel)]="DiscountType">
+                    <option value='' disabled> Select Status</option>
+                    <option value='Bank Issue'>Bank Issue</option>
+                    <option value='IT Issue'>IT Issue</option>
+                    <option value='Customer Issue'>Customer Issue</option>
+                    <option value='Other Issue'>Other Issue</option>
+                </select>
+            </div>
+
+
+
+            <div class="col-md-3 col-12 p-1">
+                <label>Discount Amount </label>
+                <input type="text" id="disAmount" name="disAmount" class="searchInput" style="width: 75%;"
+                    [disabled]="!selectPanaltyBounceCharge" (input)="onInputChangeDiscountAmount()"
+                    [max]="waveOffcharges.paidAmount" (keydown)="validate($event)" [(ngModel)]="discountWaiveAmount"
+                    (keypress)="keyPressAmount($event)" min="1" maxlength="5" placeholder="Enter Amount here">
+                <div *ngIf=" (discountWaiveAmount==0 || discountWaiveAmount == null)">
+                    <code>Amount is required</code>
+                </div>
+                <div *ngIf=" (discountWaiveAmount > waveOffcharges.paidAmount )">
+                    <code><b>Note:</b>Cannot allow discount more than {{waveOffcharges.paidAmount | number : '1.2-2'}}, GST:{{waveOffcharges.gstAmount | number : '1.2-2'}}</code>
+                </div>
+
+            </div>
+
+            <div class="col-md-3 col-12 p-1">
+                <br>
+                <p><strong>Remaining Amount : </strong> {{remainingWaiveAmount | number : '1.2-2' }}
+                </p>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row p-1 mt-2">
+        <div class="col-md-3 col-12 p-1">
+            <span>
+                <p><strong>Actual {{type}} Charges: </strong> {{waveOffcharges.paidAmount | number : '1.2-2'}}</p>
+                <p><strong>GST: </strong> {{waveOffcharges.gstAmount | number : '1.2-2'}} </p>
+            </span>
+            <span>
+                <p><strong>Total Amount: </strong>{{waveOffcharges.totalAmount | number : '1.2-2'}}</p>
+            </span>
+        </div>
+
+
+        <div class="col-md-3 col-12 p-1"></div>
+        <div class="col-md-3 col-12 p-1 mt-2">
+            <span>
+                <p><strong>Discount Gst: </strong> {{discountGst | number : '1.2-2' }}
+                </p>
+                <p><strong>Total Discount: </strong> {{totalWaiveDiscount | number : '1.2-2'}} </p>
+            </span>
+
+        </div>
+        <div class="col-md-3 col-12 p-1 mt-2">
+            <span>
+                <p><strong>Remaining GST : </strong> {{remainingWaiveGST | number : '1.2-2' }}
+                </p>
+                <p><strong>Total Remaining Charges : </strong> {{totalRemainingWaiveCharges | number : '1.2-2' }}
+                </p>
+
+            </span>
+        </div>
+
+    </div>
+
+
+    <p-footer>
+        <button type="button" class="btn btn-blue" (click)="waiveOffPenaltyBounce()">Save</button>
+        &nbsp;
+        <button type="button" class="btn btn-darkBlue" (click)="closeWaveOff()">Cancel</button>
+    </p-footer>
+
+</p-dialog> -->
+
+
+<p-toast></p-toast>
+
+<div class="overlay" *ngIf="Loader">
+    <div class="loader">
+        <img src="assets/img/logos/loader_new.gif" alt="Loading..." />
+    </div>
+</div>

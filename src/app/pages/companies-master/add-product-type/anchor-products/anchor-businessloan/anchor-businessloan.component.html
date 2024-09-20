@@ -1,0 +1,516 @@
+<div class="container-fluid p-3">
+
+  <div class="row">
+    <div class="col-md-4">
+      <label>
+        <h5>Company configuration</h5>
+
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4" *ngIf="this.anchorProductId>0">
+        <label>
+          <input type="text" [(ngModel)]="productname" class="form-control" [disabled]="productname" />
+        </label>
+      </div>
+    </div>
+    <div class="card p-3 mt-3">
+
+      <div class="row">
+        <div class="col-md-4">
+          <label>Gst Rate %:</label><br>
+          <input type="text" [(ngModel)]="GSTRate" class="form-control" [disabled]="GSTRate" />
+        </div>
+      </div>
+      <form [formGroup]="anchorForm" (ngSubmit)="onClickSaveBtn()">
+        <div class="row mt-3">
+          <label class="label-dark">
+            <h5><b>Business Commission :</b></h5>
+          </label> <br>
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Commission Payout %:</label><br>
+
+            <input type="number" formControlName="CommissionPayout" class="form-control back" min="0" max="100"
+              name="CommissionPayout" id="CommissionPayout" (keypress)="keyPressAmount($event)"
+              (keypress)="omit_special_char($event)">
+            <div *ngIf="(submitted) && f['CommissionPayout'].errors">
+              <span *ngIf="f['CommissionPayout'].errors['required']" style="color:red;font-size: 12px;">*
+                Commission Payout is
+                required</span>
+            </div>
+            <div
+              *ngIf="f['CommissionPayout'].errors && !f['CommissionPayout'].errors['required']  && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter commission payout rate less than 100.</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Consideration Fees %:</label><br>
+
+            <input type="number" formControlName="ConsiderationFee" class="form-control back" min="0" max="100"
+              name="ConsiderationFee" id="ConsiderationFee" (keypress)="keyPressAmount($event)"
+              (keypress)="omit_special_char($event)">
+            <div *ngIf="(submitted) && f['ConsiderationFee'].errors">
+              <span *ngIf="f['ConsiderationFee'].errors['required']" style="color:red;font-size: 12px;">*
+                Consideration Fee is
+                required</span>
+            </div>
+            <div
+              *ngIf="f['ConsiderationFee'].errors && !f['ConsiderationFee'].errors['required']  && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter Consideration Fee rate less than 100.</span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Disbursement Sharing Commission
+              %:</label><br>
+
+            <input type="number" formControlName="DisbursementSharingCommission" min="0" max="100"
+              class="form-control back" name="DisbursementSharingCommission" id="DisbursementSharingCommission"
+              (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)">
+
+            <div
+              *ngIf="f['DisbursementSharingCommission'].errors && !f['DisbursementSharingCommission'].errors['required']  && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter Disbursement Sharing Commission rate less than
+                100.</span>
+            </div>
+            <div *ngIf="(submitted) && f['DisbursementSharingCommission'].errors">
+              <span *ngIf="f['DisbursementSharingCommission'].errors['required']" style="color:red;font-size: 12px;">*
+                Disbursement Sharing Commission is
+                required</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <label class="label-dark">
+            <h5><b>Charges :</b></h5>
+          </label> <br>
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee payable by :</label><br>
+            <select formControlName="ProcessingFeePayableBy" class="form-control back">
+              <option [ngValue]="'Anchor'">Payable By Anchor</option>
+              <option [ngValue]="'Customer'">Payable By Customer</option>
+            </select>
+            <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeePayableBy'].errors">
+              <span style="color:red;font-size: 12px;"
+                *ngIf="anchorForm.controls['ProcessingFeePayableBy'].errors && (submitted || !submitted) ">
+                *Select a Payable By
+              </span>
+            </div>
+            <span style="color:red;font-size: 12px;"
+              *ngIf=" submitted && f['ProcessingFeePayableBy'].errors && f['ProcessingFeePayableBy'].errors['required']">*
+              Payable By. is required</span>
+          </div>
+
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee Type :</label><br>
+            <select formControlName="ProcessingFeeType" (change)="setamountpercentagetype()" class="form-control back">
+              <option [ngValue]="'Amount'">Amount</option>
+              <option [ngValue]="'Percentage'">Percentage</option>
+            </select>
+            <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeeType'].errors">
+              <span style="color:red;font-size: 12px;"
+                *ngIf="anchorForm.controls['ProcessingFeeType'].errors && (submitted || !submitted) ">
+                *Select a valid Processing Fee Type
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Processing Fee
+
+              :</label><br>
+            <input type="number" class="form-control back" (keypress)="space($event)" required="1" min="0"
+              (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+              formControlName="ProcessingFeeRate">
+            <div *ngIf="(submitted ) && anchorForm.controls['ProcessingFeeRate'].errors">
+              <span style="color:red;font-size: 12px;"
+                *ngIf="anchorForm.controls['ProcessingFeeRate'].errors && (submitted || !submitted) ">
+                *Select a valid Processing Fee Rate
+              </span>
+            </div>
+            <span style="color:red;font-size: 12px;"
+              *ngIf=" submitted && f['ProcessingFeeRate'].errors && f['ProcessingFeeRate'].errors['required']">*Processing
+              Fee Rate. is required</span>
+            <div
+              *ngIf="anchorForm.controls['ProcessingFeeType'].value=='Percentage' && anchorForm.controls['ProcessingFeeRate'].value >100  && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter less than 100.</span>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row mt-3">
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Delay Penalty Rate(PA) %:</label><br>
+            <input type="number" id="DelayPenaltyRate" class="form-control back" name="DelayPenaltyRate"
+              formControlName="DelayPenaltyRate" (keypress)="space($event)" required="1" min="0" max="100"
+              (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+            <div *ngIf="(submitted) && f['DelayPenaltyRate'].errors">
+              <span *ngIf="f['DelayPenaltyRate'].errors['required']" style="color:red;font-size: 12px;">*Delay
+                Penalty
+                Rate is
+                required</span>
+
+            </div>
+            <div *ngIf="anchorForm.controls['DelayPenaltyRate'].hasError('max')">
+
+              <span style="color:red;font-size: 12px;">Value must be less than or equal to 100</span>
+
+            </div>
+
+            <div *ngIf="f['DelayPenaltyRate'].errors && !f['DelayPenaltyRate'].errors['required']  && (submitted )">
+              <span style="color:red;font-size: 12px;">*Enter Correct Delay Penalty Rate</span>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Bounce Charges (in amount):</label><br>
+            <input type="number" id="BounceCharge" class="form-control back" name="BounceCharge"
+              formControlName="BounceCharge" (keypress)="space($event)" required="1" min="0"
+              (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+            <div *ngIf="(submitted) && f['BounceCharge'].errors">
+              <span *ngIf="f['BounceCharge'].errors['required']" style="color:red;font-size: 12px;">*Bounce Charges
+                is
+                required</span>
+            </div>
+
+
+            <div *ngIf="f['BounceCharge'].errors && !f['BounceCharge'].errors['required']  && (submitted)">
+              <span style="color:red;font-size: 12px;">*Enter Correct Bounce Charges</span>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Offer Max Rate %</label><br>
+
+
+            <input type="number" formControlName="OfferMaxRate" class="form-control back" (keypress)="space($event)"
+              required="1" min="0" max="100" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+              name="AnnualInterestRate" id="AnnualInterestRate">
+
+
+            <div *ngIf="(submitted) && f['OfferMaxRate'].errors">
+              <span *ngIf="f['OfferMaxRate'].errors['required']" style="color:red;font-size: 12px;">*
+                OfferMaxRate is
+                required</span>
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['OfferMaxRate'].hasError('min')">
+
+              <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['OfferMaxRate'].hasError('max')">
+
+
+              <span style="color:red;font-size: 12px;">Value must be less than or equal to 100</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mt-3">
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Disbursement TAT: <span
+                style="color: darkgray;font-size: 12px;"> (T+Days)</span></label><br>
+            <input type="number" id="DisbursementTAT" class="form-control back" name="DisbursementTAT"
+              formControlName="DisbursementTAT" (keypress)="space($event)" required="1" min="0" max="100"
+              (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" autocomplete="off" />
+            <div *ngIf="(submitted) && f['DisbursementTAT'].errors">
+              <span *ngIf="f['DisbursementTAT'].errors['required']" style="color:red;font-size: 12px;">*
+                Disbursement TAT is
+                required</span>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Annual Interest Rate %:</label><br>
+
+            <input type="number" formControlName="AnnualInterestRate" class="form-control back"
+              (keypress)="space($event)" required="1" min="0" max="100" (keypress)="keyPressAmount($event)"
+              (keypress)="omit_special_char($event)" name="AnnualInterestRate" id="AnnualInterestRate">
+            <div *ngIf="anchorForm.controls['AnnualInterestRate'].hasError('min')">
+
+              <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+            </div>
+            <div *ngIf="anchorForm.controls['AnnualInterestRate'].hasError('max')">
+              <span style="color:red;font-size: 12px;"> Value must be less than or equal to 100.
+              </span>
+
+            </div>
+          </div>
+
+          <!-- <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Max Interest Rate:</label><br>
+            <input type="text" class="form-control back" formControlName="MaxInterestRate"
+              (keypress)="keyPressAmount($event)" [min]="0" [max]="100">
+            <div *ngIf="(submitted ) && anchorForm.controls['MaxInterestRate'].errors">
+              <span style="color:red;font-size: 12px;"
+                *ngIf="anchorForm.controls['MaxInterestRate'].errors && ( !submitted) ">
+                *Select a valid MaxInterestRate
+              </span>
+            </div>
+            <div
+              *ngIf="anchorForm.controls['MaxInterestRate'].errors && !anchorForm.controls['MaxInterestRate'].errors['required'] && 
+                  (anchorForm.controls['MaxInterestRate'].errors && anchorForm.controls['MaxInterestRate'].errors['max'].actual>anchorForm.controls['MaxInterestRate'].errors['max'].max) && (submitted || !submitted)">
+              <span style="color:red;font-size: 12px;">*Enter Correct MaxInterestRate less than 100</span>
+            </div>
+            <span style="color:red;font-size: 12px;"
+              *ngIf=" submitted && f['MaxInterestRate'].errors && f['MaxInterestRate'].errors['required']">*MaxInterestRate.
+              is required</span>
+          </div> -->
+
+
+          <div class="col-md-4">
+
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Max Interest Rate </label><br>
+
+
+            <input type="number" formControlName="MaxInterestRate" class="form-control back" (keypress)="space($event)"
+              required="1" min="0" max="100" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)"
+              name="MaxInterestRate" id="MaxInterestRate">
+
+
+            <div *ngIf="(submitted) && f['MaxInterestRate'].errors">
+              <span *ngIf="f['MaxInterestRate'].errors['required']" style="color:red;font-size: 12px;">*
+                MaxInterestRate is
+                required</span>
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['MaxInterestRate'].hasError('min')">
+
+              <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['MaxInterestRate'].hasError('max')">
+
+
+              <span style="color:red;font-size: 12px;">Value must be less than or equal to 100</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>PlatForm Fee:</label><br>
+            <input type="number" class="form-control back" formControlName="PlatFormFee" (keypress)="space($event)"
+              required="1" min="0" max="100" (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)">
+
+            <div *ngIf="(submitted) && f['PlatFormFee'].errors">
+              <span *ngIf="f['PlatFormFee'].errors['required']" style="color:red;font-size: 12px;">*
+                PlatFormFee is
+                required</span>
+
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['PlatFormFee'].hasError('min')">
+
+              <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+
+            </div>
+            <div *ngIf="anchorForm.controls['PlatFormFee'].hasError('max')">
+
+
+              <span style="color:red;font-size: 12px;">Value must be less than or equal to 100</span>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Select Tenure (in months):</label><br>
+            <div class="col">
+              <input type="number" formControlName="MinTenureInMonth" class="form-control back"
+                (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" name="minten" maxlength="3"
+                id="minten" placeholder="MIN">
+
+            </div>
+
+            <div class="col">
+              <input type="number" formControlName="MaxTenureInMonth" class="form-control back"
+                (keypress)="keyPressAmount($event)" (keypress)="omit_special_char($event)" name="maxten" maxlength="3"
+                id="maxten" placeholder="MAX">
+              <div *ngIf="anchorForm.controls['MaxTenureInMonth'].value<anchorForm.controls['MinTenureInMonth'].value">
+
+                <span style="color:red;font-size: 12px;">Enter Max tenure month greater than Min tenure </span>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Loan Amount:</label><br>
+
+            <div class="col">
+              <input type="tel" formControlName="MinLoanAmount" min="1" class="form-control back"
+                (keypress)="keyPress($event)" (keydown)="space($event)" name="minLoan" id="minLoan" placeholder="MIN">
+
+              <div *ngIf="anchorForm.controls['MinLoanAmount'].hasError('min')">
+
+                <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+              </div>
+
+            </div>
+            <div class="col">
+              <input type="tel" formControlName="MaxLoanAmount" min="0" class="form-control back"
+                (keypress)="keyPress($event)" [min]="" (keydown)="space($event)" name="maxLoan" id="maxLoan"
+                placeholder="MAX">
+              <div *ngIf="anchorForm.controls['MaxLoanAmount'].value< anchorForm.controls['MinLoanAmount'].value">
+
+                <span style="color:red;font-size: 12px;"> Loan amount greater than Min Loan amt. </span>
+
+              </div>
+              <div *ngIf="anchorForm.controls['MaxLoanAmount'].hasError('min')">
+
+                <span style="color:red;font-size: 12px;">Value must be greater than or equal to 0</span>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <hr>
+        <label class="label-dark">
+          <h5><b>Agreement :</b></h5>
+        </label> <br>
+
+
+        <div class="row mt-3">
+          <div class="col-md-4" *ngIf="!isAgreementURL && !anchorProductId  && !f['AgreementURL'].value">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Upload</label>
+            <input type="file" (change)="upload($event, 'AgreementURL' ,this.myInputVariable1)" #userPhoto1
+              accept="application/pdf,image/png, image/jpeg" id="AgreementURL" class="form-control back"
+              name="AgreementURL" />
+            <div *ngIf="submitted  && f['AgreementURL'].errors">
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementURL'].errors['required']">Agreement URL is
+                required
+              </span>
+              <span style="color:red;font-size: 12px;"
+                *ngIf="(f['AgreementURL'].errors && f['AgreementURL'].errors['email']) && (submitted )  ">
+                *Enter a valid Agreement URL
+              </span>
+            </div>
+          </div>
+
+
+          <div class="col-md-4" *ngIf="f['AgreementURL'].value">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Upload</label><br>
+            <img src="../../../../../assets/img/pdflogo.png" (click)="show(f['AgreementURL'].value)" height="100vh" />
+          </div>
+          <div class="col-md-4">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement Start Date</label>
+            <input type="date" id="AgreementStartDate" class="form-control back" name="AgreementStartDate"
+              formControlName="AgreementStartDate" (keydown)="space($event)" />
+
+
+            <div *ngIf="submitted  && f['AgreementStartDate'].errors">
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementStartDate'].errors['required']">Agreement
+                Start Date is required
+              </span>
+              <span style="color:red;font-size: 12px;"
+                *ngIf="(f['AgreementStartDate'].errors && f['AgreementStartDate'].errors['email']) && (submitted )  ">
+                *Enter a valid Agreement Start Date
+              </span>
+            </div>
+          </div>
+
+
+          <!-- <div class="col-md-4" *ngIf="f['AgreementStartDate'].value"> {{f['AgreementEndDate'].value}} 
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement End Date</label>
+            <input type="date" id="AgreementEndDate" class="form-control back" name="AgreementEndDate" 
+            min="{{currentdate}}"formControlName="AgreementEndDate" (keydown)="space($event)" />
+            <div *ngIf="submitted  && f['AgreementEndDate'].errors">
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors['required']">Agreement
+                End Date is required
+              </span>
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors && (submitted )  ">
+                *Enter a valid Agreement End Date
+              </span>
+            </div>
+          </div> -->
+          <div class="col-md-4" *ngIf="f['AgreementStartDate'].value">
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Agreement End Date</label>
+            <input type="date" id="AgreementEndDate" class="form-control back" name="AgreementEndDate"
+              min="{{f['AgreementStartDate'].value}}" formControlName="AgreementEndDate" (keydown)="space($event)" />
+            <div *ngIf="submitted  && f['AgreementEndDate'].errors">
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors['required']">Agreement End
+                Date
+                is required
+              </span>
+              <span style="color:red;font-size: 12px;" *ngIf="f['AgreementEndDate'].errors && (submitted )  ">
+                *Enter a valid Agreement End Date
+              </span>
+            </div>
+          </div>
+        </div>
+
+        
+        <hr>
+        <label class="label-dark">
+          <h5><b>Referral :</b></h5>
+        </label> <br>
+        <div class="row mt-3">
+          <div class="col-md-4">
+            <label> BlackSoil Referral Code :</label><br>
+            <input type="text" formControlName="BlackSoilReferralCode" max="100" class="form-control back"
+              name="referralCode" id="referralCode" max="100" placeholder="Referral Code" />
+            <div *ngIf="anchorForm.controls['BlackSoilReferralCode'].hasError('maxlength')">
+
+              <span style="color:red;font-size: 12px;">Value must be less than 100</span>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-4">
+            <!-- {{anchorForm.controls['IseSignEnable'].value}} -->
+            
+            <span style="color: red;font-size: 12px;">* &nbsp;</span><label>Is EsignEnable:</label><br>
+            <input type="radio" id="true" [value]='true'  formControlName="IseSignEnable">
+
+            <label for="Yes"> &nbsp; Yes</label>
+            &nbsp;
+            <input type="radio" id="false" [value]='false' formControlName="IseSignEnable">
+            <label for="No"> &nbsp; No</label>
+          </div>
+        </div>
+
+
+        <div class="row mt-3">
+          <div class="col-md-11"></div>
+          <div class="col-md-1">
+            <input type="submit" class="btn btn-primary" value="submit">
+          </div>
+        </div>
+        <p-dialog [(visible)]="showImage" appendTo="body" [modal]="true" [style]="{width: '80vw'}">
+          <div>
+            <img class="imgShow" src="{{dialogUrl?dialogUrl:showUrl}}" />
+          </div>
+
+          <br>
+          <div style="justify-content:space-between;">
+            <button class="btn btn-primary" (click)="download(showUrl)">Download</button>
+          </div>
+        </p-dialog>
+      </form>
+
+
+    </div>
+  </div>
+  <div class="overlay" *ngIf="Loader">
+    <div class="loader">
+      <img src="assets/img/logos/loader_new.gif" alt="Loading..." /> </div>
+  </div>

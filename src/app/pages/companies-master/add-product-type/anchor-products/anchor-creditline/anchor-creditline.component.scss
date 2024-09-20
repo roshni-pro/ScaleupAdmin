@@ -1,0 +1,12 @@
+input[disabled] {
+  // color:yellow !important; / Set the desired color for the disabled text /
+  background-color: #eee; // Set the desired background color for the disabled input /
+  // Add any additional styling you want for the disabled input /
+  background: rgb(197, 197, 197) !important;
+}
+select[disabled] {
+    // color:yellow !important; / Set the desired color for the disabled text /
+    background-color: #eee; // Set the desired background color for the disabled input /
+    // Add any additional styling you want for the disabled input /
+    background: rgb(197, 197, 197) !important;
+  }

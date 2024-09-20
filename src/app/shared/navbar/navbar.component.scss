@@ -1,0 +1,343 @@
+// // .headerProfile{
+// //     float: right;
+// //      display: inline-block;
+// //      margin-top: -17px;
+// //      & img {
+// //        border-radius: 50%;
+// //      width: 20px;
+// //      height: 20px;
+// //      display: inline-block;
+// //      vertical-align: text-top;
+// //      }
+// //      & span {
+// //          margin-left: 15px; 
+// //          font-size: 13px;
+// //          & a{
+// //        color: #0452a5;
+// //      font-size: 12px;
+// //      font-weight: 400;
+// //      display: block;
+// //      margin-left: 18px;
+// //      line-height: 10px;
+// //           }        
+// //      }
+
+// //  }
+//  // img {
+//  // border-radius: 50%;
+//  // width: 35px;
+//  // height: 35px;
+//  // display: inline-block;
+//  // vertical-align: text-top;
+//  // }
+// //  .openIcon{
+// //    color: #f7f3f3 !important;
+// //      background: #0452a5;
+// //      font-size: 18px;
+// //      line-height: 12px;
+// //      padding: 6px 7px;
+// //      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+// //      display: inline-block !important;
+// //  }
+//     :host ::ng-deep  .ft-toggle-right:before{
+//     color: #000;
+//      content: "\f0c9";
+//      font: normal normal normal 14px/1 FontAwesome;
+//      margin-right: 15px;
+//      margin-left: -4px;
+//      font-size: 17px;
+//     }
+//     :host ::ng-deep .ft-toggle-left:before {
+//      color: #000;
+//      content: "\f0c9";
+//      font: normal normal normal 14px/1 FontAwesome;
+//      margin-right: 15px;
+//      margin-left: -4px;
+//      font-size: 17px;
+//  }
+//     .topLogoHeading{
+
+//       & a{
+//         display: contents !important;
+
+//       }
+//     }
+
+//    :host ::ng-deep .navbar-expand-lg .navbar-nav {
+//      flex-direction: row-reverse;
+//      width: fit-content;
+//  }
+
+//  .header-navbar{
+//    background:#f4fafe !important;
+
+//  }
+
+//  @media screen and (max-width: 900px) {
+
+//    .navbar .navbar-nav .dropdown-menu {
+//      position: absolute;
+//      top: 38px;
+//      left: -114px;
+//  }
+
+//  .headerProfile{
+//    margin-top: -30px;
+//    margin-right: -60px;
+//  }
+
+//  }
+
+//  // .navbar-nav li{
+//  //   width: 15%;
+
+//  //   .headerProfile{
+//  //     width: 100%;
+//  //   }
+//  // }
+
+//  .img-12{
+//    width: 40px !important;
+//    height: 40px !important;
+//    float: right;
+//    margin-top: 6px;
+//  }
+
+//  :host ::ng-deep .navbar .dropdown-menu {
+//    // right:0px !important;
+//    left: 85%;
+//    width: 12%;
+
+//  }
+
+//  // .hero{
+//  //   width: 100%;
+//  //   min-height: 100vh;
+//  //   // background: #eceaff;
+//  //   color: #525252;
+//  // }
+
+
+//  nav{
+//   background: #F8F9FA  !important;
+//      width: 100%;
+//    padding: 0px 1%;
+//    display: flex;
+//    align-items: center;
+//    justify-content: space-between;
+//    position: fixed;
+//    box-shadow: 5px -2px 5px 6px #ccc !important;
+//    top: 0em;
+//    z-index: 5;
+//   }
+
+//  .user-pic{
+//    width: 42px;
+//    border-radius: 50%;
+//    cursor: pointer;
+//    // padding-right: 15px;
+//     margin-inline: 32px;
+//  }
+
+//  .sub-menu-wrap{
+//    position: absolute;
+//    top: 65px;
+//    right: 10px;
+//    width: 320px;
+//    max-height: 0px;
+//    overflow: hidden;
+//    transition: max-height 0.5s ;
+//    z-index: 9;
+//  }
+
+// //  .sub-menu-wrap.open-menu{
+// //    max-height: 400px;
+// //  }
+
+// //  .sub-menu{
+// //    background:#ffffff ;
+// //    padding: 20px;
+// //    margin: 10px;
+// //  //  border: 1px solid black;
+// //   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+// //  }
+//  .user-info{
+//    display: flex;
+//    align-items: center;
+//  }
+//  .user-info label{
+//  font-size: 15px;
+//  font-weight: 600;
+//  }
+//  .user-info p{
+//    font-size: 12px;
+//    }
+//  .user-info img{ 
+//  width: 30px;
+//  border-radius: 50%;
+//  padding-right: 5px;
+//  // margin-right: 15px;
+//  }
+
+//  .sub-menu hr{
+//    border: 0;
+//    height: 1px;
+//    width: 100%;
+//    background: #ccc;
+//    margin: 10px 0px 10px;
+//  }
+
+//  .sub-menu-link{
+//    display: flex;
+//    align-items: center;
+//    text-decoration: none;
+//    color:#525252 ;
+//    margin: 0px 0;
+//  }
+//  .sub-menu-link p{
+//    width: 100%;
+//  }
+
+//  .sub-menu-link i{
+//    width: 40px;
+//    background: #fffefe;
+//    border-radius: 50%;
+//    padding: 10px;
+//    margin-right: 15px;
+//  }
+
+//  .sub-menu-link span{
+//    font-size: 22px;
+//    transition: transform 0.5s;
+
+//  }
+
+//  .sub-menu-link span:hover {
+//    transform: translateX(5px);
+//  }
+//  .sub-menu-link p:hover {
+//    font-weight: 600;
+//  }
+
+
+
+
+//  :host ::ng-deep .p-megamenu { 
+// 	background: white !important; 
+//   height: 50px !important;
+//   border:none !important;
+//   margin-right: 65px !important;
+// } 
+// :host 
+// 	::ng-deep 
+// 	.p-megamenu 
+// 	.p-megamenu-root-list 
+// 	> .p-menuitem.p-menuitem-active 
+// 	> .p-menuitem-link, 
+// .p-megamenu 
+// 	.p-megamenu-root-list 
+// 	> .p-menuitem.p-menuitem-active 
+// 	> .p-menuitem-link:not(.p-disabled):hover { 
+// 	background: white !important; 
+// } 
+// :host 
+// 	::ng-deep 
+// 	.p-megamenu 
+// 	.p-megamenu-root-list 
+// 	> .p-menuitem 
+// 	> .p-menuitem-link:not(.p-disabled):hover { 
+// 	background: white !important; 
+// } 
+// :host 
+// 	::ng-deep 
+// 	.p-megamenu 
+// 	.p-megamenu-root-list 
+// 	> .p-menuitem 
+// 	> .p-menuitem-link 
+// 	.p-menuitem-icon { 
+// 	color: #fff !important; 
+// } 
+// :host 
+// ::ng-deep 
+// .p-megamenu 
+// .p-megamenu-root-list 
+// > .p-menuitem 
+// > .p-menuitem-link 
+// .p-menuitem-text { 
+//   color: #fff !important; 
+//   text-decoration: none !important;
+// } 
+// :host 
+// ::ng-deep 
+// .p-megamenu 
+// .p-megamenu-root-list 
+// > .p-menuitem 
+// > .p-menuitem-link 
+// .p-submenu-icon { 
+//   color: #fff !important; 
+
+// } 
+// :host ::ng-deep .p-megamenu .p-menuitem-link:focus { 
+//   box-shadow: inset 0 0 0 0.15rem #3B82F6 !important; 
+// } 
+// :host ::ng-deep .p-megamenu .p-menuitem-link:not(.p-disabled):hover { 
+//   background: white !important; 
+// 	border-radius: 5px; 
+
+// } 
+// :host 
+// ::ng-deep 
+// .p-megamenu 
+// .p-menuitem-link:not(.p-disabled):hover 
+// .p-menuitem-text { 
+//   color: #fff !important; 
+// }
+
+// nav-button{
+//     border-radius: 50%;
+// }
+
+:host ::ng-deep {
+    .speeddial-linear-demo {
+        .p-speeddial-direction-up {
+            left: calc(50% - 2rem);
+            bottom: 0;
+        }
+
+        .p-speeddial-direction-down {
+            left: calc(50% - 2rem);
+            top: 0;
+        }
+
+        .p-speeddial-direction-left {
+            right: 0;
+            top: calc(50% - 2rem);
+        }
+
+        .p-speeddial-direction-right {
+            left: 0;
+            top: calc(50% - 2rem);
+        }
+    }
+}
+
+.profile-menu {
+    border-radius: 5px;
+    background-color: #fff1d6;
+    position: absolute;
+    width: 154px;
+    height: auto;
+    right: 7px;
+}
+
+.new-btn{
+    background-color: red !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+p-element {
+    border: white !important;
+}

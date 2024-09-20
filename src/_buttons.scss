@@ -1,0 +1,41 @@
+ 
+.btn{
+    &.btn-big{padding: 12px 40px;border-radius: 10px;}
+    &.btn-block{width:100%;}
+    &:focus{outline: none;box-shadow: none;}
+    &:disabled{
+        background:$gray;border-color:$black;cursor: auto;
+    }
+    &.btn-round {
+        border-radius: 36px;
+        -webkit-border-radius: 36px;
+        -ms-border-radius: 36px;
+    }
+    &.btn-blue{
+        border-color:$blue;color:$white!important;background:$blue;
+        &:hover,&:focus,&:active, &:not(:disabled):not(.disabled):active,&:not(:disabled):not(.disabled).active,.show > &.dropdown-toggle{
+            background-color: $white;color: $blue!important;border: 1px solid $blue;
+        }
+    }  
+    }
+    .login-btn button{border-color:$blue;color:$white!important;background:$blue;padding: 12px 40px;border-radius: 10px;width:100%;
+      &:hover,&:focus,&:active, &:not(:disabled):not(.disabled):active,&:not(:disabled):not(.disabled).active,.show > &.dropdown-toggle{
+          background-color: $white;color: $blue!important;border: 1px solid $blue;}}
+    @media screen and (max-width:767px) {
+    .btn{  padding:10px 9px;font-size:15px;}
+    }
+    
+    .btn-link {
+    font-size: 16px;
+    font-weight: 700;
+    color: $black-sec;
+    text-decoration: none !important;
+    i {
+    margin-left: 6px;
+    position: relative;
+    top: 2px;
+    }
+    &:hover {
+    color: $white;
+    }
+    }

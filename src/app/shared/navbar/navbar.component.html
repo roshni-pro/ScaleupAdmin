@@ -1,0 +1,204 @@
+<!-- Navbar (Header) Starts -->
+<!-- <nav>
+    <div>
+        <div class="navbar-header">
+
+            <span class="topLogoHeading">
+                <a *ngIf="!OpenShowNav" class="nav-toggle d-none d-sm-none d-md-none d-lg-block" id="sidebarToggle"
+                    href="javascript:;">
+                    <i #toggleIcon appSidebarToggle class="fa fa-bars toggle-icon" data-toggle="expanded"></i>
+                </a>
+                <a *ngIf="OpenShowNav" class="nav-close d-block d-md-block d-lg-none d-xl-none" id="sidebarCloseId"
+                    (click)="sideBarOpen()">
+                    <i class="fa fa-bars" data-toggle="expanded"></i>
+                </a>
+                Direct Udhar
+            </span>
+            <img src="../../../assets/img/photos/01.jpg"  > 
+        </div>
+        <div >
+            <div>
+                <ul >
+                    <li class="nav-item dropdown no-arrow" ngbDropdown [placement]="placement">
+                        <a class="nav-link dropdown-toggle" id="dropdownBasic3" ngbDropdownToggle>
+                            <div class="headerProfile">
+                                <div class="row">
+                                    <div class="col-9 pt-2">
+
+                                       
+                                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"
+                                                style="color: white;">
+                                                <strong style="color: white;">{{role}}</strong>
+
+                                            </span>
+                                           
+
+                                                <a class="pb-2"style="color: white;">{{userName}}</a>
+
+                                       
+                                        
+                                    </div>
+                                    <div class="col-3">
+                                        <img class="img-12" src="../../../assets/img/photos/01.jpg">
+                                    </div>
+                            
+                                </div>
+                            </div>
+                        </a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="">
+                            <a class="dropdown-item" href="javascript:;" (click)="profile('User')"
+                                *ngIf="this.role && this.role!='SuperAdmin'">
+                                <i class="fa fa-user mr-2"></i>
+                                Profile
+                            </a>
+                            <a class="dropdown-item" href="javascript:;" (click)="profile('SuperAdmin')"
+                                *ngIf="this.role && this.role=='SuperAdmin'">
+                                <i class="fa fa-user"></i>
+                                Profile
+                            </a>
+
+                          
+
+                            <a class="dropdown-item" href="javascript:;" (click)="profile('ChangePassword')">
+                                <i class="fa fa-user"></i>
+                                Change password
+                            </a>
+                            <a class="dropdown-item" href="javascript:;" (click)="profile('Agreement')"
+                                *ngIf="this.role && this.role=='Admin'">
+                                <i class="pi pi-file"></i>
+                                View Agreement
+                            </a>
+                            <a class="dropdown-item" href="javascript:;" (click)="logout()">
+                                <i class="ft-power mr-2"></i>
+                                Logout
+                            </a>
+                        </div>
+
+                    </li>
+                  
+
+                  
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</nav> -->
+
+
+
+
+
+
+
+
+<!-- Navbar (Header) Ends -->
+<!--    <li class="nav-item d-none d-lg-block mt-0" *ngIf="role == 'SuperAdmin'">
+                        <a class="nav-link position-relative notification-sidebar-toggle"
+                            (click)="toggleNotificationSidebar();">
+                            <i class="ft-align-left font-medium-3 white darken-4"></i>
+                            <p class="d-none">Notifications Sidebar</p>
+                        </a>
+                    </li> -->
+
+
+
+<!-- <div class="hero"> -->
+<!-- <nav>
+
+    <span class="topLogoHeading">
+        <span>
+            <a *ngIf="!OpenShowNav" class="nav-toggle d-none d-sm-none d-md-none d-lg-block" id="sidebarToggle"
+                href="javascript:;">
+                <i #toggleIcon appSidebarToggle class="fa fa-bars toggle-icon" data-toggle="expanded"></i>
+            </a>
+            <a *ngIf="OpenShowNav" class="nav-close d-block d-md-block d-lg-none d-xl-none" id="sidebarCloseId"
+                (click)="sideBarOpen()">
+                <i class="fa fa-bars" data-toggle="expanded"></i>
+            </a>
+        </span>
+        <span (lick)="sideBarOpen()">
+            <img src="../../../assets/img/logos/Capture1.PNG" style="height: 40px;">
+        </span>
+    </span> -->
+
+
+
+
+<p-speedDial [model]="items" aria-label="label" direction="left" showIcon="pi pi-user" hideIcon="pi pi-times" 
+ [rotateAnimation]="false" class="speeddial-linear-demo" buttonClassName="p-button-outlined" [buttonStyle]="{border: 'white'}"></p-speedDial>
+
+<!-- working Logout starts ---------------------------- -->
+<!-- <img src="../../../assets/theme/icons/DummyProfilePic.jpg" (click)="showMenue()" class="pointer"
+    style="height: 61px; border-radius: 50%;">
+<div class="profile-menu" *ngIf="isMenu">
+    <ul>
+        <li class="pointer" (click)="func('Profile')">Profile</li>   
+        <li class="pointer" (click)="func('Change Password')">Change Password</li>
+        <li class="pointer" (click)="func('Logout')">Logout</li>
+    </ul>
+
+</div> -->
+<!-- working Logout ends ---------------------------- -->
+
+
+
+
+
+
+
+
+<!-- <p-megaMenu [model]="items" (click)="func($event)"></p-megaMenu> -->
+
+<!-- <img src="../../../assets/img/logos/user-1.jpg" class="user-pic" (click)="toggleMenu()" >  -->
+
+<!-- <div class="sub-menu-wrap" id="subMenu"  > -->
+
+<!-- <div class="sub-menu" *ngIf="isCss">
+
+                        <div class="user-info">
+                            <img src="../../../assets/img/abstract-user-flat-4.png" >
+                            <label>{{userName}}</label>
+                        </div>
+                        <hr>
+        
+                        <a class="sub-menu-link" href="javascript:;" (click)="profile('User')"
+                                        *ngIf="this.role && this.role!='SuperAdmin'">
+                                        <i class="fa fa-user"></i>
+                                       <p class="mt-2"> Profile </p> 
+                                       <span> </span>
+                        </a>
+                        <a class="sub-menu-link" href="javascript:;" (click)="profile('SuperAdmin')"
+                                        *ngIf="this.role && this.role=='SuperAdmin'">
+                                        <i class="fa fa-user"></i>
+                                        <p class="mt-2">Profile</p>
+                                       <span>  </span>
+        
+                        </a>
+                        <a class="sub-menu-link" href="javascript:;" (click)="profile('ChangePassword')">
+                            <i class="fa fa-user"></i>
+                            <p class="mt-2">Change password</p> 
+                            <span>  </span>
+        
+                        </a>
+                        <a class="sub-menu-link" href="javascript:;" (click)="profile('Agreement')"
+                            *ngIf="this.role && this.role=='Admin'">
+                            <i class="pi pi-file"></i>
+                            <p class="mt-2">View Agreement</p>
+                            <span>  </span>
+        
+                        </a>
+                        <a class="sub-menu-link" href="javascript:;" (click)="logout()">
+                            <i class="ft-power"></i>
+                            <p class="mt-2">Logout</p>
+                            <span>  </span>
+        
+                        </a>
+                    </div> -->
+
+
+<!-- </div> -->
+
+<!-- </nav> -->
+<!-- </div> -->
